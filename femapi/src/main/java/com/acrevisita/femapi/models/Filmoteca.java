@@ -1,0 +1,52 @@
+package com.acrevisita.femapi.models;
+
+import java.io.Serializable;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+
+@Entity
+public class Filmoteca implements Serializable {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, updatable = false)
+    private Long idFilmoteca;
+
+    @Column(nullable = false)
+    private String sugestao;
+
+    @ManyToOne(optional = false)
+    private Visitante visitante;
+
+    // ==================================(GETS E SETS)==================================
+
+    public Long getIdFilmoteca() {
+        return idFilmoteca;
+    }
+
+    public void setIdFilmoteca(Long idFilmoteca) {
+        this.idFilmoteca = idFilmoteca;
+    }
+
+    public String getSugestao() {
+        return sugestao;
+    }
+
+    public void setSugestao(String sugestao) {
+        this.sugestao = sugestao;
+    }
+
+    public Visitante getVisitante() {
+        return visitante;
+    }
+
+    public void setVisitante(Visitante visitante) {
+        this.visitante = visitante;
+    }
+
+}
