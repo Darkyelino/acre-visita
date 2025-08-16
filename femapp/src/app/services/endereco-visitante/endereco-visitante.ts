@@ -13,19 +13,16 @@ export class EnderecoVisitanteService {
 
   constructor(private http: HttpClient) { }
 
-  apiUrl: string = environment.API_URL + '/endereco-visitante/';
+  apiUrl: string = environment.API_URL + '/enderecoVisitante/';
 
-  // ================= BUSCAR ENDEREÇOS (com busca e paginação) =================
   get(termoBusca?: string, paginacao?: RequisicaoPaginada): Observable<RespostaPaginada<EnderecoVisitante>> {
     let url = this.apiUrl;
     const params: string[] = [];
 
-    // Adiciona termo de busca, se fornecido
     if (termoBusca) {
       params.push(`termoBusca=${termoBusca}`);
     }
 
-    // Adiciona parâmetros de paginação, se fornecidos
     if (paginacao) {
       params.push(`page=${paginacao.page}`);
       params.push(`size=${paginacao.size}`);
@@ -36,11 +33,9 @@ export class EnderecoVisitanteService {
         });
       }
     } else {
-      // Caso não haja paginação, desabilita paginação no servidor
       params.push('unpaged=true');
     }
 
-    // Monta URL final
     if (params.length > 0) {
       url += '?' + params.join('&');
     }
@@ -48,13 +43,11 @@ export class EnderecoVisitanteService {
     return this.http.get<RespostaPaginada<EnderecoVisitante>>(url);
   }
 
-  // ================= BUSCAR POR ID =================
   getById(id: number): Observable<EnderecoVisitante> {
     let url = this.apiUrl + id;
     return this.http.get<EnderecoVisitante>(url);
   }
 
-  // ================= SALVAR OU ATUALIZAR =================
   save(objeto: EnderecoVisitante): Observable<EnderecoVisitante> {
     let url = this.apiUrl;
     if (objeto.idEnderecoVisitante) {
@@ -64,7 +57,6 @@ export class EnderecoVisitanteService {
     }
   }
 
-  // ================= DELETAR POR ID =================
   delete(id: number): Observable<void> {
     let url = this.apiUrl + id;
     return this.http.delete<void>(url);
