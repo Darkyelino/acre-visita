@@ -1,63 +1,119 @@
 package com.acrevisita.femapi.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.acrevisita.femapi.models.Visitante;
 import com.acrevisita.femapi.services.VisitanteService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/api/visitante")
-public class VisitanteController {
+@RequestMapping(value = "/visitante", produces = MediaType.APPLICATION_JSON_VALUE)
+@Tag(
+    name = "Visitante",
+    description = "Endpoints para gerenciar os visitantes"
+)
+public class VisitanteController implements IController<Visitante> {
 
-    @Autowired
-    private VisitanteService visitanteService;
+    private final VisitanteService servico;
 
-    @GetMapping
-    public ResponseEntity<Page<Visitante>> getVisitantes(
-            @RequestParam(required = false) String termoBusca,
-            Pageable pageable) {
-        return ResponseEntity.ok(visitanteService.get(termoBusca, pageable));
+    public VisitanteController(VisitanteService servico) {
+        this.servico = servico;
     }
 
+    @Override
+    @GetMapping("/")
+    @Operation(
+        summary = "Obtém todos os visitantes ou filtra por termo de busca",
+        description = "Obtém uma lista paginada de todos os visitantes cadastrados ou que contenham o termo de busca informado no nome."
+    )
+    public ResponseEntity<Page<Visitante>> get(
+        @RequestParam(required = false) String termoBusca,
+        @RequestParam(required = false, defaultValue = "false") boolean unpaged,
+        @SortDefault.SortDefaults({
+            @SortDefault(sort = "nomeVisitante", direction = Sort.Direction.ASC)
+        })
+        @ParameterObject Pageable page) {
+        
+        Pageable pageable = unpaged ? Pageable.unpaged() : page;
+        Page<Visitante> registros = servico.get(termoBusca, pageable);
+        return ResponseEntity.ok(registros);
+    }
+
+    @Override
     @GetMapping("/{id}")
-    public ResponseEntity<Visitante> getVisitanteById(@PathVariable Long id) {
-        Visitante visitante = visitanteService.get(id);
-        if (visitante == null) {
-            return ResponseEntity.notFound().build();
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Visitante encontrado"),
+        @ApiResponse(
+            responseCode = "404",
+            description = "Visitante não encontrado",
+            content = @Content(
+                examples = @ExampleObject("")
+            )
+        )
+    })
+    @Operation(
+        summary = "Obtém um visitante por ID",
+        description = "Obtém os dados do visitante com o ID informado."
+    )
+    public ResponseEntity<Visitante> get(@PathVariable("id") Long id) {
+        Visitante registro = servico.get(id);
+        if (registro == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        return ResponseEntity.ok(visitante);
+        return ResponseEntity.ok(registro);
     }
 
-    @PostMapping
-    public ResponseEntity<Visitante> createVisitante(@RequestBody Visitante visitante) {
-        return ResponseEntity.ok(visitanteService.save(visitante));
+    @Override
+    @PostMapping("/")
+    @Operation(
+        summary = "Cadastrar um novo visitante",
+        description = "Cadastra um novo visitante no sistema."
+    )
+    public ResponseEntity<Visitante> insert(@RequestBody Visitante objeto) {
+        Visitante registro = servico.save(objeto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(registro);
     }
 
-    @PutMapping
-    public ResponseEntity<Visitante> updateVisitante(@RequestBody Visitante visitanteDetails) {
-        Visitante visitante = visitanteService.findById(visitanteDetails.getIdVisitante());
-        if (visitante == null) {
-            return ResponseEntity.notFound().build();
-        }
-        
-        visitante.setNomeVisitante(visitanteDetails.getNomeVisitante());
-        visitante.setEmailVisitante(visitanteDetails.getEmailVisitante());
-        visitante.setTelefoneVisitante(visitanteDetails.getTelefoneVisitante());
-        visitante.setSenhaVisitante(visitanteDetails.getSenhaVisitante());
-        visitante.setNumdocVisitante(visitanteDetails.getNumdocVisitante());
-        visitante.setNacionalidadeVisitante(visitanteDetails.getNacionalidadeVisitante());
-        
-        Visitante updatedVisitante = visitanteService.save(visitante);
-        return ResponseEntity.ok(updatedVisitante);
+    @Override
+    @PutMapping("/")
+    @Operation(
+        summary = "Atualizar um visitante existente",
+        description = "Atualiza os dados de um visitante existente."
+    )
+    public ResponseEntity<Visitante> update(@RequestBody Visitante objeto) {
+        Visitante registro = servico.save(objeto);
+        return ResponseEntity.ok(registro);
     }
 
+    @Override
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteVisitante(@PathVariable Long id) {
-        visitanteService.delete(id);
-        return ResponseEntity.noContent().build();
+    @Operation(
+        summary = "Deletar um visitante",
+        description = "Deleta o visitante com o ID informado."
+    )
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        servico.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 }
