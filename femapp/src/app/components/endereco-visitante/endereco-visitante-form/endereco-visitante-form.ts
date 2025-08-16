@@ -6,6 +6,7 @@ import { EnderecoVisitanteService } from '../../../services/endereco-visitante/e
 import { AlertaService } from '../../../services/alerta/alerta.service';
 import { EnderecoVisitante } from '../../../models/EnderecoVisitante';
 import { ETipoAlerta } from '../../../models/ETipoAlerta';
+import { Visitante } from '../../../models/Visitante';
 
 @Component({
   selector: 'app-endereco-visitante-form',
@@ -41,7 +42,8 @@ export class EnderecoVisitanteFormComponent implements OnInit {
     cidadeVisitante: new FormControl<string | null>(null, Validators.required),
     bairroVisitante: new FormControl<string | null>(null, Validators.required),
     ruaVisitante: new FormControl<string | null>(null, Validators.required),
-    numeroVisitante: new FormControl<string | null>(null, Validators.required)
+    numeroVisitante: new FormControl<string | null>(null, Validators.required),
+    visitante: new FormControl<Visitante | null>(null)
   });
 
   get form() {

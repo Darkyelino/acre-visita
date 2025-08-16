@@ -7,6 +7,22 @@
   <br>
   <form (submit)="save()" [formGroup]="formEnderecoVisitante">
     <section>
+      <!-- Campo de seleção do Visitante -->
+      <div class="form-group">
+        <label for="visitante" class="obrigatorio">Visitante:</label>
+        <select formControlName="visitante" id="visitante" class="form-control" required>
+          <option value="">Selecione um visitante...</option>
+          <!-- Itera sobre a lista de visitantes e exibe o nome -->
+          <option *ngFor="let visitante of visitantes" [ngValue]="visitante">
+            {{ visitante.nomeVisitante }}
+          </option>
+        </select>
+        <!-- Validação de erro para o campo -->
+        <div *ngIf="form.visitante.invalid && (form.visitante.dirty || form.visitante.touched)" class="text-danger">
+          O visitante é obrigatório.
+        </div>
+      </div>
+
       <!-- CEP -->
       <div class="form-group">
         <label for="cepVisitante" class="obrigatorio">CEP:</label>

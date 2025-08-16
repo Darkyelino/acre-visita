@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { EnderecoVisitante } from './endereco-visitante';
+import { EnderecoVisitanteService } from './endereco-visitante';
 
 describe('EnderecoVisitante', () => {
-  let service: EnderecoVisitante;
+  let service: EnderecoVisitanteService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(EnderecoVisitante);
+    service = TestBed.inject(EnderecoVisitanteService);
   });
 
   it('should be created', () => {
