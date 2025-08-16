@@ -1,1 +1,71 @@
-<p>endereco-visitante-form works!</p>
+<section id="cadastro">
+  <div class="informacoes">
+    <h1>Cadastro de Endereço do Visitante</h1>
+    <p>Preencha corretamente os campos abaixo para cadastrar um Endereço.</p>
+    <h3>Os campos marcados com <span class="vermelho">*</span> são obrigatórios.</h3>
+  </div>
+  <br>
+  <form (submit)="save()" [formGroup]="formEnderecoVisitante">
+    <section>
+      <!-- CEP -->
+      <div class="form-group">
+        <label for="cepVisitante" class="obrigatorio">CEP:</label>
+        <input type="text" id="cepVisitante" formControlName="cepVisitante" class="form-control" placeholder="Insira o CEP" />
+        <div *ngIf="form.cepVisitante.invalid && (form.cepVisitante.dirty || form.cepVisitante.touched)" class="text-danger">
+          O CEP é obrigatório.
+        </div>
+      </div>
+
+      <!-- Estado -->
+      <div class="form-group">
+        <label for="estadoVisitante" class="obrigatorio">Estado:</label>
+        <input type="text" id="estadoVisitante" formControlName="estadoVisitante" class="form-control" placeholder="Insira o estado" />
+        <div *ngIf="form.estadoVisitante.invalid && (form.estadoVisitante.dirty || form.estadoVisitante.touched)" class="text-danger">
+          O estado é obrigatório.
+        </div>
+      </div>
+
+      <!-- Cidade -->
+      <div class="form-group">
+        <label for="cidadeVisitante" class="obrigatorio">Cidade:</label>
+        <input type="text" id="cidadeVisitante" formControlName="cidadeVisitante" class="form-control" placeholder="Insira a cidade" />
+        <div *ngIf="form.cidadeVisitante.invalid && (form.cidadeVisitante.dirty || form.cidadeVisitante.touched)" class="text-danger">
+          A cidade é obrigatória.
+        </div>
+      </div>
+
+      <!-- Bairro -->
+      <div class="form-group">
+        <label for="bairroVisitante" class="obrigatorio">Bairro:</label>
+        <input type="text" id="bairroVisitante" formControlName="bairroVisitante" class="form-control" placeholder="Insira o bairro" />
+        <div *ngIf="form.bairroVisitante.invalid && (form.bairroVisitante.dirty || form.bairroVisitante.touched)" class="text-danger">
+          O bairro é obrigatório.
+        </div>
+      </div>
+
+      <!-- Rua -->
+      <div class="form-group">
+        <label for="ruaVisitante" class="obrigatorio">Rua:</label>
+        <input type="text" id="ruaVisitante" formControlName="ruaVisitante" class="form-control" placeholder="Insira a rua" />
+        <div *ngIf="form.ruaVisitante.invalid && (form.ruaVisitante.dirty || form.ruaVisitante.touched)" class="text-danger">
+          A rua é obrigatória.
+        </div>
+      </div>
+
+      <!-- Número -->
+      <div class="form-group">
+        <label for="numeroVisitante" class="obrigatorio">Número:</label>
+        <input type="text" id="numeroVisitante" formControlName="numeroVisitante" class="form-control" placeholder="Insira o número" />
+        <div *ngIf="form.numeroVisitante.invalid && (form.numeroVisitante.dirty || form.numeroVisitante.touched)" class="text-danger">
+          O número é obrigatório.
+        </div>
+      </div>
+    </section>
+
+    <!-- Botão de Salvar -->
+    <div class="bot">
+      <input type="button" value="Cancelar" routerLink="/endereco-visitante">
+      <input type="submit" value="Salvar" [disabled]="formEnderecoVisitante.invalid">
+    </div>
+  </form>
+</section>
