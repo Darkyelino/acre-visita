@@ -18,6 +18,9 @@ public class Auditorio implements Serializable {
     private Long idAuditorio;
 
     @Column(nullable = false)
+    private String nomeAuditorio;
+
+    @Column(nullable = false)
     private boolean disponibilidade = true;
 
     @ManyToOne(optional = false)
@@ -31,6 +34,14 @@ public class Auditorio implements Serializable {
 
     public void setIdAuditorio(Long idAuditorio) {
         this.idAuditorio = idAuditorio;
+    }
+
+    public String getNomeAuditorio() {
+        return nomeAuditorio;
+    }
+
+    public void setNomeAuditorio(String nomeAuditorio) {
+        this.nomeAuditorio = nomeAuditorio;
     }
 
     public boolean getDisponibilidade() {
