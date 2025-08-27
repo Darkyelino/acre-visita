@@ -1,0 +1,152 @@
+/* Importa uma fonte moderna do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+  --cor-primaria: #007bff; /* Azul */
+  --cor-sucesso: #28a745; /* Verde */
+  --cor-fundo: #f4f7f6;
+  --cor-painel: #ffffff;
+  --cor-texto: #333;
+  --cor-texto-claro: #6c757d;
+  --cor-borda: #dee2e6;
+  --sombra: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.cadastro-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--cor-fundo);
+}
+
+/* Painel de Informações (Esquerda) */
+.info-panel {
+  flex: 1;
+  background-color: var(--cor-primaria);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  text-align: center;
+}
+
+.info-content .titulo {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.info-content .subtitulo {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  max-width: 400px;
+  margin: 0 auto 2rem;
+}
+
+.logo-placeholder {
+  margin-bottom: 2rem;
+}
+
+.footer-text, .footer-text a {
+  color: white;
+  opacity: 0.8;
+}
+
+/* Painel do Formulário (Direita) */
+.form-panel {
+  flex: 1.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.form-content {
+  width: 100%;
+  max-width: 450px;
+}
+
+.form-content h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--cor-texto);
+  margin-bottom: 0.5rem;
+}
+
+.form-content .form-description {
+  color: var(--cor-texto-claro);
+  margin-bottom: 2rem;
+}
+
+/* Estilos do Formulário */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--cor-texto);
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--cor-primaria);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+
+/* Mensagem de Erro */
+.error-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+/* Botão de Envio */
+.btn-submit {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--cor-primaria);
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-submit:hover {
+  background-color: #0056b3;
+}
+
+.btn-submit:disabled {
+  background-color: #a0c7ff;
+  cursor: not-allowed;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 992px) {
+  .cadastro-container {
+    flex-direction: column;
+  }
+  .info-panel {
+    min-height: 300px;
+    flex: none;
+  }
+  .form-panel {
+    padding: 30px 20px;
+  }
+}

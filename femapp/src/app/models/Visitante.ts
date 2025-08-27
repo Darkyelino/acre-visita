@@ -6,6 +6,5 @@ export interface Visitante {
     emailVisitante: string;
     telefoneVisitante: string;
     senhaVisitante: string;
-    numdocVisitante?: string;
     nacionalidadeVisitante: NacionalidadeVisitante;
 }

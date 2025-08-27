@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.acrevisita.femapi.models.Visitante;
+import com.acrevisita.femapi.repository.DocVisitanteRepository;
 import com.acrevisita.femapi.repository.VisitanteRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -18,9 +19,11 @@ import jakarta.persistence.EntityNotFoundException;
 public class VisitanteService implements IService<Visitante> {
 
     private final VisitanteRepository repo;
+    private final DocVisitanteRepository docRepo;
 
-    public VisitanteService(VisitanteRepository repo) {
+    public VisitanteService(VisitanteRepository repo, DocVisitanteRepository docRepo) {
         this.repo = repo;
+        this.docRepo = docRepo;
     }
 
     @Override
@@ -57,6 +60,7 @@ public class VisitanteService implements IService<Visitante> {
         @CacheEvict(value = "visitantes", allEntries = true)
     })
     public void delete(Long id) {
+        docRepo.findByVisitanteIdVisitante(id).ifPresent(docRepo::delete);
         repo.deleteById(id);
     }
 

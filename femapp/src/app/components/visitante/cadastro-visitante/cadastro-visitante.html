@@ -1,0 +1,87 @@
+<!-- 
+  Este é o novo HTML para a página de cadastro.
+  Ele usa classes de estilo modernas que você pode definir no seu CSS.
+  A estrutura foi dividida em duas colunas para uma melhor experiência do usuário.
+-->
+<div class="cadastro-container">
+  
+  <!-- Coluna da Esquerda: Informações e Boas-vindas -->
+  <div class="info-panel">
+    <div class="info-content">
+      <h1 class="titulo">Bem-vindo ao Acre Visita</h1>
+      <p class="subtitulo">Crie sua conta para agendar visitas, explorar nosso acervo e muito mais.</p>
+      <div class="logo-placeholder">
+        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+      </div>
+      <p class="footer-text">Já tem uma conta? <a routerLink="/login">Faça login</a></p>
+    </div>
+  </div>
+
+  <!-- Coluna da Direita: Formulário de Cadastro -->
+  <div class="form-panel">
+    <div class="form-content">
+      <h2>Crie sua Conta</h2>
+      <p class="form-description">Preencha os campos abaixo para se cadastrar.</p>
+      
+      <form (ngSubmit)="save()" [formGroup]="formVisitante" novalidate>
+        
+        <!-- Nome Completo -->
+        <div class="form-group">
+          <label for="nomeVisitante">Nome Completo</label>
+          <input type="text" id="nomeVisitante" formControlName="nomeVisitante" class="form-control" placeholder="Seu nome completo">
+          <div *ngIf="form.nomeVisitante.invalid && (form.nomeVisitante.dirty || form.nomeVisitante.touched)" class="error-message">
+            O nome é obrigatório.
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="emailVisitante">Email</label>
+          <input type="email" id="emailVisitante" formControlName="emailVisitante" class="form-control" placeholder="exemplo@email.com">
+          <div *ngIf="form.emailVisitante.invalid && (form.emailVisitante.dirty || form.emailVisitante.touched)" class="error-message">
+            <span *ngIf="form.emailVisitante.errors?.['required']">O email é obrigatório.</span>
+            <span *ngIf="form.emailVisitante.errors?.['email']">Por favor, insira um email válido.</span>
+          </div>
+        </div>
+
+        <!-- Telefone -->
+        <div class="form-group">
+          <label for="telefoneVisitante">Telefone</label>
+          <input type="text" id="telefoneVisitante" formControlName="telefoneVisitante" class="form-control" placeholder="(68) 99999-9999">
+           <div *ngIf="form.telefoneVisitante.invalid && (form.telefoneVisitante.dirty || form.telefoneVisitante.touched)" class="error-message">
+            O telefone é obrigatório.
+          </div>
+        </div>
+
+        <!-- Senha -->
+        <div class="form-group">
+          <label for="senhaVisitante">Senha</label>
+          <input type="password" id="senhaVisitante" formControlName="senhaVisitante" class="form-control" placeholder="Crie uma senha forte">
+           <div *ngIf="form.senhaVisitante.invalid && (form.senhaVisitante.dirty || form.senhaVisitante.touched)" class="error-message">
+            A senha é obrigatória.
+          </div>
+        </div>
+
+        <!-- Nacionalidade -->
+        <div class="form-group">
+          <label for="nacionalidadeVisitante">Nacionalidade</label>
+          <select formControlName="nacionalidadeVisitante" id="nacionalidadeVisitante" class="form-control">
+            <option [ngValue]="null" disabled>Selecione sua nacionalidade...</option>
+            <option *ngFor="let nacionalidade of nacionalidades" [ngValue]="nacionalidade">
+              {{ nacionalidade.nacionalidade }}
+            </option>
+          </select>
+          <div *ngIf="form.nacionalidadeVisitante.invalid && (form.nacionalidadeVisitante.dirty || form.nacionalidadeVisitante.touched)" class="error-message">
+            A nacionalidade é obrigatória.
+          </div>
+        </div>
+
+        <!-- Botão de Cadastro -->
+        <button type="submit" class="btn-submit" [disabled]="formVisitante.invalid">
+          Cadastrar
+        </button>
+        
+      </form>
+    </div>
+  </div>
+</div>

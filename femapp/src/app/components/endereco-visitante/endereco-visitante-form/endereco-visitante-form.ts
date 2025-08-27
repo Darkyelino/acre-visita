@@ -17,9 +17,8 @@ import { of, catchError, throwError } from 'rxjs'; // Importação de operadores
   templateUrl: './endereco-visitante-form.html',
   styleUrl: './endereco-visitante-form.css'
 })
-export class EnderecoVisitanteFormComponent implements OnInit {
+export class EnderecoVisitanteForm implements OnInit {
 
-  // A propriedade 'visitantes' foi adicionada para armazenar a lista de visitantes.
   visitantes: Visitante[] = [];
 
   // O FormGroup agora inclui o controle 'visitante'.

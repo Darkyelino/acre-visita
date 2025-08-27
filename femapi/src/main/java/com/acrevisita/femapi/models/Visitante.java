@@ -28,9 +28,6 @@ public class Visitante implements Serializable {
 
     @Column(nullable = false)
     private String senhaVisitante;
-
-    @Column(nullable = true)
-    private String numdocVisitante;
     
     @ManyToOne(optional = false)
     NacionalidadeVisitante nacionalidadeVisitante;
@@ -75,14 +72,6 @@ public class Visitante implements Serializable {
 
     public void setSenhaVisitante(String senhaVisitante) {
         this.senhaVisitante = senhaVisitante;
-    }
-
-    public String getNumdocVisitante() {
-        return numdocVisitante;
-    }
-
-    public void setNumdocVisitante(String numdocVisitante) {
-        this.numdocVisitante = numdocVisitante;
     }
 
     public NacionalidadeVisitante getNacionalidadeVisitante() {
