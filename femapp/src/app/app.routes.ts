@@ -4,6 +4,7 @@ import { CadastroVisitante } from './components/visitante/cadastro-visitante/cad
 import { LoginVisitante } from './components/visitante/login-visitante/login-visitante';
 import { AuditorioReserva } from './components/auditorio/auditorio-reserva/auditorio-reserva';
 import { AuditorioConfirmacao } from './components/auditorio/auditorio-confirmacao/auditorio-confirmacao/auditorio-confirmacao';
+import { ArmarioListComponent } from './components/armario/armario-list/armario-list';
 
 export const routes: Routes = [
     { path: '', children: [
@@ -12,6 +13,7 @@ export const routes: Routes = [
         { path: 'visitante/login', component: LoginVisitante },
         { path: 'auditorio/reserva', component: AuditorioReserva },
         { path: 'auditorio/confirmacao', component: AuditorioConfirmacao },
-        { path: 'login', component: LoginVisitante }
+        { path: 'login', component: LoginVisitante },
+        { path: 'armario', component: ArmarioListComponent}
     ]},
 ];

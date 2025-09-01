@@ -1,0 +1,111 @@
+<div class="armarios-container">
+  
+  <div class="coordenador-selector">
+    <label for="coordenador">Selecione o Coordenador:</label>
+    <select id="coordenador" [(ngModel)]="coordenadorSelecionado" (change)="onCoordenadorSelect()" class="form-control">
+      <option [ngValue]="null">-- Escolha um coordenador --</option>
+      <option *ngFor="let coord of coordenadores" [ngValue]="coord">
+        {{ coord.nomeCoordenador }} (Setor: {{ coord.coordSetorResponsavel.nomeSetor }})
+      </option>
+    </select>
+  </div>
+
+  <div *ngIf="coordenadorSelecionado">
+    <div class="header-container">
+      <div>
+        <h2>Gerenciamento de Armários</h2>
+        <p>Você está gerenciando os armários do setor: <strong>{{ coordenadorSelecionado.coordSetorResponsavel.nomeSetor }}</strong></p>
+      </div>
+      <div class="action-buttons">
+        <button class="btn btn-adicionar" (click)="abrirModalCriacao()">
+          <span class="icon">+</span> Adicionar
+        </button>
+        <button class="btn btn-excluir" (click)="abrirModalExclusao()">
+          <span class="icon">-</span> Excluir
+        </button>
+      </div>
+    </div>
+
+    <div class="armarios-grid">
+      <div *ngFor="let armario of armariosVisiveis" 
+           class="armario-card"
+           [ngClass]="{'em-uso': armario.visitante, 'disponivel': !armario.visitante}"
+           (click)="abrirModalAssociacao(armario)">
+        
+        <div class="armario-numero">{{ armario.numeracao | number: '2.0-0' }}</div>
+        <div class="armario-status">{{ armario.visitante ? 'Em uso' : 'Disponível' }}</div>
+        <div class="armario-visitante" *ngIf="armario.visitante">{{ armario.visitante.nomeVisitante }}</div>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="!coordenadorSelecionado" class="nenhum-resultado">
+      <p>Selecione um coordenador para visualizar e gerenciar os armários.</p>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="mostrarModalAssociacao" (click)="fecharModais()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="fecharModais()">×</button>
+    <h3 *ngIf="armarioSelecionado">Armário {{ armarioSelecionado.numeracao | number: '2.0-0' }}</h3>
+    
+    <div *ngIf="armarioSelecionado && !armarioSelecionado.visitante">
+      <h4>Associar Visitante</h4>
+      <p>Selecione um visitante para ocupar este armário.</p>
+      <div class="form-group">
+        <label for="visitante">Visitante:</label>
+        <select [(ngModel)]="visitanteIdSelecionado" id="visitante" class="form-control">
+          <option [ngValue]="null" disabled>Selecione...</option>
+          <option *ngFor="let visitante of visitantes" [value]="visitante.idVisitante">{{ visitante.nomeVisitante }}</option>
+        </select>
+      </div>
+      <button class="btn btn-salvar" (click)="salvarAssociacao()" [disabled]="!visitanteIdSelecionado">Associar</button>
+    </div>
+
+    <div *ngIf="armarioSelecionado && armarioSelecionado.visitante">
+        <h4>Liberar Armário</h4>
+        <p>Este armário está ocupado por: <strong>{{ armarioSelecionado.visitante.nomeVisitante }}</strong>.</p>
+        <p>Deseja liberar este armário?</p>
+        <button class="btn btn-liberar" (click)="liberarArmario()">Liberar Armário</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="modoCriacao" (click)="fecharModais()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="fecharModais()">×</button>
+    <h3>Adicionar Novo Armário</h3>
+    <p>Preencha os dados para criar um novo armário.</p>
+    <div class="form-group">
+      <label for="numeracao">Numeração</label>
+      <input type="number" [(ngModel)]="novoArmario.numeracao" id="numeracao" class="form-control" placeholder="Ex: 101">
+    </div>
+    <div class="form-group">
+      <label for="setor">Setor</label>
+      <input type="text" [value]="novoArmario.setor?.nomeSetor" id="setor" class="form-control" disabled>
+    </div>
+    <button class="btn btn-salvar" (click)="salvarNovoArmario()" [disabled]="!novoArmario.numeracao || !novoArmario.setor">Salvar Armário</button>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="modoExclusao" (click)="fecharModais()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="fecharModais()">×</button>
+    <h3>Excluir Armário</h3>
+    <p>Selecione o armário que deseja excluir. Apenas armários disponíveis podem ser removidos.</p>
+    
+    <div class="form-group">
+      <label for="armarioExcluir">Armário:</label>
+      <select [(ngModel)]="armarioSelecionado" id="armarioExcluir" class="form-control">
+        <option [ngValue]="null" disabled>Selecione...</option>
+        <option *ngFor="let armario of armariosDisponiveis" [ngValue]="armario">
+          Nº {{ armario.numeracao | number: '2.0-0' }}
+        </option>
+      </select>
+    </div>
+    
+    <button class="btn btn-liberar" (click)="excluirArmario(armarioSelecionado)" [disabled]="!armarioSelecionado">
+      Confirmar Exclusão
+    </button>
+  </div>
+</div>
