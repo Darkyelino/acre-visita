@@ -25,7 +25,7 @@ public class FilmotecaService implements IService<Filmoteca> {
 
     @Override
     @Cacheable(
-        value = "Filmoteca",
+        value = "filmoteca",
         condition = "#termoBusca == null or #termoBusca.isBlank()"
     )
     public Page<Filmoteca> get(String termoBusca, Pageable page) {
@@ -37,7 +37,7 @@ public class FilmotecaService implements IService<Filmoteca> {
     }
 
     @Override
-    @Cacheable(value = "Filmoteca", unless = "#result == null")
+    @Cacheable(value = "filmoteca", unless = "#result == null")
     public Filmoteca get(Long id) {
         return repo.findById(id).orElse(null);
     }

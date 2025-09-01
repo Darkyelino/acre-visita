@@ -79,4 +79,41 @@ INSERT INTO armario (id_armario, numeracao, visitante_id_visitante) VALUES
 (3, 103, null),   -- Armário 103 livre
 (4, 104, null);   -- Armário 104 livre
 
+-- ===================================================================================
+-- 4. Inserindo Reservas no Auditório (versão expandida)
+-- ===================================================================================
+-- Status possíveis: 'PENDENTE', 'APROVADA', 'RECUSADA'
+
+INSERT INTO reserva_auditorio (nome_evento, data, hora_inicio, hora_fim, observacoes, status, visitante_id, auditorio_id) VALUES
+-- Eventos APROVADOS
+('Palestra de Abertura: A História do Acre', '2025-09-05', '19:00:00', '21:00:00', 'Projetor e 2 microfones.', 'APROVADA', 1, 1),
+('Oficina de Cerâmica Indígena', '2025-09-10', '14:00:00', '17:00:00', NULL, 'APROVADA', 2, 1),
+('Sarau de Poesias Regionais', '2025-09-18', '20:00:00', '22:00:00', NULL, 'APROVADA', 2, 1),
+('Apresentação Teatral Escolar', '2025-10-01', '10:00:00', '11:30:00', 'Grupo de 40 alunos.', 'APROVADA', 3, 1),
+('Curso de Libras Básico', '2025-10-04', '09:00:00', '12:00:00', 'Flip chart e canetas.', 'APROVADA', 1, 1),
+('Clube do Livro: Discussão sobre autores acreanos', '2025-10-08', '19:30:00', '21:00:00', NULL, 'APROVADA', 2, 1),
+('Exibição de Curta Metragens Locais', '2025-10-20', '18:00:00', '22:00:00', NULL, 'APROVADA', 1, 1),
+('Conferência de Imprensa sobre nova exposição', '2025-10-22', '10:00:00', '11:00:00', 'Credenciamento de jornalistas na entrada.', 'APROVADA', 3, 1),
+('Workshop de Roteiro para Cinema', '2025-11-05', '13:00:00', '18:00:00', NULL, 'APROVADA', 1, 1),
+('Apresentação de TCC - Arqueologia Amazônica', '2025-11-10', '09:30:00', '11:00:00', 'Banca examinadora presente.', 'APROVADA', 2, 1),
+('Treinamento Interno da Equipe do Museu', '2025-11-17', '08:00:00', '12:00:00', 'Uso exclusivo para funcionários.', 'APROVADA', 1, 1),
+
+-- Eventos PENDENTES
+('Reunião Anual da Associação de Historiadores', '2025-09-12', '09:00:00', '12:00:00', 'Mesa de centro e água.', 'PENDENTE', 3, 1),
+('Seminário sobre Sustentabilidade na Amazônia', '2025-09-25', '09:00:00', '17:00:00', 'Transmissão ao vivo necessária. Aguardando viabilidade técnica.', 'PENDENTE', 1, 1),
+('Palestra com Autor Convidado Internacional', '2025-10-15', '19:00:00', '20:30:00', 'Venda de livros no local. Verificar regras.', 'PENDENTE', 3, 1),
+('Audição para Peça de Teatro "Vozes da Floresta"', '2025-11-12', '18:00:00', '22:00:00', 'Iluminação especial necessária. Orçamento em análise.', 'PENDENTE', 2, 1),
+
+-- Eventos RECUSADOS
+-- Motivo: Conflito de data e horário com a Oficina de Cerâmica (ID 2).
+('Exibição do documentário "Ciclo da Borracha"', '2025-09-10', '15:00:00', '17:00:00', 'Sistema de som 5.1.', 'RECUSADA', 1, 1),
+-- Motivo: Evento de dia inteiro, fora do escopo de atividades culturais do local.
+('Evento Corporativo TechAcre', '2025-09-22', '08:00:00', '18:00:00', 'Evento privado com catering externo.', 'RECUSADA', 3, 1),
+-- Motivo: Evento particular (festa de aniversário) não permitido nas políticas do auditório.
+('Festa de Aniversário Infantil', '2025-10-25', '15:00:00', '18:00:00', 'Decoração temática e buffet.', 'RECUSADA', 3, 1),
+-- Motivo: Conflito de horário com a Apresentação Teatral Escolar (ID 4)
+('Ensaio Musical', '2025-10-01', '11:00:00', '13:00:00', 'Necessário isolamento acústico', 'RECUSADA', 2, 1),
+-- Motivo: Confraternização de empresa, considerado evento privado e inadequado para o espaço.
+('Celebração de Fim de Ano da Empresa XYZ', '2025-12-15', '19:00:00', '23:00:00', 'Serviço de buffet e banda ao vivo.', 'RECUSADA', 2, 1);
+
 SET FOREIGN_KEY_CHECKS=1;

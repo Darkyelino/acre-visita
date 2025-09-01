@@ -25,7 +25,7 @@ public class AdministradorService implements IService<Administrador> {
 
     @Override
     @Cacheable(
-        value = "Administrador",
+        value = "administrador",
         condition = "#termoBusca == null or #termoBusca.isBlank()"
     )
     public Page<Administrador> get(String termoBusca, Pageable page) {
@@ -37,7 +37,7 @@ public class AdministradorService implements IService<Administrador> {
     }
 
     @Override
-    @Cacheable(value = "Administrador", unless = "#result == null")
+    @Cacheable(value = "administrador", unless = "#result == null")
     public Administrador get(Long id) {
         return repo.findById(id).orElse(null);
     }

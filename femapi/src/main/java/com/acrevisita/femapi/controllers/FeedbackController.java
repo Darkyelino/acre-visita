@@ -46,7 +46,6 @@ public class FeedbackController implements IController<Feedback> {
             @SortDefault(sort = "dataEnvio", direction = Sort.Direction.DESC)
         })
         @ParameterObject Pageable page) {
-        
         Pageable pageable = unpaged ? Pageable.unpaged() : page;
         Page<Feedback> registros = servico.get(termoBusca, pageable);
         return ResponseEntity.ok(registros);

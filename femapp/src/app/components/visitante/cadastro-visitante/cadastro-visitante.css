@@ -1,9 +1,8 @@
-/* Importa uma fonte moderna do Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 :root {
-  --cor-primaria: #007bff; /* Azul */
-  --cor-sucesso: #28a745; /* Verde */
+  --cor-primaria: #007bff;
+  --cor-sucesso: #28a745;
   --cor-fundo: #f4f7f6;
   --cor-painel: #ffffff;
   --cor-texto: #333;
@@ -20,11 +19,10 @@
   background-color: var(--cor-fundo);
 }
 
-/* Painel de Informações (Esquerda) */
 .info-panel {
   flex: 1;
   background-color: var(--cor-primaria);
-  color: white;
+  color: rgb(0, 0, 0);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,11 +48,10 @@
 }
 
 .footer-text, .footer-text a {
-  color: white;
+  color: rgb(0, 0, 0);
   opacity: 0.8;
 }
 
-/* Painel do Formulário (Direita) */
 .form-panel {
   flex: 1.5;
   display: flex;
@@ -80,7 +77,6 @@
   margin-bottom: 2rem;
 }
 
-/* Estilos do Formulário */
 .form-group {
   margin-bottom: 1.5rem;
 }
@@ -107,14 +103,12 @@
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
 }
 
-/* Mensagem de Erro */
 .error-message {
   color: #dc3545;
   font-size: 0.875rem;
   margin-top: 0.5rem;
 }
 
-/* Botão de Envio */
 .btn-submit {
   width: 100%;
   padding: 15px;
@@ -137,7 +131,13 @@
   cursor: not-allowed;
 }
 
-/* Responsividade para telas menores */
+.logo-placeholder img {
+  max-width: 350px;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
 @media (max-width: 992px) {
   .cadastro-container {
     flex-direction: column;
@@ -145,8 +145,10 @@
   .info-panel {
     min-height: 300px;
     flex: none;
+    align-items: center;
   }
   .form-panel {
     padding: 30px 20px;
+    align-items: center;
   }
 }

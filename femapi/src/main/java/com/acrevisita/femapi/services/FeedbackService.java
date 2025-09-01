@@ -25,7 +25,7 @@ public class FeedbackService implements IService<Feedback> {
 
     @Override
     @Cacheable(
-        value = "Feedback",
+        value = "feedback",
         condition = "#termoBusca == null or #termoBusca.isBlank()"
     )
     public Page<Feedback> get(String termoBusca, Pageable page) {
@@ -37,7 +37,7 @@ public class FeedbackService implements IService<Feedback> {
     }
 
     @Override
-    @Cacheable(value = "Feedback", unless = "#result == null")
+    @Cacheable(value = "feedback", unless = "#result == null")
     public Feedback get(Long id) {
         return repo.findById(id).orElse(null);
     }

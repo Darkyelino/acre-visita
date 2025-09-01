@@ -25,7 +25,7 @@ public class ArmarioService implements IService<Armario> {
 
     @Override
     @Cacheable(
-        value = "Armario",
+        value = "armario",
         condition = "#termoBusca == null or #termoBusca.isBlank()"
     )
     public Page<Armario> get(String termoBusca, Pageable page) {
@@ -37,7 +37,7 @@ public class ArmarioService implements IService<Armario> {
     }
 
     @Override
-    @Cacheable(value = "Armario", unless = "#result == null")
+    @Cacheable(value = "armario", unless = "#result == null")
     public Armario get(Long id) {
         return repo.findById(id).orElse(null);
     }

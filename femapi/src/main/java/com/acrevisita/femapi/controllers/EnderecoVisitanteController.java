@@ -54,7 +54,8 @@ public class EnderecoVisitanteController implements IController<EnderecoVisitant
             @SortDefault(sort = "ruaVisitante", direction = Sort.Direction.ASC)
         })
         @ParameterObject Pageable page) {
-        Page<EnderecoVisitante> registros = servico.get(termoBusca, page);
+        Pageable pageable = unpaged ? Pageable.unpaged() : page;
+        Page<EnderecoVisitante> registros = servico.get(termoBusca, pageable);
         return ResponseEntity.ok(registros);
     }
 

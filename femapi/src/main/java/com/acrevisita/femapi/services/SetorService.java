@@ -25,7 +25,7 @@ public class SetorService implements IService<Setor> {
 
     @Override
     @Cacheable(
-        value = "Setor",
+        value = "setor",
         condition = "#termoBusca == null or #termoBusca.isBlank()"
     )
     public Page<Setor> get(String termoBusca, Pageable page) {
@@ -37,7 +37,7 @@ public class SetorService implements IService<Setor> {
     }
 
     @Override
-    @Cacheable(value = "Setor", unless = "#result == null")
+    @Cacheable(value = "setor", unless = "#result == null")
     public Setor get(Long id) {
         return repo.findById(id).orElse(null);
     }

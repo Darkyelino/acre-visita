@@ -25,7 +25,7 @@ public class CoordenadorService implements IService<Coordenador> {
 
     @Override
     @Cacheable(
-        value = "Coordenador",
+        value = "coordenador",
         condition = "#termoBusca == null or #termoBusca.isBlank()"
     )
     public Page<Coordenador> get(String termoBusca, Pageable page) {
@@ -37,7 +37,7 @@ public class CoordenadorService implements IService<Coordenador> {
     }
 
     @Override
-    @Cacheable(value = "Coordenador", unless = "#result == null")
+    @Cacheable(value = "coordenador", unless = "#result == null")
     public Coordenador get(Long id) {
         return repo.findById(id).orElse(null);
     }

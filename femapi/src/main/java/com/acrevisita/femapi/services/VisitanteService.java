@@ -28,7 +28,7 @@ public class VisitanteService implements IService<Visitante> {
 
     @Override
     @Cacheable(
-        value = "Visitante",
+        value = "visitante",
         condition = "#termoBusca == null or #termoBusca.isBlank()"
     )
     public Page<Visitante> get(String termoBusca, Pageable page) {
@@ -40,7 +40,7 @@ public class VisitanteService implements IService<Visitante> {
     }
 
     @Override
-    @Cacheable(value = "Visitante", unless = "#result == null")
+    @Cacheable(value = "visitante", unless = "#result == null")
     public Visitante get(Long id) {
         return repo.findById(id).orElse(null);
     }

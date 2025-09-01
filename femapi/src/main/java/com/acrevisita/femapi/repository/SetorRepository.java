@@ -9,6 +9,6 @@ import com.acrevisita.femapi.models.Setor;
 
 @Repository
 public interface SetorRepository extends JpaRepository<Setor, Long> {
-    @Query("SELECT s FROM Setor s")
+    @Query("SELECT s FROM Setor s WHERE s.nomeSetor LIKE %?1%")
     Page<Setor> busca(String termoBusca, Pageable pageable);
 }
