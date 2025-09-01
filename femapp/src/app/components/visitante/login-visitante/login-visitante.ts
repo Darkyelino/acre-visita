@@ -1,65 +1,53 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../services/auth/auth';
+import { AlertaService } from '../../../services/alerta/alerta.service';
+import { ETipoAlerta } from '../../../models/ETipoAlerta';
+import { LoginRequest } from '../../../models/LoginRequest';
 
 @Component({
-  selector: 'app-login-visitante',
+  selector: 'app-login',
   standalone: true,
-  // Adiciona os módulos necessários para formulários reativos e roteamento
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterLink
-  ],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './login-visitante.html',
-  styleUrls: ['./login-visitante.css']
+  styleUrls: ['./login-visitante.css'] // Use um CSS similar ao do seu cadastro
 })
-export class LoginVisitante implements OnInit {
+export class LoginVisitante {
 
-  // Adiciona uma tipagem específica ao FormGroup para resolver o erro de template estrito
-  loginForm!: FormGroup<{
-    email: FormControl<string | null>;
-    senha: FormControl<string | null>;
-  }>;
+  loginForm = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    senha: new FormControl('', Validators.required),
+  });
 
-  // Injeta o FormBuilder para criar o formulário e o Router para navegação
   constructor(
-    private fb: FormBuilder,
+    private authService: AuthService,
+    private alertaService: AlertaService,
     private router: Router
-  ) { }
+  ) {}
 
-  ngOnInit(): void {
-    // Inicializa o formulário com seus campos e validadores
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      senha: ['', [Validators.required]]
-    });
-  }
-
-  // Getter para facilitar o acesso aos controles do formulário no template HTML
   get form() {
     return this.loginForm.controls;
   }
 
-  // Função chamada quando o formulário é enviado
-  login(): void {
-    // Marca todos os campos como "tocados" para exibir mensagens de erro, se houver
-    this.loginForm.markAllAsTouched();
-
-    // Se o formulário for inválido, interrompe a execução
+  onSubmit(): void {
     if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
       return;
     }
 
-    // Se o formulário for válido, aqui você chamaria seu serviço de autenticação
-    console.log('Dados do formulário válidos:', this.loginForm.value);
+    const credenciais = this.loginForm.value as LoginRequest;
 
-    // Exemplo de como você chamaria um serviço de autenticação:
-    // this.authService.login(this.loginForm.value).subscribe({
-    //   next: () => this.router.navigate(['/dashboard']),
-    //   error: (err) => console.error('Falha no login', err)
-    // });
+    this.authService.login(credenciais).subscribe({
+      // O sucesso é tratado pelo `tap` no AuthService (redirecionamento)
+      error: (erro) => {
+        console.error('Erro no login:', erro);
+        this.alertaService.enviarAlerta({
+          tipo: ETipoAlerta.ERRO,
+          mensagem: erro.error || 'Credenciais inválidas. Tente novamente.'
+        });
+      }
+    });
   }
 }
-

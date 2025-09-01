@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { RespostaPaginada } from '../../models/RespostaPaginada';
 import { RequisicaoPaginada } from '../../models/RequisicaoPaginada';
 import { Visitante } from '../../models/Visitante';
+import { LoginRequest } from '../../models/LoginRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,10 @@ export class VisitanteService {
   constructor(private http: HttpClient) { }
 
   apiUrl: string = environment.API_URL + '/visitante/';
+
+  login(credenciais: LoginRequest): Observable<Visitante> {
+    return this.http.post<Visitante>(this.apiUrl + 'login', credenciais);
+  }
 
   get(termoBusca?: string, paginacao?: RequisicaoPaginada): Observable<RespostaPaginada<Visitante>> {
     let url = this.apiUrl;

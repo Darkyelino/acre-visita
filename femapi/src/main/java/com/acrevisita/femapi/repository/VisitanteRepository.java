@@ -1,6 +1,9 @@
 package com.acrevisita.femapi.repository;
 
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +15,6 @@ import com.acrevisita.femapi.models.Visitante;
 public interface VisitanteRepository extends JpaRepository<Visitante, Long> {
     @Query("SELECT v FROM Visitante v WHERE v.nomeVisitante LIKE %?1%")
     Page<Visitante> busca(String termoBusca, Pageable page);
+
+    Optional<Visitante> findByEmailVisitante(String emailVisitante);
 }

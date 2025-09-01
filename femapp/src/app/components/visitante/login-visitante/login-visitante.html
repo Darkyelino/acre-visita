@@ -1,82 +1,44 @@
-<!-- 
-  Este container principal aplica a imagem de fundo e centraliza o card de login.
--->
 <div class="login-container">
-
-  <!-- O card de login com efeito de vidro fosco -->
-  <div class="login-card">
-    
-    <h1 class="titulo">LOGIN</h1>
-    <p class="subtitulo">Acesse sua conta para continuar</p>
-
-    <!-- Formulário de Login Reativo -->
-    <form (ngSubmit)="login()" [formGroup]="loginForm" novalidate>
+  
+  <div class="form-panel">
+    <div class="form-content">
+      <h2>Bem-vindo de volta!</h2>
+      <p class="form-description">Acesse sua conta para continuar.</p>
       
-      <!-- Campo de Email -->
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input 
-          type="email" 
-          id="email" 
-          formControlName="email" 
-          class="form-control" 
-          placeholder="Digite seu email">
-        <div *ngIf="form.email.invalid && (form.email.dirty || form.email.touched)" class="error-message">
-          <span *ngIf="form.email.errors?.['required']">O email é obrigatório.</span>
-          <span *ngIf="form.email.errors?.['email']">Por favor, insira um email válido.</span>
+      <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" novalidate>
+        
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" formControlName="email" class="form-control" placeholder="seu@email.com">
+          <div *ngIf="form.email.invalid && (form.email.dirty || form.email.touched)" class="error-message">
+            <span *ngIf="form.email.errors?.['required']">O email é obrigatório.</span>
+            <span *ngIf="form.email.errors?.['email']">Por favor, insira um email válido.</span>
+          </div>
         </div>
-      </div>
 
-      <!-- Campo de Senha -->
-      <div class="form-group">
-        <label for="senha">Senha</label>
-        <input 
-          type="password" 
-          id="senha" 
-          formControlName="senha" 
-          class="form-control" 
-          placeholder="Digite sua senha">
-         <div *ngIf="form.senha.invalid && (form.senha.dirty || form.senha.touched)" class="error-message">
-          A senha é obrigatória.
+        <div class="form-group">
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" formControlName="senha" class="form-control" placeholder="Sua senha">
+            <div *ngIf="form.senha.invalid && (form.senha.dirty || form.senha.touched)" class="error-message">
+            A senha é obrigatória.
+          </div>
         </div>
-      </div>
-      
-      <!-- Botão de Entrar -->
-      <button type="submit" class="btn-submit" [disabled]="loginForm.invalid">
-        ENTRAR
-      </button>
 
-    </form>
-
-    <!-- Link para Cadastro -->
-    <p class="footer-text">
-      Não tem uma conta? <a routerLink="/visitante/cadastro">Registre-se</a>
-    </p>
-
+        <button type="submit" class="btn-submit" [disabled]="loginForm.invalid">
+          Entrar
+        </button>
+        
+      </form>
+    </div>
   </div>
 
-  <!-- Rodapé Fixo -->
-  <footer class="login-footer">
-    <div class="footer-content">
-      <div class="footer-logos">
-        <!-- Substitua pelos seus logos reais -->
-        <span>Logo 1</span> 
-        <span>Logo 2</span>
+  <div class="info-panel">
+    <div class="info-content">
+      <div class="logo-placeholder">
+        <img src="../../../../assets/img/capa.png" alt="Logo do Acre Visita">
       </div>
-      <div class="footer-info">
-        <p>AcreVisita: Sistema de Gestão de Visitantes</p>
-        <p>© 2025 Todos os direitos reservados.</p>
-        <span>Versão 1.0.0</span> &bull; 
-        <a href="#">Termos de uso</a> &bull; 
-        <a href="#">Política de privacidade</a>
-      </div>
-      <div class="footer-contato">
-        <p><strong>Contato</strong></p>
-        <p>📞 (68) 99999-9999</p>
-        <p>✉️ pablo@vasco.com</p>
-        <p>📸 @exemplo_insta</p>
-      </div>
+      <p class="footer-text">Não tem uma conta? <a routerLink="/cadastro-visitante"><b>Cadastre-se</b></a></p>
     </div>
-  </footer>
+  </div>
 
 </div>

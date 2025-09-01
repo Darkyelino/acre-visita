@@ -1,5 +1,7 @@
 package com.acrevisita.femapi.controllers;
 
+import javax.security.auth.login.LoginException;
+
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,6 +41,35 @@ public class VisitanteController implements IController<Visitante> {
 
     public VisitanteController(VisitanteService servico) {
         this.servico = servico;
+    }
+
+    /**
+     * DTO (Data Transfer Object) simples para receber as credenciais de login.
+     * É uma boa prática criar uma classe interna ou externa para isso.
+     */
+    public static class LoginRequest {
+        private String email;
+        private String senha;
+        // getters e setters
+        public String getEmail() { return email; }
+        public void setEmail(String email) { this.email = email; }
+        public String getSenha() { return senha; }
+        public void setSenha(String senha) { this.senha = senha; }
+    }
+
+    /**
+     * NOVO ENDPOINT: Realiza o login.
+     * Mapeado para POST /visitante/login
+     */
+    @PostMapping("/login")
+    @Operation(summary = "Autentica um visitante e retorna seus dados")
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+        try {
+            Visitante visitante = servico.login(loginRequest.getEmail(), loginRequest.getSenha());
+            return ResponseEntity.ok(visitante);
+        } catch (LoginException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
     }
 
     @Override

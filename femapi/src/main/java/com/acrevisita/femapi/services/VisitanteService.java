@@ -2,6 +2,8 @@ package com.acrevisita.femapi.services;
 
 import java.util.Optional;
 
+import javax.security.auth.login.LoginException;
+
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -24,6 +26,28 @@ public class VisitanteService implements IService<Visitante> {
     public VisitanteService(VisitanteRepository repo, DocVisitanteRepository docRepo) {
         this.repo = repo;
         this.docRepo = docRepo;
+    }
+
+    public Visitante login(String email, String senha) throws LoginException {
+        // Busca o visitante pelo email
+        Optional<Visitante> optVisitante = repo.findByEmailVisitante(email);
+
+        if (optVisitante.isEmpty()) {
+            throw new LoginException("Usuário não encontrado.");
+        }
+
+        Visitante visitante = optVisitante.get();
+
+        // 🚨 AVISO DE SEGURANÇA:
+        // Esta é uma comparação de senha em texto plano.
+        // Em um projeto real, você DEVE usar um encoder como o BCrypt.
+        // A senha no banco seria um hash e aqui você usaria:
+        // if (passwordEncoder.matches(senha, visitante.getSenhaVisitante())) { ... }
+        if (visitante.getSenhaVisitante().equals(senha)) {
+            return visitante; // Login bem-sucedido
+        } else {
+            throw new LoginException("Senha inválida.");
+        }
     }
 
     @Override
