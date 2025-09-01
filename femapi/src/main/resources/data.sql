@@ -42,7 +42,11 @@ INSERT INTO coordenador (id_coordenador, nome_coordenador, email_coordenador, se
 
 -- Inserindo Auditório
 INSERT INTO auditorio (id_auditorio, nome_auditorio, disponibilidade, local_auditorio_id_setor) VALUES
-(1, 'Auditório Jorge Amado', true, 1); -- Auditório fica na área da Recepção Principal
+(1, 'Auditório Jorge Amado', true, 1), -- Auditório fica na área da Recepção Principal
+(2, 'Sala Chico Mendes', true, 2),        -- Sala de reuniões/projeções na Biblioteca Central
+(3, 'Anfiteatro Ziraldo', true, 4),        -- Espaço multiuso na Ala de Exposições
+(4, 'Auditório Clarice Lispector', false, 1), -- Outro auditório na recepção, em manutenção
+(5, 'Sala de Projeção Galvez', true, 4);     -- Sala menor na Ala de Exposições, com nome histórico do Acre
 
 
 -- ===================================================================================

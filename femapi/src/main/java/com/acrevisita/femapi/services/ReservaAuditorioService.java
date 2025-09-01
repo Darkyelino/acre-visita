@@ -1,21 +1,24 @@
 package com.acrevisita.femapi.services;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.acrevisita.femapi.models.ReservaAuditorio;
 import com.acrevisita.femapi.repository.ReservaAuditorioRepository;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.criteria.Predicate;
 
 @Service
-public class ReservaAuditorioService implements IService<ReservaAuditorio> {
+public class ReservaAuditorioService { // Não precisa mais implementar a interface genérica IService
 
     private final ReservaAuditorioRepository repo;
 
@@ -23,47 +26,57 @@ public class ReservaAuditorioService implements IService<ReservaAuditorio> {
         this.repo = repo;
     }
 
-    @Override
+    /**
+     * NOVO MÉTODO DE BUSCA UNIFICADO
+     * Utiliza Specifications para criar uma query dinâmica com base nos filtros fornecidos.
+     * O cache é aplicado apenas quando nenhum filtro é usado, para guardar a lista principal.
+     */
     @Cacheable(
-        value = "reservaAuditorio",
-        condition = "#termoBusca == null or #termoBusca.isBlank()"
+        value = "reservaAuditorios",
+        condition = "(#termo == null or #termo.isBlank()) and (#status == null or #status.isBlank())"
     )
-    public Page<ReservaAuditorio> get(String termoBusca, Pageable page) {
-        if (termoBusca == null || termoBusca.isBlank()) {
-            return repo.findAll(page);
-        } else {
-            return repo.busca(termoBusca, page);
-        }
-    }
-    
-    public Page<ReservaAuditorio> getByStatus(String status, Pageable page) {
-        return repo.findByStatus(status, page);
+    public Page<ReservaAuditorio> buscar(String termo, String status, Pageable pageable) {
+        Specification<ReservaAuditorio> spec = (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (termo != null && !termo.isBlank()) {
+                predicates.add(criteriaBuilder.like(
+                    criteriaBuilder.lower(root.get("nomeEvento")),
+                    "%" + termo.toLowerCase() + "%"
+                ));
+            }
+
+            if (status != null && !status.isBlank()) {
+                predicates.add(criteriaBuilder.equal(root.get("status"), status));
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+        return repo.findAll(spec, pageable);
     }
 
-    @Override
-    @Cacheable(value = "reservaAuditorio", unless = "#result == null")
-    public ReservaAuditorio get(Long id) {
+    @Cacheable(value = "reservaAuditorio", key = "#id", unless = "#result == null")
+    public ReservaAuditorio getById(Long id) {
         return repo.findById(id).orElse(null);
     }
 
-    @Override
     @Caching(evict = {
         @CacheEvict(value = "reservaAuditorio", key = "#objeto.idReserva"),
-        @CacheEvict(value = "reservaAuditorios", allEntries = true)
+        @CacheEvict(value = "reservaAuditorios", allEntries = true) // Limpa o cache da lista
     })
     public ReservaAuditorio save(ReservaAuditorio objeto) {
         return repo.save(objeto);
     }
 
-    @Override
     @Caching(evict = {
         @CacheEvict(value = "reservaAuditorio", key = "#id"),
-        @CacheEvict(value = "reservaAuditorios", allEntries = true)
+        @CacheEvict(value = "reservaAuditorios", allEntries = true) // Limpa o cache da lista
     })
     public void delete(Long id) {
         repo.deleteById(id);
     }
     
+    // Os métodos de negócio permanecem os mesmos
     public ReservaAuditorio aprovar(Long id) {
         ReservaAuditorio reserva = findById(id);
         reserva.setStatus("APROVADA");
@@ -77,12 +90,7 @@ public class ReservaAuditorioService implements IService<ReservaAuditorio> {
     }
 
     public ReservaAuditorio findById(Long id) {
-        Optional<ReservaAuditorio> reserva = repo.findById(id);
-
-        if (reserva.isPresent()) {
-            return reserva.get();
-        } else {
-            throw new EntityNotFoundException("Reserva de Auditório com ID " + id + " não encontrada");
-        }
+        return repo.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Reserva de Auditório com ID " + id + " não encontrada"));
     }
 }

@@ -46,11 +46,11 @@ export class AuditorioReserva implements OnInit {
   ngOnInit(): void {
     this.reservaForm = new FormGroup({
       auditorio: new FormControl<Auditorio | null>(null, [Validators.required]),
-      nomeEvento: new FormControl<string>('', [Validators.required]),
-      data: new FormControl<string>('', [Validators.required]),
-      horaInicio: new FormControl<string>('', [Validators.required]),
-      horaFim: new FormControl<string>('', [Validators.required]),
-      observacoes: new FormControl<string>('')
+      nomeEvento: new FormControl('', [Validators.required, Validators.minLength(5)]),
+      data: new FormControl('', [Validators.required]),
+      horaInicio: new FormControl('', [Validators.required]),
+      horaFim: new FormControl('', [Validators.required]),
+      observacoes: new FormControl('')
     });
 
     this.carregarAuditorios();
@@ -64,6 +64,10 @@ export class AuditorioReserva implements OnInit {
   }
 
   carregarAuditorios(): void {
+    // ESTA É A CHAMADA CORRETA
+    // Como não passamos o segundo argumento (paginacao), o service
+    // automaticamente adiciona `unpaged=true` à requisição,
+    // trazendo TODOS os auditórios da API.
     this.auditorioService.get().subscribe(resposta => {
       this.auditoriosDisponiveis = resposta.content.filter(a => a.disponibilidade);
     });

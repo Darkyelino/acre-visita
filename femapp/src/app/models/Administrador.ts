@@ -5,5 +5,5 @@ export interface Administrador {
   nomeAdministrador: string;
   emailAdministrador: string;
   senhaAdministrador: string;
-  setor: Setor;
+  admSetorResponsavel: Setor;
 }

@@ -1,46 +1,83 @@
-<!-- <main class="confirmacao-container">
-    <section class="confirmacao-card">
-        <header class="card-header">
-            <h1 class="titulo">Gerenciar Solicitações de Reserva</h1>
-            <p class="subtitulo">Aprove ou recuse as solicitações de reserva para os auditórios.</p>
-        </header>
+<div class="container-confirmacao">
+  <h2>Confirmação de Reservas de Auditório</h2>
+  <p>Aprove ou recuse as solicitações de reserva pendentes.</p>
 
-        <div class="table-wrapper">
-            <table class="solicitacoes-table">
-                <thead>
-                    <tr>
-                        <th>Evento</th>
-                        <th>Visitante</th>
-                        <th>Auditório</th>
-                        <th>Data</th>
-                        <th>Horário</th>
-                        <th>Status</th>
-                        <th class="acoes-header">Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let solicitacao of solicitacoes">
-                        <td>{{ solicitacao.nomeEvento }}</td>
-                        <td>{{ solicitacao.visitante.nomeVisitante }}</td>
-                        <td>{{ solicitacao.auditorio.nomeAuditorio }}</td>
-                        <td>{{ solicitacao.data | date:'dd/MM/yyyy' }}</td>
-                        <td>{{ solicitacao.horaInicio }} - {{ solicitacao.horaFim }}</td>
-                        <td>
-                            <span class="tag tag-pendente">{{ solicitacao.status }}</span>
-                        </td>
-                        <td class="acoes-cell">
-                            <button (click)="aprovar(solicitacao.idReserva!)" class="btn btn-aprovar">Aprovar</button>
-                            <button (click)="recusar(solicitacao.idReserva!)" class="btn btn-recusar">Recusar</button>
-                        </td>
-                    </tr>
-                    
-                    <tr *ngIf="solicitacoes.length === 0">
-                        <td colspan="7" class="no-results">
-                            Nenhuma solicitação pendente no momento.
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
-</main> -->
+  <div *ngIf="alerta" class="alerta" [ngClass]="'alerta-' + alerta.tipo">
+    <span>{{ alerta.mensagem }}</span>
+    <button (click)="fecharAlerta()" class="fechar-alerta">&times;</button>
+  </div>
+
+  <div class="barra-filtros">
+    <input 
+      type="text" 
+      placeholder="Buscar por nome do evento..."
+      [(ngModel)]="termoBusca"
+      (keyup.enter)="aplicarFiltro()"
+      class="input-busca"
+    />
+    <select [(ngModel)]="statusFiltro" (change)="aplicarFiltro()" class="select-status">
+      <option value="PENDENTE">Pendentes</option>
+      <option value="APROVADA">Aprovadas</option>
+      <option value="RECUSADA">Recusadas</option>
+      <option value="TODOS">Todas</option>
+    </select>
+    <button (click)="aplicarFiltro()" class="btn-filtrar">Filtrar</button>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-container">
+    <p>Carregando reservas...</p>
+  </div>
+
+  <div *ngIf="!isLoading && reservas.length > 0" class="tabela-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Evento</th>
+          <th>Visitante</th>
+          <th>Data</th>
+          <th>Horário</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reserva of reservas">
+          <td>{{ reserva.nomeEvento }}</td>
+          <td>{{ reserva.visitante.nomeVisitante }}</td>
+          <td>{{ reserva.data | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ reserva.horaInicio }} - {{ reserva.horaFim }}</td>
+          <td>
+            <span class="status" [ngClass]="'status-' + reserva.status.toLowerCase()">
+              {{ reserva.status }}
+            </span>
+          </td>
+          <td class="coluna-acoes">
+            <ng-container *ngIf="reserva.status === 'PENDENTE'">
+              <button (click)="aprovar(reserva.idReserva)" class="btn-acao btn-aprovar">Aprovar</button>
+              <button (click)="recusar(reserva.idReserva)" class="btn-acao btn-recusar">Recusar</button>
+            </ng-container>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="!isLoading && reservas.length === 0" class="nenhum-resultado">
+    <p>Nenhuma reserva encontrada para os filtros selecionados.</p>
+  </div>
+
+  <div *ngIf="!isLoading && paginacao && paginacao.totalElements > 0" class="paginacao-controles">
+    <button 
+      [disabled]="paginacao.number === 0" 
+      (click)="mudarPagina(paginacao.number - 1)">
+      Anterior
+    </button>
+    <span>Página {{ paginacao.number + 1 }} de {{ paginacao.totalPages }}</span>
+    <button 
+      [disabled]="paginacao.number + 1 >= paginacao.totalPages" 
+      (click)="mudarPagina(paginacao.number + 1)">
+      Próxima
+    </button>
+  </div>
+
+</div>
