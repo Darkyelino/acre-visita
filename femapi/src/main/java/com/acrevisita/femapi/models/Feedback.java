@@ -25,7 +25,7 @@ public class Feedback implements Serializable {
     private LocalDate dataEnvio;
 
     @ManyToOne(optional = false)
-    private Visitante visitante;
+    private Usuario usuario;
 
     // ==================================(GETS E SETS)==================================
 
@@ -53,12 +53,12 @@ public class Feedback implements Serializable {
         this.dataEnvio = dataEnvio;
     }
 
-    public Visitante getVisitante() {
-        return visitante;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setVisitante(Visitante visitante) {
-        this.visitante = visitante;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
 }

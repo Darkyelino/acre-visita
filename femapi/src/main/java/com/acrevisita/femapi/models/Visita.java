@@ -28,7 +28,7 @@ public class Visita implements Serializable {
     private String status;
 
     @ManyToOne(optional = false)
-    private Visitante visitante;
+    private Usuario usuario;
 
     @ManyToOne(optional = false)
     private Setor local;
@@ -67,12 +67,12 @@ public class Visita implements Serializable {
         this.status = status;
     }
 
-    public Visitante getVisitante() {
-        return visitante;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setVisitante(Visitante visitante) {
-        this.visitante = visitante;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Setor getLocal() {

@@ -1,9 +1,9 @@
 import { Setor } from "./Setor";
-import { Visitante } from "./Visitante";
+import { Usuario } from "./Usuario";
 
 export interface Armario {
   idArmario?: number;
   numeracao: number;
-  visitante: Visitante | null;
+  usuario: Usuario | null;
   setor: Setor;
 }

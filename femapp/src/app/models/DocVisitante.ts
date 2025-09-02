@@ -1,8 +1,8 @@
-import { Visitante } from "./Visitante";
+import { Usuario } from "./Usuario";
 
 export interface DocVisitante {
   idDocumento?: number;
   tipo: string | null;
   numero: string | null;
-  visitante: Visitante;
+  usuario: Usuario;
 }

@@ -14,5 +14,5 @@ public interface DocVisitanteRepository extends JpaRepository<DocVisitante, Long
     @Query("SELECT d FROM DocVisitante d WHERE d.numero LIKE %?1%")
     Page<DocVisitante> busca(String termoBusca, Pageable page);
 
-    Optional<DocVisitante> findByVisitanteIdVisitante(Long idVisitante);
+    Optional<DocVisitante> findByUsuarioId(Long usuarioId);
 }

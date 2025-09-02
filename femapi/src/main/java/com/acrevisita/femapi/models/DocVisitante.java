@@ -18,13 +18,47 @@ public class DocVisitante implements Serializable {
     private Long idDocumento;
 
     @Column(nullable = true)
-    private String tipo; // Ex: "RG", "CPF", "Passaporte"
+    private String tipo; // Ex: "CPF", "Passaporte"
 
     @Column(nullable = true, unique = true)
     private String numero;
 
     @OneToOne(optional = false)
-    @JoinColumn(name = "idVisitante", nullable = false)
-    private Visitante visitante;
+    @JoinColumn(name = "idUsuario", nullable = false)
+    private Usuario usuario;
+
+    // ==================================(GETS E SETS)==================================
+
+    public Long getIdDocumento() {
+        return idDocumento;
+    }
+
+    public void setIdDocumento(Long idDocumento) {
+        this.idDocumento = idDocumento;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
 }

@@ -1,8 +1,8 @@
-import { Visitante } from "./Visitante";
+import { Usuario } from "./Usuario";
 
 export interface Feedback {
   idFeedback?: number;
   texto: string;
   dataEnvio: string;
-  visitante: Visitante;
+  usuario: Usuario;
 }

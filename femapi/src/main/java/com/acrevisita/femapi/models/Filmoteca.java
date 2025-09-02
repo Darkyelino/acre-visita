@@ -21,7 +21,7 @@ public class Filmoteca implements Serializable {
     private String sugestao;
 
     @ManyToOne(optional = false)
-    private Visitante visitante;
+    private Usuario usuario;
 
     // ==================================(GETS E SETS)==================================
 
@@ -41,12 +41,12 @@ public class Filmoteca implements Serializable {
         this.sugestao = sugestao;
     }
 
-    public Visitante getVisitante() {
-        return visitante;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setVisitante(Visitante visitante) {
-        this.visitante = visitante;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
 }

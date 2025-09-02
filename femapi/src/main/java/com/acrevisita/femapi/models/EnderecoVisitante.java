@@ -37,8 +37,8 @@ public class EnderecoVisitante implements Serializable {
     private String numeroVisitante;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "idVisitante", nullable = false)
-    private Visitante visitante;
+    @JoinColumn(name = "idUsuario", nullable = false)
+    private Usuario usuario;
 
     // ==================================(GETS E SETS)==================================
 
@@ -98,12 +98,12 @@ public class EnderecoVisitante implements Serializable {
         this.numeroVisitante = numeroVisitante;
     }
 
-    public Visitante getVisitante() {
-        return visitante;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setVisitante(Visitante visitante) {
-        this.visitante = visitante;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
 }

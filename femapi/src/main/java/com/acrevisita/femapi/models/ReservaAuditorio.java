@@ -38,8 +38,8 @@ public class ReservaAuditorio implements Serializable {
     private String status;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "visitante_id")
-    private Visitante visitante;
+    @JoinColumn(name = "idUsuario")
+    private Usuario usuario;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "auditorio_id")
@@ -103,12 +103,12 @@ public class ReservaAuditorio implements Serializable {
         this.status = status;
     }
 
-    public Visitante getVisitante() {
-        return visitante;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setVisitante(Visitante visitante) {
-        this.visitante = visitante;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Auditorio getAuditorio() {

@@ -1,7 +1,7 @@
-import { Visitante } from "./Visitante";
+import { Usuario } from "./Usuario";
 
 export interface Filmoteca {
   idFilmoteca?: number;
   sugestao: string;
-  visitante: Visitante;
+  usuario: Usuario;
 }

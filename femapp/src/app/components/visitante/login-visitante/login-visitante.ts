@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../../services/auth/auth';
+import { AuthService } from '../../../services/auth/auth'; // ✅ O serviço injetado é o mesmo
 import { AlertaService } from '../../../services/alerta/alerta.service';
 import { ETipoAlerta } from '../../../models/ETipoAlerta';
 import { LoginRequest } from '../../../models/LoginRequest';
@@ -11,9 +11,10 @@ import { LoginRequest } from '../../../models/LoginRequest';
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
-  templateUrl: './login-visitante.html',
-  styleUrls: ['./login-visitante.css'] // Use um CSS similar ao do seu cadastro
+  templateUrl: './login-visitante.html', // Mantenha o nome do seu arquivo HTML
+  styleUrls: ['./login-visitante.css'] // Mantenha o nome do seu arquivo CSS
 })
+// ✅ Sugestão: Renomear a classe para algo mais genérico
 export class LoginVisitante {
 
   loginForm = new FormGroup({
@@ -24,7 +25,6 @@ export class LoginVisitante {
   constructor(
     private authService: AuthService,
     private alertaService: AlertaService,
-    private router: Router
   ) {}
 
   get form() {
@@ -39,8 +39,8 @@ export class LoginVisitante {
 
     const credenciais = this.loginForm.value as LoginRequest;
 
+    // A chamada aqui permanece IDÊNTICA. A complexidade foi abstraída para o AuthService.
     this.authService.login(credenciais).subscribe({
-      // O sucesso é tratado pelo `tap` no AuthService (redirecionamento)
       error: (erro) => {
         console.error('Erro no login:', erro);
         this.alertaService.enviarAlerta({

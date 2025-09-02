@@ -1,5 +1,5 @@
 import { Auditorio } from "./Auditorio";
-import { Visitante } from "./Visitante";
+import { Usuario } from "./Usuario";
 
 export interface ReservaAuditorio {
   idReserva?: number;
@@ -9,6 +9,6 @@ export interface ReservaAuditorio {
   horaFim: string;
   observacoes: string | null;
   status: 'PENDENTE' | 'APROVADA' | 'RECUSADA';
-  visitante: Visitante;
+  usuario: Usuario;
   auditorio: Auditorio;
 }

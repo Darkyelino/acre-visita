@@ -22,7 +22,7 @@ public class Armario implements Serializable {
     private int numeracao;
 
     @ManyToOne(optional = true)
-    private Visitante visitante;
+    private Usuario usuario;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "setor_id", nullable = false)
@@ -46,12 +46,12 @@ public class Armario implements Serializable {
         this.numeracao = numeracao;
     }
 
-    public Visitante getVisitante() {
-        return visitante;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setVisitante(Visitante visitante) {
-        this.visitante = visitante;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Setor getSetor() {
