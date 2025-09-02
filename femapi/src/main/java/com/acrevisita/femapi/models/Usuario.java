@@ -17,6 +17,7 @@ public class Usuario implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, updatable = false)
     private Long id;
 
     // --- Campos Comuns a Todos ---
@@ -42,12 +43,12 @@ public class Usuario implements Serializable {
 
     // Relacionamento específico para VISITANTE
     @ManyToOne(optional = true) // 'optional = true' significa que a FK pode ser nula
-    @JoinColumn(name = "nacionalidade_id")
+    @JoinColumn(name = "idNacionalidade")
     private NacionalidadeVisitante nacionalidade;
 
     // Relacionamento específico para ADM, COORDENADOR, ATENDENTE
     @ManyToOne(optional = true)
-    @JoinColumn(name = "setor_id")
+    @JoinColumn(name = "idSetor")
     private Setor setor;
 
     

@@ -32,16 +32,16 @@ INSERT INTO auditorio (id_auditorio, nome_auditorio, disponibilidade, local_audi
 -- As senhas agora são hashes BCrypt. A senha para todos os usuários abaixo é "senha123".
 -- ===================================================================================
 
-INSERT INTO usuario (id, nome, email, senha, papel, telefone, nacionalidade_id, setor_id) VALUES
+INSERT INTO usuario (id, nome, email, senha, papel, telefone, id_nacionalidade, id_setor) VALUES
 -- Visitantes (IDs 1, 2, 3)
-(1, 'Ana Clara Silva', 'ana.silva@email.com', '$2a$10$EAC3i6k8C3134q4oB2.dHeVAmj1nU8Jvu3w2xJr0y65PEgslNFuUm', 'ROLE_VISITANTE', '(68) 99988-7766', 1, NULL),
-(2, 'John Smith', 'john.smith@email.com', '$2a$10$EAC3i6k8C3134q4oB2.dHeVAmj1nU8Jvu3w2xJr0y65PEgslNFuUm', 'ROLE_VISITANTE', '+1 555-0101', 2, NULL),
-(3, 'Carlos Garcia', 'carlos.garcia@email.com', '$2a$10$EAC3i6k8C3134q4oB2.dHeVAmj1nU8Jvu3w2xJr0y65PEgslNFuUm', 'ROLE_VISITANTE', '+54 9 11 1234-5678', 2, NULL),
+(1, 'Ana Clara Silva', 'ana.silva@email.com', '$2a$10$EAC3i6k8C3134q4oB2.dHeVAmj1nU8Jvu3w2xJr0y65PEgslNFuUm', 'VISITANTE', '(68) 99988-7766', 1, NULL),
+(2, 'John Smith', 'john.smith@email.com', '$2a$10$EAC3i6k8C3134q4oB2.dHeVAmj1nU8Jvu3w2xJr0y65PEgslNFuUm', 'VISITANTE', '+1 555-0101', 2, NULL),
+(3, 'Carlos Garcia', 'carlos.garcia@email.com', '$2a$10$EAC3i6k8C3134q4oB2.dHeVAmj1nU8Jvu3w2xJr0y65PEgslNFuUm', 'VISITANTE', '+54 9 11 1234-5678', 2, NULL),
 
 -- Funcionários (IDs 4, 5, 6)
-(4, 'Roberto Medeiros', 'roberto.adm@acrevisita.com', '$2a$10$EAC3i6k8C3134q4oB2.dHeVAmj1nU8Jvu3w2xJr0y65PEgslNFuUm', 'ROLE_ADMINISTRADOR', NULL, NULL, 3),
-(5, 'Mariana Costa', 'mariana.atendente@acrevisita.com', '$2a$10$EAC3i6k8C3134q4oB2.dHeVAmj1nU8Jvu3w2xJr0y65PEgslNFuUm', 'ROLE_ATENDENTE', NULL, NULL, 1),
-(6, 'Felipe Andrade', 'felipe.coord@acrevisita.com', '$2a$10$EAC3i6k8C3134q4oB2.dHeVAmj1nU8Jvu3w2xJr0y65PEgslNFuUm', 'ROLE_COORDENADOR', NULL, NULL, 2);
+(4, 'Roberto Medeiros', 'roberto.adm@acrevisita.com', '$2a$10$EAC3i6k8C3134q4oB2.dHeVAmj1nU8Jvu3w2xJr0y65PEgslNFuUm', 'ADMINISTRADOR', NULL, NULL, 3),
+(5, 'Mariana Costa', 'mariana.atendente@acrevisita.com', '$2a$10$EAC3i6k8C3134q4oB2.dHeVAmj1nU8Jvu3w2xJr0y65PEgslNFuUm', 'ATENDENTE', NULL, NULL, 1),
+(6, 'Felipe Andrade', 'felipe.coord@acrevisita.com', '$2a$10$EAC3i6k8C3134q4oB2.dHeVAmj1nU8Jvu3w2xJr0y65PEgslNFuUm', 'COORDENADOR', NULL, NULL, 2);
 
 
 -- ===================================================================================

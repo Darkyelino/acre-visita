@@ -14,7 +14,6 @@ import { LoginRequest } from '../../../models/LoginRequest';
   templateUrl: './login-visitante.html', // Mantenha o nome do seu arquivo HTML
   styleUrls: ['./login-visitante.css'] // Mantenha o nome do seu arquivo CSS
 })
-// ✅ Sugestão: Renomear a classe para algo mais genérico
 export class LoginVisitante {
 
   loginForm = new FormGroup({

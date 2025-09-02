@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
@@ -11,54 +11,64 @@ import { Auditorio } from '../../models/Auditorio';
 })
 export class AuditorioService {
 
+  // ✅ Boas práticas: 'private' para encapsulamento e 'readonly' porque a URL não muda.
+  private readonly apiUrl = `${environment.API_URL}/auditorio/`;
+
   constructor(private http: HttpClient) { }
 
-  apiUrl: string = environment.API_URL + '/auditorio/';
-
+  /**
+   * Busca uma lista paginada de auditórios, com filtro opcional por nome.
+   * @param termoBusca O nome ou parte do nome a ser pesquisado.
+   * @param paginacao Configurações de página, tamanho e ordenação.
+   * @returns Uma página de Auditórios.
+   */
   get(termoBusca?: string, paginacao?: RequisicaoPaginada): Observable<RespostaPaginada<Auditorio>> {
-    let url = this.apiUrl;
-    const params: string[] = [];
+    
+    // ✅ Usando HttpParams para construir os parâmetros de forma segura.
+    let params = new HttpParams();
 
     if (termoBusca) {
-      params.push(`termoBusca=${termoBusca}`);
+      params = params.set('termoBusca', termoBusca);
     }
 
     if (paginacao) {
-      params.push(`page=${paginacao.page}`);
-      params.push(`size=${paginacao.size}`);
-
-      if (paginacao.sort && paginacao.sort.length > 0) {
-        paginacao.sort.forEach(campo => {
-          params.push(`sort=${campo}`);
-        });
-      }
+      params = params.set('page', paginacao.page);
+      params = params.set('size', paginacao.size);
+      paginacao.sort.forEach(campo => {
+        params = params.append('sort', campo); // '.append' para múltiplos valores com o mesmo nome
+      });
     } else {
-      params.push('unpaged=true');
+      params = params.set('unpaged', 'true');
     }
 
-    if (params.length > 0) {
-      url += '?' + params.join('&');
-    }
-
-    return this.http.get<RespostaPaginada<Auditorio>>(url);
+    return this.http.get<RespostaPaginada<Auditorio>>(this.apiUrl, { params });
   }
 
+  /**
+   * Busca um auditório específico pelo seu ID.
+   * @param id O ID do auditório.
+   */
   getById(id: number): Observable<Auditorio> {
-    let url = this.apiUrl + id;
-    return this.http.get<Auditorio>(url);
+    return this.http.get<Auditorio>(`${this.apiUrl}${id}`);
   }
 
+  /**
+   * Salva um novo auditório (POST) ou atualiza um existente (PUT).
+   * @param objeto O objeto do auditório a ser salvo.
+   */
   save(objeto: Auditorio): Observable<Auditorio> {
-    let url = this.apiUrl;
     if (objeto.idAuditorio) {
-      return this.http.put<Auditorio>(url, objeto);
-    } else {
-      return this.http.post<Auditorio>(url, objeto);
+      // ✅ Boa prática REST: O PUT geralmente inclui o ID do recurso na URL.
+      return this.http.put<Auditorio>(`${this.apiUrl}${objeto.idAuditorio}`, objeto);
     }
+    return this.http.post<Auditorio>(this.apiUrl, objeto);
   }
 
+  /**
+   * Deleta um auditório pelo seu ID.
+   * @param id O ID do auditório a ser deletado.
+   */
   delete(id: number): Observable<void> {
-    let url = this.apiUrl + id;
-    return this.http.delete<void>(url);
+    return this.http.delete<void>(`${this.apiUrl}${id}`);
   }
 }

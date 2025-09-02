@@ -1,6 +1,5 @@
 <div class="cadastro-container">
   
-  <!-- Coluna da Esquerda: Informações e Boas-vindas -->
   <div class="info-panel">
     <div class="info-content">
       <div class="logo-placeholder">
@@ -10,67 +9,66 @@
     </div>
   </div>
 
-  <!-- Coluna da Direita: Formulário de Cadastro -->
   <div class="form-panel">
     <div class="form-content">
       <h2>Crie sua Conta</h2>
       <p class="form-description">Preencha os campos abaixo para se cadastrar.</p>
       
-      <form (ngSubmit)="save()" [formGroup]="formVisitante" novalidate>
+      <!-- ✅ ATUALIZADO: [formGroup]="usuarioForm" -->
+      <form (ngSubmit)="save()" [formGroup]="usuarioForm" novalidate>
         
-        <!-- Nome Completo -->
+        <!-- ✅ ATUALIZADO: formControlName="nome" -->
         <div class="form-group">
-          <label for="nomeVisitante">Nome Completo</label>
-          <input type="text" id="nomeVisitante" formControlName="nomeVisitante" class="form-control" placeholder="Seu nome completo">
-          <div *ngIf="form.nomeVisitante.invalid && (form.nomeVisitante.dirty || form.nomeVisitante.touched)" class="error-message">
+          <label for="nome">Nome Completo</label>
+          <input type="text" id="nome" formControlName="nome" class="form-control" placeholder="Seu nome completo">
+          <div *ngIf="form.nome.invalid && (form.nome.dirty || form.nome.touched)" class="error-message">
             O nome é obrigatório.
           </div>
         </div>
 
-        <!-- Email -->
+        <!-- ✅ ATUALIZADO: formControlName="email" -->
         <div class="form-group">
-          <label for="emailVisitante">Email</label>
-          <input type="email" id="emailVisitante" formControlName="emailVisitante" class="form-control" placeholder="exemplo@email.com">
-          <div *ngIf="form.emailVisitante.invalid && (form.emailVisitante.dirty || form.emailVisitante.touched)" class="error-message">
-            <span *ngIf="form.emailVisitante.errors?.['required']">O email é obrigatório.</span>
-            <span *ngIf="form.emailVisitante.errors?.['email']">Por favor, insira um email válido.</span>
+          <label for="email">Email</label>
+          <input type="email" id="email" formControlName="email" class="form-control" placeholder="exemplo@email.com">
+          <div *ngIf="form.email.invalid && (form.email.dirty || form.email.touched)" class="error-message">
+            <span *ngIf="form.email.errors?.['required']">O email é obrigatório.</span>
+            <span *ngIf="form.email.errors?.['email']">Por favor, insira um email válido.</span>
           </div>
         </div>
 
-        <!-- Telefone -->
+        <!-- ✅ ATUALIZADO: formControlName="telefone" -->
         <div class="form-group">
-          <label for="telefoneVisitante">Telefone</label>
-          <input type="text" id="telefoneVisitante" formControlName="telefoneVisitante" class="form-control" placeholder="(68) 99999-9999">
-           <div *ngIf="form.telefoneVisitante.invalid && (form.telefoneVisitante.dirty || form.telefoneVisitante.touched)" class="error-message">
+          <label for="telefone">Telefone</label>
+          <input type="text" id="telefone" formControlName="telefone" class="form-control" placeholder="(68) 99999-9999">
+            <div *ngIf="form.telefone.invalid && (form.telefone.dirty || form.telefone.touched)" class="error-message">
             O telefone é obrigatório.
           </div>
         </div>
 
-        <!-- Senha -->
+        <!-- ✅ ATUALIZADO: formControlName="senha" -->
         <div class="form-group">
-          <label for="senhaVisitante">Senha</label>
-          <input type="password" id="senhaVisitante" formControlName="senhaVisitante" class="form-control" placeholder="Crie uma senha forte">
-           <div *ngIf="form.senhaVisitante.invalid && (form.senhaVisitante.dirty || form.senhaVisitante.touched)" class="error-message">
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" formControlName="senha" class="form-control" placeholder="Crie uma senha forte">
+            <div *ngIf="form.senha.invalid && (form.senha.dirty || form.senha.touched)" class="error-message">
             A senha é obrigatória.
           </div>
         </div>
 
-        <!-- Nacionalidade -->
+        <!-- ✅ ATUALIZADO: formControlName="nacionalidade" -->
         <div class="form-group">
-          <label for="nacionalidadeVisitante">Nacionalidade</label>
-          <select formControlName="nacionalidadeVisitante" id="nacionalidadeVisitante" class="form-control">
+          <label for="nacionalidade">Nacionalidade</label>
+          <select formControlName="nacionalidade" id="nacionalidade" class="form-control">
             <option [ngValue]="null" disabled>Selecione sua nacionalidade...</option>
-            <option *ngFor="let nacionalidade of nacionalidades" [ngValue]="nacionalidade">
-              {{ nacionalidade.nacionalidade }}
+            <option *ngFor="let nac of nacionalidades" [ngValue]="nac">
+              {{ nac.nacionalidade }}
             </option>
           </select>
-          <div *ngIf="form.nacionalidadeVisitante.invalid && (form.nacionalidadeVisitante.dirty || form.nacionalidadeVisitante.touched)" class="error-message">
+          <div *ngIf="form.nacionalidade.invalid && (form.nacionalidade.dirty || form.nacionalidade.touched)" class="error-message">
             A nacionalidade é obrigatória.
           </div>
         </div>
 
-        <!-- Botão de Cadastro -->
-        <button type="submit" class="btn-submit" [disabled]="formVisitante.invalid">
+        <button type="submit" class="btn-submit" [disabled]="usuarioForm.invalid">
           Cadastrar
         </button>
         
