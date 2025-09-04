@@ -15,7 +15,7 @@ export class SetorService {
   private apiUrl: string = environment.API_URL + '/setor/';
 
   // Busca todos os setores sem paginação
-  get(): Observable<RespostaPaginada<Setor>> {
+  getAll(): Observable<RespostaPaginada<Setor>> {
     const url = this.apiUrl + '?unpaged=true';
     return this.http.get<RespostaPaginada<Setor>>(url);
   }

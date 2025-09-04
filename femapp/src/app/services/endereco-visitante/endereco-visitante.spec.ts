@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { EnderecoVisitanteService } from './endereco-visitante';
 
-describe('EnderecoVisitante', () => {
+describe('EnderecoVisitanteService', () => {
   let service: EnderecoVisitanteService;
 
   beforeEach(() => {
