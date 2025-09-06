@@ -1,15 +1,22 @@
 <div class="login-container">
+
+  <div class="info-panel"></div>
   
   <div class="form-panel">
     <div class="form-content">
-      <h2>Bem-vindo de volta!</h2>
-      <p class="form-description">Acesse sua conta para continuar.</p>
+      <header class="form-header">
+        <h2>Bem-vindo de volta!</h2>
+        <p class="form-description">Acesse sua conta para continuar.</p>
+      </header>
       
       <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" novalidate>
         
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" id="email" formControlName="email" class="form-control" placeholder="seu@email.com">
+          <div class="input-wrapper">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <input type="email" id="email" formControlName="email" class="form-control" placeholder="seu@email.com">
+          </div>
           <div *ngIf="form.email.invalid && (form.email.dirty || form.email.touched)" class="error-message">
             <span *ngIf="form.email.errors?.['required']">O email é obrigatório.</span>
             <span *ngIf="form.email.errors?.['email']">Por favor, insira um email válido.</span>
@@ -18,8 +25,11 @@
 
         <div class="form-group">
           <label for="senha">Senha</label>
-          <input type="password" id="senha" formControlName="senha" class="form-control" placeholder="Sua senha">
-            <div *ngIf="form.senha.invalid && (form.senha.dirty || form.senha.touched)" class="error-message">
+          <div class="input-wrapper">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <input type="password" id="senha" formControlName="senha" class="form-control" placeholder="Sua senha">
+          </div>
+          <div *ngIf="form.senha.invalid && (form.senha.dirty || form.senha.touched)" class="error-message">
             A senha é obrigatória.
           </div>
         </div>
@@ -29,15 +39,7 @@
         </button>
         
       </form>
-    </div>
-  </div>
-
-  <div class="info-panel">
-    <div class="info-content">
-      <div class="logo-placeholder">
-        <img src="../../../../assets/img/capa.png" alt="Logo do Acre Visita">
-      </div>
-      <p class="footer-text">Não tem uma conta? <a routerLink="/cadastro-visitante"><b>Cadastre-se</b></a></p>
+      <p class="footer-text">Não tem uma conta? <a routerLink="/visitante/cadastro"><b>Cadastre-se</b></a></p>
     </div>
   </div>
 

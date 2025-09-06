@@ -1,63 +1,64 @@
 <div class="cadastro-container">
-  
-  <div class="info-panel">
-    <div class="info-content">
-      <div class="logo-placeholder">
-        <img src="../../../../assets/img/capa.png" alt="Logo do Acre Visita">
-      </div>
-      <p class="footer-text">Já tem uma conta? <a routerLink="/login"><b>Faça login</b></a></p>
-    </div>
-  </div>
+
+  <div class="info-panel"></div>
 
   <div class="form-panel">
     <div class="form-content">
-      <h2>Crie sua Conta</h2>
-      <p class="form-description">Preencha os campos abaixo para se cadastrar.</p>
+      <header class="form-header">
+        <h2>Crie sua Conta</h2>
+        <p class="form-description">Preencha os campos abaixo para se cadastrar.</p>
+      </header>
       
-      <!-- ✅ ATUALIZADO: [formGroup]="usuarioForm" -->
       <form (ngSubmit)="save()" [formGroup]="usuarioForm" novalidate>
         
-        <!-- ✅ ATUALIZADO: formControlName="nome" -->
         <div class="form-group">
           <label for="nome">Nome Completo</label>
-          <input type="text" id="nome" formControlName="nome" class="form-control" placeholder="Seu nome completo">
+          <div class="input-wrapper">
+             <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <input type="text" id="nome" formControlName="nome" class="form-control" placeholder="Seu nome completo">
+          </div>
           <div *ngIf="form.nome.invalid && (form.nome.dirty || form.nome.touched)" class="error-message">
             O nome é obrigatório.
           </div>
         </div>
 
-        <!-- ✅ ATUALIZADO: formControlName="email" -->
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" id="email" formControlName="email" class="form-control" placeholder="exemplo@email.com">
+          <div class="input-wrapper">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <input type="email" id="email" formControlName="email" class="form-control" placeholder="exemplo@email.com">
+          </div>
           <div *ngIf="form.email.invalid && (form.email.dirty || form.email.touched)" class="error-message">
             <span *ngIf="form.email.errors?.['required']">O email é obrigatório.</span>
             <span *ngIf="form.email.errors?.['email']">Por favor, insira um email válido.</span>
           </div>
         </div>
 
-        <!-- ✅ ATUALIZADO: formControlName="telefone" -->
         <div class="form-group">
           <label for="telefone">Telefone</label>
-          <input type="text" id="telefone" formControlName="telefone" class="form-control" placeholder="(68) 99999-9999">
-            <div *ngIf="form.telefone.invalid && (form.telefone.dirty || form.telefone.touched)" class="error-message">
+          <div class="input-wrapper">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            <input type="text" id="telefone" formControlName="telefone" class="form-control" placeholder="(68) 99999-9999">
+          </div>
+          <div *ngIf="form.telefone.invalid && (form.telefone.dirty || form.telefone.touched)" class="error-message">
             O telefone é obrigatório.
           </div>
         </div>
 
-        <!-- ✅ ATUALIZADO: formControlName="senha" -->
         <div class="form-group">
           <label for="senha">Senha</label>
-          <input type="password" id="senha" formControlName="senha" class="form-control" placeholder="Crie uma senha forte">
-            <div *ngIf="form.senha.invalid && (form.senha.dirty || form.senha.touched)" class="error-message">
+          <div class="input-wrapper">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <input type="password" id="senha" formControlName="senha" class="form-control" placeholder="Crie uma senha forte">
+          </div>
+          <div *ngIf="form.senha.invalid && (form.senha.dirty || form.senha.touched)" class="error-message">
             A senha é obrigatória.
           </div>
         </div>
 
-        <!-- ✅ ATUALIZADO: formControlName="nacionalidade" -->
         <div class="form-group">
           <label for="nacionalidade">Nacionalidade</label>
-          <select formControlName="nacionalidade" id="nacionalidade" class="form-control">
+          <select formControlName="nacionalidade" id="nacionalidade" class="form-control select-field">
             <option [ngValue]="null" disabled>Selecione sua nacionalidade...</option>
             <option *ngFor="let nac of nacionalidades" [ngValue]="nac">
               {{ nac.nacionalidade }}
@@ -71,7 +72,7 @@
         <button type="submit" class="btn-submit" [disabled]="usuarioForm.invalid">
           Cadastrar
         </button>
-        
+        <p class="footer-text">Já tem uma conta? <a routerLink="/login"><b>Faça login</b></a></p>
       </form>
     </div>
   </div>
