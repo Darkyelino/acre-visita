@@ -7,6 +7,19 @@ import { Usuario } from '../../models/Usuario';
 import { LoginRequest } from '../../models/LoginRequest';
 import { RespostaPaginada } from '../../models/RespostaPaginada';
 import { RequisicaoPaginada } from '../../models/RequisicaoPaginada';
+import { EPapel } from '../../models/EPapel';
+
+// Interface para representar o DTO do back-end
+export interface UsuarioRequest {
+  nome: string;
+  email: string;
+  senha?: string;
+  papel: EPapel;
+  telefone?: string;
+  nacionalidadeId?: number;
+  setorId?: number;
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,28 +30,15 @@ export class UsuarioService {
 
   constructor(private http: HttpClient) { }
 
-  /**
-   * Autentica um usuário na API.
-   * @param credenciais Objeto com email e senha.
-   * @returns Um Observable com os dados do usuário logado.
-   */
   login(credenciais: LoginRequest): Observable<Usuario> {
     return this.http.post<Usuario>(`${this.apiUrl}/login`, credenciais);
   }
 
-  /**
-   * Busca uma lista paginada de usuários, com filtro opcional por nome.
-   * @param termoBusca O nome ou parte do nome a ser pesquisado.
-   * @param paginacao Configurações de página, tamanho e ordenação.
-   * @returns Uma página de Usuários.
-   */
   get(termoBusca?: string, paginacao?: RequisicaoPaginada): Observable<RespostaPaginada<Usuario>> {
     let params = new HttpParams();
-
     if (termoBusca) {
       params = params.set('termoBusca', termoBusca);
     }
-
     if (paginacao) {
       params = params.set('page', paginacao.page.toString());
       params = params.set('size', paginacao.size.toString());
@@ -46,14 +46,9 @@ export class UsuarioService {
         params = params.append('sort', campo);
       });
     }
-
     return this.http.get<RespostaPaginada<Usuario>>(`${this.apiUrl}`, { params });
   }
 
-  /**
-   * Busca um usuário específico pelo seu ID.
-   * @param id O ID do usuário.
-   */
   getById(id: number): Observable<Usuario> {
     return this.http.get<Usuario>(`${this.apiUrl}/${id}`);
   }
@@ -63,18 +58,30 @@ export class UsuarioService {
    * @param usuario O objeto do usuário a ser salvo.
    */
   save(usuario: Usuario): Observable<Usuario> {
+    
+    // ======================= INÍCIO DA CORREÇÃO =======================
+    // Mapeia o objeto do front-end para o formato esperado pelo DTO do back-end
+    const requestPayload: UsuarioRequest = {
+      nome: usuario.nome,
+      email: usuario.email,
+      senha: usuario.senha,
+      papel: usuario.papel,
+      telefone: usuario.telefone,
+      // Envia apenas o ID da nacionalidade, se existir
+      nacionalidadeId: usuario.nacionalidade?.idNacionalidade,
+      // Envia apenas o ID do setor, se existir
+      setorId: usuario.setor?.idSetor
+    };
+    // ======================== FIM DA CORREÇÃO =========================
+
     if (usuario.id) {
       // Se o ID existe, é uma atualização (PUT)
-      return this.http.put<Usuario>(`${this.apiUrl}/${usuario.id}`, usuario);
+      return this.http.put<Usuario>(`${this.apiUrl}/${usuario.id}`, requestPayload);
     }
     // Se não há ID, é uma criação (POST)
-    return this.http.post<Usuario>(this.apiUrl, usuario);
+    return this.http.post<Usuario>(this.apiUrl, requestPayload);
   }
 
-  /**
-   * Deleta um usuário pelo seu ID.
-   * @param id O ID do usuário a ser deletado.
-   */
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }

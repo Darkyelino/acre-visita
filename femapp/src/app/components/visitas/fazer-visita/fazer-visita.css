@@ -19,14 +19,46 @@
   overflow: hidden;
 }
 
-.card-header { text-align: center; margin-bottom: 2rem; }
-.titulo { margin: 0; font-size: 2rem; font-weight: 600; }
-.subtitulo { color: #666; font-size: 1.1rem; }
+.card-header { 
+  text-align: center; 
+  margin-bottom: 2rem; 
+}
 
-.form-group { margin-bottom: 1.5rem; }
-.form-group label { display: block; font-weight: 500; margin-bottom: 0.5rem; }
-.form-control { width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
-.error-message { color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem; }
+.titulo { 
+  margin: 0; 
+  font-size: 2rem; 
+  font-weight: 600; 
+}
+
+.subtitulo { 
+  color: #666; 
+  font-size: 1.1rem; 
+}
+
+.form-group { 
+  margin-bottom: 1.5rem; 
+}
+
+.form-group label { 
+  display: block; 
+  font-weight: 500; 
+  margin-bottom: 0.5rem; 
+}
+
+.form-control { 
+  width: 100%; 
+  padding: 0.75rem; 
+  border: 1px solid #ccc; 
+  border-radius: 8px; 
+  font-size: 1rem; 
+  box-sizing: border-box; /* Adicionado para consistência */
+}
+
+.error-message { 
+  color: #dc3545; 
+  font-size: 0.875rem; 
+  margin-top: 0.25rem; 
+}
 
 .acao-box {
   border: 1px solid #e0e0e0;
@@ -35,8 +67,15 @@
   margin-top: 2rem;
   text-align: center;
 }
-.acao-box h3 { margin-top: 0; }
-.acao-box p { color: #555; margin-bottom: 1.5rem; }
+
+.acao-box h3 { 
+  margin-top: 0; 
+}
+
+.acao-box p { 
+  color: #555; 
+  margin-bottom: 1.5rem; 
+}
 
 .btn {
   width: 100%;
@@ -48,13 +87,27 @@
   cursor: pointer;
   transition: all 0.3s;
 }
-.btn:disabled { background-color: #a0c7eb; cursor: not-allowed; }
 
-.btn-principal { background-color: #007bff; color: white; }
-.btn-principal:hover:not(:disabled) { background-color: #0056b3; }
+.btn:disabled { 
+  background-color: #a0c7eb; 
+  cursor: not-allowed; 
+}
 
-.btn-secundario { background-color: #6c757d; color: white; }
-.btn-secundario:hover:not(:disabled) { background-color: #5a6268; }
+.btn-principal { 
+  background-color: #007bff; 
+  color: white; 
+}
+.btn-principal:hover:not(:disabled) { 
+  background-color: #0056b3; 
+}
+
+.btn-secundario { 
+  background-color: #6c757d; 
+  color: white; 
+}
+.btn-secundario:hover:not(:disabled) { 
+  background-color: #5a6268; 
+}
 
 .form-row {
   display: grid;
@@ -65,8 +118,10 @@
 
 .loading-overlay {
   position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  top: 0; 
+  left: 0;
+  width: 100%; 
+  height: 100%;
   background: rgba(255, 255, 255, 0.8);
   display: flex;
   justify-content: center;

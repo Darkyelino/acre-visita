@@ -1,0 +1,178 @@
+/* Container Principal */
+.armarios-container {
+  width: 95%;
+  max-width: 1600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  font-family: 'Poppins', sans-serif;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+}
+
+/* Cabeçalho */
+.header-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+.header-container h2 { font-size: 2rem; font-weight: 600; color: #333; margin: 0; }
+.header-container p { color: #6c757d; margin: 0.25rem 0 0 0; }
+.action-buttons { display: flex; gap: 1rem; }
+
+/* Botões de Ação */
+.btn {
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s, transform 0.1s;
+}
+.btn .icon { font-size: 1.5rem; line-height: 1; }
+
+.btn-adicionar { background-color: #28a745; color: white; }
+.btn-adicionar:hover { background-color: #218838; }
+.btn-excluir { background-color: #dc3545; color: white; }
+.btn-excluir:hover { background-color: #c82333; }
+
+/* Grid de Armários */
+.armarios-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.5rem; }
+
+/* Card do Armário */
+.armario-card { background-color: #f8f9fa; border-radius: 12px; padding: 1.5rem; text-align: center; border: 2px solid #dee2e6; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
+.armario-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); }
+.armario-numero { font-size: 2.5rem; font-weight: 700; color: #333; }
+.armario-status { font-weight: 600; margin: 1rem 0; padding: 0.25rem 0.5rem; border-radius: 6px; display: inline-block; }
+.armario-visitante { font-size: 0.9rem; color: #6c757d; margin-top: 0.5rem; word-wrap: break-word; }
+
+/* Status de Cor */
+.disponivel { border-color: #28a745; }
+.disponivel:hover { border-color: #218838; }
+.disponivel .armario-status { color: #28a745; background-color: #e9f7ec; }
+.em-uso { border-color: #dc3545; }
+.em-uso:hover { border-color: #c82333; }
+.em-uso .armario-status { color: #dc3545; background-color: #fdeaea; }
+
+/* Mensagem de Nenhum Resultado */
+.nenhum-resultado { text-align: center; padding: 3rem; color: #6c757d; }
+
+/* ================================================= */
+/* ESTILOS DO MODAL (CORREÇÃO PARA O BUG VISUAL)     */
+/* ================================================= */
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-sizing: border-box;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #343a40;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #6c757d;
+    line-height: 1;
+}
+.modal-close:hover {
+    color: #343a40;
+}
+
+.modal-body p {
+    color: #6c757d;
+    margin-top: 0;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
+    border-top: 1px solid #e9ecef;
+}
+
+/* Estilos de Formulário Dentro do Modal */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #495057;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.form-control:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+}
+
+/* Botões do Modal */
+.btn-salvar { background-color: #007bff; color: white; }
+.btn-salvar:hover { background-color: #0056b3; }
+
+.btn-liberar { background-color: #dc3545; color: white; }
+.btn-liberar:hover { background-color: #c82333; }
+
+.btn-secondary { background-color: #6c757d; color: white; }
+.btn-secondary:hover { background-color: #5a6268; }
+
+.btn:disabled {
+    background-color: #a0c7ff;
+    cursor: not-allowed;
+    transform: none;
+}
