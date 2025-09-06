@@ -19,4 +19,12 @@ export class SetorService {
     const url = this.apiUrl + '?unpaged=true';
     return this.http.get<RespostaPaginada<Setor>>(url);
   }
+
+  // MÉTODO PARA SALVAR/ATUALIZAR
+  save(setor: Setor): Observable<Setor> {
+    if (setor.idSetor) {
+      return this.http.put<Setor>(this.apiUrl, setor);
+    }
+    return this.http.post<Setor>(this.apiUrl, setor);
+  }
 }

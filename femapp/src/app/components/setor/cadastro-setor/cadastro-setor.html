@@ -1,0 +1,46 @@
+<main class="cadastro-setor-container">
+  <div class="cadastro-card">
+    <header class="card-header">
+      <h1>Cadastro de Setor</h1>
+      <p>Preencha as informações para registrar um novo setor no sistema.</p>
+    </header>
+
+    <div *ngIf="!temPermissao" class="sem-permissao">
+      <p>🔒 Você não tem permissão para cadastrar ou editar setores.</p>
+    </div>
+
+    <form [formGroup]="setorForm" (ngSubmit)="save()" class="setor-form" novalidate>
+      
+      <div class="form-group">
+        <label for="nomeSetor">Nome do Setor</label>
+        <input id="nomeSetor" type="text" formControlName="nomeSetor" class="form-control" placeholder="Ex: Biblioteca Central">
+        
+        <div *ngIf="nomeSetor?.invalid && nomeSetor?.touched" class="error-message">
+          <span *ngIf="nomeSetor?.errors?.['required']">O nome é obrigatório.</span>
+          <span *ngIf="nomeSetor?.errors?.['minlength']">O nome deve ter no mínimo 3 caracteres.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="tipoSetor">Tipo do Setor</label>
+        <select id="tipoSetor" formControlName="tipoSetor" class="form-control">
+          <option [ngValue]="" disabled>Selecione o tipo...</option>
+          <option value="MUSEU">Museu</option>
+          <option value="BIBLIOTECA">Biblioteca</option>
+          <option value="ADMINISTRATIVO">Administrativo</option>
+          <option value="TEATRO">Teatro</option>
+          <option value="OUTRO">Outro</option>
+        </select>
+        
+        <div *ngIf="tipoSetor?.invalid && tipoSetor?.touched" class="error-message">
+          Por favor, selecione um tipo de setor.
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-principal" [disabled]="setorForm.invalid || !temPermissao">
+        Salvar Setor
+      </button>
+
+    </form>
+  </div>
+</main>

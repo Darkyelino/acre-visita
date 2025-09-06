@@ -4,12 +4,14 @@ import { LoginVisitante } from './components/visitante/login-visitante/login-vis
 import { FazerVisita } from './components/visitas/fazer-visita/fazer-visita';
 import { authGuard } from './guards/auth-guard';
 import { ArmarioListComponent } from './components/armario/armario-list/armario-list';
+import { CadastroSetorComponent } from './components/setor/cadastro-setor/cadastro-setor';
 
 export const routes: Routes = [
     { path: '', children: [
         { path: 'visitante/cadastro', component: CadastroVisitante },
         { path: 'login', component: LoginVisitante },
         { path: 'visitar', component: FazerVisita, canActivate: [authGuard] },
-        { path: 'armario', component: ArmarioListComponent, canActivate: [authGuard] }
+        { path: 'armario', component: ArmarioListComponent, canActivate: [authGuard] },
+        { path: 'setor/cadastro', component: CadastroSetorComponent, canActivate: [authGuard]}
     ]},
 ];
