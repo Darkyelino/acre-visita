@@ -4,14 +4,13 @@ import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { RespostaPaginada } from '../../models/RespostaPaginada';
 import { Setor } from '../../models/Setor';
-import { RequisicaoPaginada } from '../../models/RequisicaoPaginada'; // ✅ Adicionado import
+import { RequisicaoPaginada } from '../../models/RequisicaoPaginada';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SetorService {
 
-  // ✅ Boas práticas: 'private readonly' e uso de template literal
   private readonly apiUrl = `${environment.API_URL}/setor/`;
 
   constructor(private http: HttpClient) { }

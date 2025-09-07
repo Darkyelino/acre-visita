@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, map } from 'rxjs'; // ✅ Importe o operador 'map'
+import { Observable, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Usuario } from '../../models/Usuario';
 import { LoginRequest } from '../../models/LoginRequest';
