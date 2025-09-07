@@ -1,0 +1,64 @@
+<div class="form-container">
+  <div class="form-card">
+    <h2 *ngIf="!isEditMode">Cadastrar Novo Funcionário</h2>
+    <h2 *ngIf="isEditMode">Editar Funcionário</h2>
+    <p>Preencha os dados do Atendente ou Coordenador.</p>
+
+    <form [formGroup]="funcionarioForm" (ngSubmit)="save()">
+      
+      <div class="form-group">
+        <label for="nome">Nome Completo</label>
+        <input type="text" id="nome" formControlName="nome" class="form-control">
+        <div *ngIf="nome?.invalid && nome?.touched" class="error-message">
+          O nome é obrigatório.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" formControlName="email" class="form-control">
+        <div *ngIf="email?.invalid && email?.touched" class="error-message">
+          Email inválido ou obrigatório.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" formControlName="senha" class="form-control" [placeholder]="isEditMode ? 'Deixe em branco para não alterar' : 'Crie uma senha'">
+        <div *ngIf="senha?.invalid && senha?.touched" class="error-message">
+          A senha precisa ter no mínimo 6 caracteres.
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="papel">Cargo / Papel</label>
+          <select id="papel" formControlName="papel" class="form-control">
+            <option [ngValue]="null" disabled>Selecione o cargo...</option>
+            <option *ngFor="let papel of papeisDisponiveis" [ngValue]="papel.valor">
+              {{ papel.nome }}
+            </option>
+          </select>
+          <div *ngIf="papel?.invalid && papel?.touched" class="error-message">
+            O cargo é obrigatório.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="setor">Setor de Atuação</label>
+          <select id="setor" formControlName="setor" class="form-control" [compareWith]="compareSetores">
+            <option [ngValue]="null" disabled>Selecione o setor...</option>
+            <option *ngFor="let setor of setores" [ngValue]="setor">{{ setor.nomeSetor }}</option>
+          </select>
+          <div *ngIf="setor?.invalid && setor?.touched" class="error-message">
+            O setor é obrigatório.
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="funcionarioForm.invalid">
+        {{ isEditMode ? 'Atualizar Funcionário' : 'Cadastrar Funcionário' }}
+      </button>
+    </form>
+  </div>
+</div>

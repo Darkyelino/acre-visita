@@ -1,0 +1,40 @@
+<div class="form-container">
+  <div class="form-card">
+    <h2 *ngIf="!isEditMode">Cadastrar Novo Auditório</h2>
+    <h2 *ngIf="isEditMode">Editar Auditório</h2>
+    <p>Preencha os dados abaixo.</p>
+
+    <form [formGroup]="auditorioForm" (ngSubmit)="save()">
+      <div class="form-group">
+        <label for="nomeAuditorio">Nome do Auditório</label>
+        <input type="text" id="nomeAuditorio" formControlName="nomeAuditorio" class="form-control" placeholder="Ex: Sala de Conferências">
+        <div *ngIf="form.nomeAuditorio.invalid && form.nomeAuditorio.touched" class="error-message">
+          O nome é obrigatório.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="localAuditorio">Setor de Localização</label>
+        <select id="localAuditorio" formControlName="localAuditorio" class="form-control">
+          <option [ngValue]="null" disabled>Selecione um setor...</option>
+          <option *ngFor="let setor of setores" [ngValue]="setor">{{ setor.nomeSetor }}</option>
+        </select>
+        <div *ngIf="form.localAuditorio.invalid && form.localAuditorio.touched" class="error-message">
+          O setor é obrigatório.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="disponibilidade">Status</label>
+        <select id="disponibilidade" formControlName="disponibilidade" class="form-control">
+          <option [ngValue]="true">Disponível</option>
+          <option [ngValue]="false">Indisponível / Manutenção</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="auditorioForm.invalid">
+        {{ isEditMode ? 'Atualizar' : 'Salvar' }}
+      </button>
+    </form>
+  </div>
+</div>

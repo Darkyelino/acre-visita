@@ -1,0 +1,59 @@
+<div class="list-container">
+  <header class="list-header">
+    <h1>Gerenciamento de Funcionários</h1>
+    <button class="btn btn-primary" routerLink="/cadastro-funcionario">
+      + Cadastrar Funcionário
+    </button>
+  </header>
+
+  <div class="filter-bar">
+    <input 
+      type="text" 
+      class="filter-input"
+      placeholder="Pesquisar por nome..."
+      [(ngModel)]="filtroNome"
+      (input)="aplicarFiltros()">
+
+    <select class="filter-select" [(ngModel)]="filtroPapel" (change)="aplicarFiltros()">
+      <option value="TODOS">Todos os Cargos</option>
+      <option *ngFor="let papel of papeisDisponiveis" [value]="papel.valor">{{ papel.nome }}</option>
+    </select>
+    
+    <select class="filter-select" [(ngModel)]="filtroSetor" (change)="aplicarFiltros()">
+      <option value="TODOS">Todos os Setores</option>
+      <option *ngFor="let setor of setores" [value]="setor.idSetor">{{ setor.nomeSetor }}</option>
+    </select>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Cargo</th>
+          <th>Setor</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let func of funcionariosExibidos">
+          <td>{{ func.nome }}</td>
+          <td>{{ func.email }}</td>
+          <td>
+            <span class="badge" [ngClass]="func.papel">{{ func.papel.replace('ROLE_', '') }}</span>
+          </td>
+          <td>{{ func.setor?.nomeSetor || 'N/A' }}</td>
+          <td class="actions">
+            <button class="btn-icon btn-edit" (click)="editar(func.id)">Editar</button>
+            <button class="btn-icon btn-delete" (click)="excluir(func.id, func.nome)">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="isLoading" class="loading">Carregando...</div>
+    <div *ngIf="!isLoading && funcionariosExibidos.length === 0" class="no-results">
+      Nenhum funcionário encontrado para os filtros selecionados.
+    </div>
+  </div>
+</div>

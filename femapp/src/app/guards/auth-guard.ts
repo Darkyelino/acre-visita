@@ -10,10 +10,6 @@ export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  // ✅ ADICIONE ESTAS DUAS LINHAS PARA VER A DECISÃO:
-  console.log('O serviço de autenticação diz que isLoggedIn é:', authService.isLoggedIn);
-  console.log('Usuário logado segundo o serviço:', authService.loggedUser);
-
   if (authService.isLoggedIn) {
     return true;
   }
