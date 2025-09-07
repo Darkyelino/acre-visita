@@ -11,7 +11,6 @@ import { Auditorio } from '../../models/Auditorio';
 })
 export class AuditorioService {
 
-  // ✅ Boas práticas: 'private' para encapsulamento e 'readonly' porque a URL não muda.
   private readonly apiUrl = `${environment.API_URL}/auditorio/`;
 
   constructor(private http: HttpClient) { }
@@ -24,7 +23,6 @@ export class AuditorioService {
    */
   get(termoBusca?: string, paginacao?: RequisicaoPaginada): Observable<RespostaPaginada<Auditorio>> {
     
-    // ✅ Usando HttpParams para construir os parâmetros de forma segura.
     let params = new HttpParams();
 
     if (termoBusca) {
@@ -35,7 +33,7 @@ export class AuditorioService {
       params = params.set('page', paginacao.page);
       params = params.set('size', paginacao.size);
       paginacao.sort.forEach(campo => {
-        params = params.append('sort', campo); // '.append' para múltiplos valores com o mesmo nome
+        params = params.append('sort', campo);
       });
     } else {
       params = params.set('unpaged', 'true');
@@ -58,7 +56,6 @@ export class AuditorioService {
    */
   save(objeto: Auditorio): Observable<Auditorio> {
     if (objeto.idAuditorio) {
-      // ✅ Boa prática REST: O PUT geralmente inclui o ID do recurso na URL.
       return this.http.put<Auditorio>(`${this.apiUrl}${objeto.idAuditorio}`, objeto);
     }
     return this.http.post<Auditorio>(this.apiUrl, objeto);
