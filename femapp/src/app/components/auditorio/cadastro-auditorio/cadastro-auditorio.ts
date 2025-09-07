@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Auditorio } from '../../../models/Auditorio';
 import { Setor } from '../../../models/Setor';
 import { AuditorioService } from '../../../services/auditorio/auditorio';
-import { SetorService } from '../../../services/setor/setor.service';
+import { SetorService } from '../../../services/setor/setor';
 import { AlertaService } from '../../../services/alerta/alerta.service';
 import { ETipoAlerta } from '../../../models/ETipoAlerta';
 

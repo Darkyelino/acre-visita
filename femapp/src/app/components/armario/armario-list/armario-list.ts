@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ArmarioService } from '../../../services/armario/armario.service';
+import { ArmarioService } from '../../../services/armario/armario';
 import { UsuarioService } from '../../../services/usuario/usuario';
 import { AuthService } from '../../../services/auth/auth';
 import { Armario } from '../../../models/Armario';

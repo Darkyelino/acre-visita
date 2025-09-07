@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsuarioService } from '../../../services/usuario/usuario';
-import { SetorService } from '../../../services/setor/setor.service';
+import { SetorService } from '../../../services/setor/setor';
 import { AlertaService } from '../../../services/alerta/alerta.service';
 import { Usuario } from '../../../models/Usuario';
 import { Setor } from '../../../models/Setor';

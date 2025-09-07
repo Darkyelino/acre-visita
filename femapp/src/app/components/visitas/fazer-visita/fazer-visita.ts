@@ -4,7 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { AlertaService } from '../../../services/alerta/alerta.service';
 import { AuthService } from '../../../services/auth/auth';
-import { SetorService } from '../../../services/setor/setor.service';
+import { SetorService } from '../../../services/setor/setor';
 import { VisitaService } from '../../../services/visita/visita';
 import { Usuario } from '../../../models/Usuario';
 import { Setor } from '../../../models/Setor';

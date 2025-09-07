@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms'; // Adicione AbstractControl
 import { Router } from '@angular/router';
-import { SetorService } from '../../../services/setor/setor.service';
+import { SetorService } from '../../../services/setor/setor';
 import { AlertaService } from '../../../services/alerta/alerta.service';
 import { AuthService } from '../../../services/auth/auth';
 import { ETipoAlerta } from '../../../models/ETipoAlerta';
