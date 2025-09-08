@@ -1,0 +1,34 @@
+<main class="sugestao-container">
+  <div class="sugestao-card">
+    <header class="card-header">
+      <h1 class="titulo">Sugerir um Título para a Filmoteca</h1>
+      <p class="subtitulo">Qual filme, documentário ou curta você gostaria de ver aqui?</p>
+    </header>
+
+    <form [formGroup]="sugestaoForm" (ngSubmit)="save()">
+      <div class="form-group">
+        <label for="setor">Para qual setor é a sua sugestão?</label>
+        <select id="setor" formControlName="setor" class="form-control">
+          <option [ngValue]="null" disabled>Selecione um setor...</option>
+          <option *ngFor="let setor of setores" [ngValue]="setor">{{ setor.nomeSetor }}</option>
+        </select>
+        <div *ngIf="setor?.invalid && setor?.touched" class="error-message">
+          Por favor, selecione um setor.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="sugestao">Sua Sugestão</label>
+        <textarea id="sugestao" formControlName="sugestao" class="form-control" rows="5" placeholder="Digite o nome do filme e, se quiser, por que você o recomenda."></textarea>
+        <div *ngIf="sugestao?.invalid && sugestao?.touched" class="error-message">
+          <span *ngIf="sugestao?.errors?.['required']">A sugestão é obrigatória.</span>
+          <span *ngIf="sugestao?.errors?.['minlength']">A sugestão deve ter no mínimo 10 caracteres.</span>
+        </div>
+      </div>
+      
+      <button type="submit" class="btn-submit" [disabled]="sugestaoForm.invalid || isLoading">
+        {{ isLoading ? 'Enviando...' : 'Enviar Sugestão' }}
+      </button>
+    </form>
+  </div>
+</main>

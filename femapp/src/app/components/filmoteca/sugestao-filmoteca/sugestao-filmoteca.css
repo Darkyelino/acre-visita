@@ -1,0 +1,11 @@
+.sugestao-container { display: flex; justify-content: center; align-items: center; min-height: 90vh; background-color: #f4f7f6; padding: 2rem; font-family: sans-serif; }
+.sugestao-card { background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 600px; }
+.card-header { text-align: center; margin-bottom: 2rem; }
+.titulo { margin: 0; font-size: 1.8rem; font-weight: 600; }
+.subtitulo { color: #666; font-size: 1rem; }
+.form-group { margin-bottom: 1.5rem; }
+.form-group label { display: block; font-weight: 500; margin-bottom: 0.5rem; }
+.form-control { width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
+.error-message { color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem; }
+.btn-submit { width: 100%; padding: 0.8rem; border: none; border-radius: 8px; background-color: #007bff; color: white; font-size: 1.1rem; font-weight: 600; cursor: pointer; }
+.btn-submit:disabled { background-color: #a0c7eb; cursor: not-allowed; }

@@ -21,6 +21,9 @@ public class Filmoteca implements Serializable {
     private String sugestao;
 
     @ManyToOne(optional = false)
+    private Setor setor;
+
+    @ManyToOne(optional = false)
     private Usuario usuario;
 
     // ==================================(GETS E SETS)==================================
@@ -39,6 +42,14 @@ public class Filmoteca implements Serializable {
 
     public void setSugestao(String sugestao) {
         this.sugestao = sugestao;
+    }
+
+    public Setor getSetor() {
+        return setor;
+    }
+
+    public void setSetor(Setor setor) {
+        this.setor = setor;
     }
 
     public Usuario getUsuario() {

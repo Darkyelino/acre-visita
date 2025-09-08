@@ -13,6 +13,7 @@ import { ListFuncionario } from './components/funcionario/list-funcionario/list-
 import { ListAuditorio } from './components/auditorio/list-auditorio/list-auditorio';
 import { ListSetor } from './components/setor/list-setor/list-setor';
 import { GerenciarVisita } from './components/visitas/gerenciar-visita/gerenciar-visita';
+import { SugestaoFilmoteca } from './components/filmoteca/sugestao-filmoteca/sugestao-filmoteca';
 
 export const routes: Routes = [
     { path: '', children: [
@@ -24,10 +25,13 @@ export const routes: Routes = [
 
         // Visitas
         { path: 'visita/gerenciar', component: GerenciarVisita, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
-        { path: 'visita/fazer', component: FazerVisita, canActivate: [authGuard] },
+        { path: 'visita/fazer', component: FazerVisita, canActivate: [authGuard], data: { roles: [EPapel.VISITANTE]} },
 
         // Armários
         { path: 'armario', component: ArmarioList, canActivate: [authGuard] },
+        
+        // Filmoteca
+        { path: 'filmoteca/sugestao', component: SugestaoFilmoteca, canActivate: [authGuard], data: { roles: [EPapel.VISITANTE]} },
 
         // Setores
         { path: 'setor/cadastro', component: CadastroSetor, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
