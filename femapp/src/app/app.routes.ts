@@ -12,11 +12,17 @@ import { CadastroFuncionario } from './components/funcionario/cadastro-funcionar
 import { ListFuncionario } from './components/funcionario/list-funcionario/list-funcionario';
 import { ListAuditorio } from './components/auditorio/list-auditorio/list-auditorio';
 import { ListSetor } from './components/setor/list-setor/list-setor';
+import { GerenciarDocumentos } from './components/doc-visitante/gerenciar-documentos/gerenciar-documentos';
 
 export const routes: Routes = [
     { path: '', children: [
         // Visitantes
         { path: 'cadastro', component: CadastroVisitante },
+
+        // Documentos
+        { path: 'doc-visitante', component: GerenciarDocumentos, canActivate: [authGuard], data: { roles: [EPapel.ATENDENTE]} },
+
+        // Usuários
         { path: 'login', component: LoginVisitante },
 
         { path: 'visitar', component: FazerVisita, canActivate: [authGuard] },
@@ -30,7 +36,7 @@ export const routes: Routes = [
         // Auditórios
         { path: 'auditorio/cadastro', component: CadastroAuditorio, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR]} },
         { path: 'auditorio/editar/:id', component: CadastroAuditorio, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR]} },
-        { path: 'list-auditorios', component: ListAuditorio, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR]} },
+        { path: 'auditorio/list', component: ListAuditorio, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR]} },
 
         // Funcionários
         { path: 'cadastro-funcionario', component: CadastroFuncionario, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR]} },

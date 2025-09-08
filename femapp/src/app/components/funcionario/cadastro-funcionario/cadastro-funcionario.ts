@@ -26,8 +26,8 @@ export class CadastroFuncionario implements OnInit {
   
   papeisDisponiveis = [
     { nome: 'Atendente', valor: EPapel.ATENDENTE },
-    { nome: 'Coordenador', valor: EPapel.COORDENADOR }
-  ];
+    { nome: 'Coordenador', valor: EPapel.COORDENADOR },
+    { nome: 'Administrador', valor: EPapel.ADMINISTRADOR }];
 
   constructor(
     private usuarioService: UsuarioService,

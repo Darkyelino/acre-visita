@@ -81,8 +81,7 @@ export class CadastroAuditorio implements OnInit {
           tipo: ETipoAlerta.SUCESSO,
           mensagem: `Auditório ${this.isEditMode ? 'atualizado' : 'cadastrado'} com sucesso!`
         });
-        // ✅ CORRIGIDO: Redireciona para a lista de auditórios
-        this.router.navigate(['/admin/auditorios']);
+        this.router.navigate(['/auditorio/list']);
       },
       error: () => {
         this.alertaService.enviarAlerta({
