@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,8 +26,9 @@ public class Visita implements Serializable {
     @Column(nullable = true) // Campo aparece apenas caso seja um agendamento
     private LocalDateTime dataHoraAgendamento;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String status;
+    private EStatus status;
 
     @ManyToOne(optional = false)
     private Usuario usuario;
@@ -59,11 +62,11 @@ public class Visita implements Serializable {
         this.dataHoraAgendamento = dataHoraAgendamento;
     }
 
-    public String getStatus() {
+    public EStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(EStatus status) {
         this.status = status;
     }
 

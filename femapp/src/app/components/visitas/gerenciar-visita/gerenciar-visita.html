@@ -1,1 +1,38 @@
-<p>gerenciar-visita works!</p>
+<div class="list-container">
+  <header class="list-header">
+    <h1>Gerenciamento de Visitas</h1>
+    <p *ngIf="funcionarioLogado?.setor">
+      Visitas pendentes ou agendadas para o setor: <strong>{{ funcionarioLogado?.setor?.nomeSetor }}</strong>
+    </p>
+  </header>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Visitante</th>
+          <th>Data/Hora Agendada</th>
+          <th>Status</th>
+          <th class="col-acoes">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let visita of visitasParaGerenciar">
+          <td>{{ visita.usuario.nome }}</td>
+          <td>{{ visita.dataHoraAgendamento | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>
+            <span class="badge" [ngClass]="visita.status">{{ visita.status }}</span>
+          </td>
+          <td class="actions">
+            <button class="btn-icon btn-confirm" (click)="confirmar(visita)">Confirmar Entrada</button>
+            <button class="btn-icon btn-delete" (click)="cancelar(visita)">Cancelar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="isLoading" class="loading">Carregando visitas...</div>
+    <div *ngIf="!isLoading && visitasParaGerenciar.length === 0" class="no-results">
+      Nenhuma visita pendente ou agendada para seu setor no momento.
+    </div>
+  </div>
+</div>

@@ -6,6 +6,7 @@ import { Visita } from '../../models/Visita';
 import { Usuario } from '../../models/Usuario';
 import { RespostaPaginada } from '../../models/RespostaPaginada';
 import { RequisicaoPaginada } from '../../models/RequisicaoPaginada';
+import { EStatus } from '../../models/EStatus';
 
 @Injectable({
   providedIn: 'root'
@@ -68,22 +69,29 @@ export class VisitaService {
   }
 
   /**
-   * MÉTODO ESPECIAL: Busca os USUÁRIOS que fizeram check-in em uma data específica.
-   * Por padrão, a API usará a data de hoje se nenhuma for enviada.
-   * @param paginacao Objeto com as informações de página e tamanho.
-   * @returns Uma página de Usuários (e não de Visitas).
+   * MÉTODO ESPECIAL: Busca visitas de um setor específico que correspondam a uma lista de status.
    */
-  getVisitantesDoDia(paginacao: RequisicaoPaginada): Observable<RespostaPaginada<Usuario>> {
-    const url = `${this.apiUrl}visitantes-do-dia`;
+  getVisitasPorSetorEStatus(setorId: number, statuses: EStatus[], paginacao: RequisicaoPaginada): Observable<RespostaPaginada<Visita>> {
+    const url = `${this.apiUrl}por-setor-e-status`;
     
     let params = new HttpParams()
+      .set('setorId', setorId.toString())
       .set('page', paginacao.page.toString())
       .set('size', paginacao.size.toString());
 
-    paginacao.sort.forEach(campo => {
-      params = params.append('sort', campo);
+    statuses.forEach(status => {
+      params = params.append('statuses', status);
     });
       
-    return this.http.get<RespostaPaginada<Usuario>>(url, { params });
+    return this.http.get<RespostaPaginada<Visita>>(url, { params });
+  }
+
+  /**
+   * Atualiza apenas o status de uma visita.
+   */
+  atualizarStatus(id: number, status: EStatus): Observable<Visita> {
+    const url = `${this.apiUrl}${id}/status`;
+    const params = new HttpParams().set('status', status);
+    return this.http.patch<Visita>(url, {}, { params });
   }
 }

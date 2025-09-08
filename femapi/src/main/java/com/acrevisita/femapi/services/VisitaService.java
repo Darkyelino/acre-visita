@@ -1,5 +1,7 @@
 package com.acrevisita.femapi.services;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.cache.annotation.CacheEvict;
@@ -9,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.acrevisita.femapi.models.EStatus;
 import com.acrevisita.femapi.models.Visita;
 import com.acrevisita.femapi.repository.VisitaRepository;
 
@@ -21,6 +24,25 @@ public class VisitaService implements IService<Visita> {
 
     public VisitaService(VisitaRepository repo) {
         this.repo = repo;
+    }
+
+    public Page<Visita> findBySetorAndStatus(Long setorId, List<EStatus> statuses, Pageable pageable) {
+        return repo.findBySetorIdAndStatusIn(setorId, statuses, pageable);
+    }
+
+    public Visita atualizarStatus(Long visitaId, EStatus novoStatus) {
+        Visita visita = repo.findById(visitaId)
+                .orElseThrow(() -> new EntityNotFoundException("Visita com ID " + visitaId + " não encontrada."));
+        
+        visita.setStatus(novoStatus);
+
+        // Se o status for CONFIRMADA, preenche a data de entrada e limpa o agendamento
+        if (novoStatus == EStatus.CONFIRMADA) {
+            visita.setDataHoraEntrada(LocalDateTime.now());
+            visita.setDataHoraAgendamento(null); // Opcional: limpa o agendamento após a confirmação
+        }
+
+        return repo.save(visita);
     }
 
     @Override

@@ -108,9 +108,65 @@ INSERT INTO filmoteca (id_filmoteca, sugestao, usuario_id) VALUES
 (1, 'Gostaria de sugerir o documentário "A Amazônia Desconhecida".', 2); -- John Smith (ID 2)
 
 -- Inserindo Visitas (uma concluída e uma agendada)
-INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES
-(1, '2025-08-26 14:30:00', null, 'CONCLUIDA', 1, 4), -- Ana visitou a Ala de Exposições
-(2, null, '2025-09-02 10:00:00', 'AGENDADA', 2, 2); -- John agendou uma visita à Biblioteca
+-- Visitas CONCLUÍDAS (13) - Datas passadas
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (1, '2025-08-10 10:00:00', NULL, 'CONCLUIDA', 1, 1); -- Ana Clara visitou a Recepção
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (2, '2025-08-11 11:30:00', NULL, 'CONCLUIDA', 2, 2); -- John Smith visitou a Biblioteca
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (3, '2025-08-12 14:00:00', '2025-08-12 14:00:00', 'CONCLUIDA', 3, 3); -- Carlos Garcia visitou a Administração
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (4, '2025-08-14 09:00:00', NULL, 'CONCLUIDA', 4, 4); -- Beatriz Oliveira visitou as Exposições
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (5, '2025-08-15 15:20:00', NULL, 'CONCLUIDA', 5, 1); -- Lucas Pereira visitou a Recepção
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (6, '2025-08-18 10:45:00', '2025-08-18 10:45:00', 'CONCLUIDA', 6, 2); -- Sofia Rodriguez visitou a Biblioteca
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (7, '2025-08-20 13:00:00', NULL, 'CONCLUIDA', 7, 3); -- Davi Martins visitou a Administração
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (8, '2025-08-21 16:00:00', NULL, 'CONCLUIDA', 8, 4); -- Isabela Souza visitou as Exposições
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (9, '2025-08-22 11:00:00', NULL, 'CONCLUIDA', 9, 1); -- Mateo Gonzales visitou a Recepção
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (10, '2025-08-25 14:30:00', '2025-08-25 14:30:00', 'CONCLUIDA', 10, 2); -- Laura Fernandes visitou a Biblioteca
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (11, '2025-08-26 09:30:00', NULL, 'CONCLUIDA', 1, 3); -- Ana Clara visitou a Administração
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (12, '2025-08-28 12:00:00', NULL, 'CONCLUIDA', 2, 4); -- John Smith visitou as Exposições
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (13, '2025-08-29 10:00:00', '2025-08-29 10:00:00', 'CONCLUIDA', 3, 1); -- Carlos Garcia visitou a Recepção
+
+-- Visitas AGENDADAS (13) - Datas futuras
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (14, NULL, '2025-09-10 10:00:00', 'AGENDADA', 4, 2); -- Beatriz Oliveira agendou visita à Biblioteca
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (15, NULL, '2025-09-11 14:00:00', 'AGENDADA', 5, 3); -- Lucas Pereira agendou visita à Administração
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (16, NULL, '2025-09-12 09:30:00', 'AGENDADA', 6, 4); -- Sofia Rodriguez agendou visita às Exposições
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (17, NULL, '2025-09-15 11:00:00', 'AGENDADA', 7, 1); -- Davi Martins agendou visita à Recepção
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (18, NULL, '2025-09-16 16:00:00', 'AGENDADA', 8, 2); -- Isabela Souza agendou visita à Biblioteca
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (19, NULL, '2025-09-18 10:00:00', 'AGENDADA', 9, 3); -- Mateo Gonzales agendou visita à Administração
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (20, NULL, '2025-09-20 15:00:00', 'AGENDADA', 10, 4); -- Laura Fernandes agendou visita às Exposições
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (21, NULL, '2025-09-22 13:30:00', 'AGENDADA', 1, 1); -- Ana Clara agendou visita à Recepção
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (22, NULL, '2025-09-23 10:30:00', 'AGENDADA', 2, 2); -- John Smith agendou visita à Biblioteca
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (23, NULL, '2025-09-25 14:00:00', 'AGENDADA', 3, 3); -- Carlos Garcia agendou visita à Administração
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (24, NULL, '2025-09-28 09:00:00', 'AGENDADA', 4, 4); -- Beatriz Oliveira agendou visita às Exposições
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (25, NULL, '2025-10-01 11:00:00', 'AGENDADA', 5, 1); -- Lucas Pereira agendou visita à Recepção
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (26, NULL, '2025-10-02 15:30:00', 'AGENDADA', 6, 2); -- Sofia Rodriguez agendou visita à Biblioteca
+
+-- Visitas CONFIRMADAS (EM_ANDAMENTO) (13) - Datas de hoje
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (27, '2025-09-07 09:05:00', NULL, 'CONFIRMADA', 7, 3); -- Davi Martins entrou na Administração
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (28, '2025-09-07 09:15:00', '2025-09-07 09:15:00', 'CONFIRMADA', 8, 4); -- Isabela Souza confirmou agendamento nas Exposições
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (29, '2025-09-07 10:00:00', NULL, 'CONFIRMADA', 9, 1); -- Mateo Gonzales entrou na Recepção
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (30, '2025-09-07 10:30:00', NULL, 'CONFIRMADA', 10, 2); -- Laura Fernandes entrou na Biblioteca
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (31, '2025-09-07 11:00:00', '2025-09-07 11:00:00', 'CONFIRMADA', 1, 3); -- Ana Clara confirmou agendamento na Administração
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (32, '2025-09-07 11:45:00', NULL, 'CONFIRMADA', 2, 4); -- John Smith entrou nas Exposições
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (33, '2025-09-07 13:00:00', NULL, 'CONFIRMADA', 3, 1); -- Carlos Garcia entrou na Recepção
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (34, '2025-09-07 13:20:00', '2025-09-07 13:20:00', 'CONFIRMADA', 4, 2); -- Beatriz Oliveira confirmou agendamento na Biblioteca
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (35, '2025-09-07 14:00:00', NULL, 'CONFIRMADA', 5, 3); -- Lucas Pereira entrou na Administração
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (36, '2025-09-07 14:10:00', NULL, 'CONFIRMADA', 6, 4); -- Sofia Rodriguez entrou nas Exposições
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (37, '2025-09-07 15:00:00', '2025-09-07 15:00:00', 'CONFIRMADA', 7, 1); -- Davi Martins confirmou agendamento na Recepção
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (38, '2025-09-07 15:05:00', NULL, 'CONFIRMADA', 8, 2); -- Isabela Souza entrou na Biblioteca
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (39, '2025-09-07 16:00:00', NULL, 'CONFIRMADA', 9, 3); -- Mateo Gonzales entrou na Administração
+
+-- Visitas CANCELADAS (13) - Datas variadas
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (40, NULL, '2025-09-08 10:00:00', 'CANCELADA', 10, 4); -- Laura Fernandes cancelou visita às Exposições
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (41, NULL, '2025-09-09 11:00:00', 'CANCELADA', 1, 1); -- Ana Clara cancelou visita à Recepção
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (42, NULL, '2025-09-10 13:00:00', 'CANCELADA', 2, 2); -- John Smith cancelou visita à Biblioteca
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (43, NULL, '2025-09-11 14:30:00', 'CANCELADA', 3, 3); -- Carlos Garcia cancelou visita à Administração
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (44, NULL, '2025-09-13 10:00:00', 'CANCELADA', 4, 4); -- Beatriz Oliveira cancelou visita às Exposições
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (45, NULL, '2025-09-14 16:00:00', 'CANCELADA', 5, 1); -- Lucas Pereira cancelou visita à Recepção
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (46, NULL, '2025-08-20 10:00:00', 'CANCELADA', 6, 2); -- Sofia Rodriguez teve visita cancelada no passado
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (47, NULL, '2025-08-22 11:30:00', 'CANCELADA', 7, 3); -- Davi Martins teve visita cancelada no passado
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (48, NULL, '2025-09-17 14:00:00', 'CANCELADA', 8, 4); -- Isabela Souza cancelou visita às Exposições
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (49, NULL, '2025-09-19 09:00:00', 'CANCELADA', 9, 1); -- Mateo Gonzales cancelou visita à Recepção
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (50, NULL, '2025-09-21 15:00:00', 'CANCELADA', 10, 2); -- Laura Fernandes cancelou visita à Biblioteca
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (51, NULL, '2025-09-24 10:00:00', 'CANCELADA', 1, 3); -- Ana Clara cancelou visita à Administração
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (52, NULL, '2025-09-26 12:00:00', 'CANCELADA', 2, 4); -- John Smith cancelou visita às Exposições
 
 -- Inserindo Armários
 INSERT INTO armario (id_armario, numeracao, usuario_id) VALUES

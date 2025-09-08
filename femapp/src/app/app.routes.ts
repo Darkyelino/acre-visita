@@ -12,20 +12,21 @@ import { CadastroFuncionario } from './components/funcionario/cadastro-funcionar
 import { ListFuncionario } from './components/funcionario/list-funcionario/list-funcionario';
 import { ListAuditorio } from './components/auditorio/list-auditorio/list-auditorio';
 import { ListSetor } from './components/setor/list-setor/list-setor';
-import { GerenciarDocumentos } from './components/doc-visitante/gerenciar-documentos/gerenciar-documentos';
+import { GerenciarVisita } from './components/visitas/gerenciar-visita/gerenciar-visita';
 
 export const routes: Routes = [
     { path: '', children: [
         // Visitantes
         { path: 'cadastro', component: CadastroVisitante },
 
-        // Documentos
-        { path: 'doc-visitante', component: GerenciarDocumentos, canActivate: [authGuard], data: { roles: [EPapel.ATENDENTE]} },
-
         // Usuários
         { path: 'login', component: LoginVisitante },
 
-        { path: 'visitar', component: FazerVisita, canActivate: [authGuard] },
+        // Visitas
+        { path: 'visita/gerenciar', component: GerenciarVisita, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
+        { path: 'visita/fazer', component: FazerVisita, canActivate: [authGuard] },
+
+        // Armários
         { path: 'armario', component: ArmarioList, canActivate: [authGuard] },
 
         // Setores

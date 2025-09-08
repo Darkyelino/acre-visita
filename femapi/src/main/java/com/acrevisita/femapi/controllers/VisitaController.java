@@ -1,5 +1,7 @@
 package com.acrevisita.femapi.controllers;
 
+import java.util.List;
+
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.acrevisita.femapi.models.EStatus;
 import com.acrevisita.femapi.models.Visita;
 import com.acrevisita.femapi.services.VisitaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,6 +34,27 @@ public class VisitaController implements IController<Visita> {
 
     public VisitaController(VisitaService servico) {
         this.servico = servico;
+    }
+
+    @GetMapping("/por-setor-e-status")
+    @Operation(summary = "Busca visitas por setor e uma lista de status")
+    public ResponseEntity<Page<Visita>> getVisitasPorSetorEStatus(
+            @RequestParam Long setorId,
+            @RequestParam List<EStatus> statuses,
+            @ParameterObject Pageable pageable) {
+        
+        Page<Visita> visitas = servico.findBySetorAndStatus(setorId, statuses, pageable);
+        return ResponseEntity.ok(visitas);
+    }
+
+    @PatchMapping("/{id}/status")
+    @Operation(summary = "Atualiza o status de uma visita (ex: CONFIRMADA, CANCELADA)")
+    public ResponseEntity<Visita> atualizarStatus(
+            @PathVariable Long id,
+            @RequestParam EStatus status) {
+                
+        Visita visitaAtualizada = servico.atualizarStatus(id, status);
+        return ResponseEntity.ok(visitaAtualizada);
     }
 
     @Override
