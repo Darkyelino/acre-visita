@@ -14,7 +14,6 @@ public class UsuarioRequestDTO {
     @Email(message = "Email inválido.")
     private String email;
 
-    @NotBlank(message = "A senha é obrigatória.")
     private String senha;
 
     @NotNull(message = "O papel do usuário é obrigatório.")

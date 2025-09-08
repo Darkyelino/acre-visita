@@ -1,3 +1,23 @@
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+.back-link:hover {
+  color: #007bff;
+}
+
+.back-link svg {
+  width: 20px;
+  height: 20px;
+}
+
 .form-container { display: flex; justify-content: center; padding: 2rem; background-color: #f4f7f6; }
 .form-card { background: white; padding: 2.5rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 700px; }
 .form-card h2 { margin-top: 0; }

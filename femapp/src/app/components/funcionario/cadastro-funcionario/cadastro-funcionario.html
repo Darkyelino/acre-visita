@@ -1,5 +1,13 @@
 <div class="form-container">
   <div class="form-card">
+
+    <a routerLink="/list-funcionarios" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      <span>Voltar para a listagem</span>
+    </a>
+
     <h2 *ngIf="!isEditMode">Cadastrar Novo Funcionário</h2>
     <h2 *ngIf="isEditMode">Editar Funcionário</h2>
     <p>Preencha os dados do Atendente ou Coordenador.</p>
@@ -22,9 +30,9 @@
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" *ngIf="!isEditMode">
         <label for="senha">Senha</label>
-        <input type="password" id="senha" formControlName="senha" class="form-control" [placeholder]="isEditMode ? 'Deixe em branco para não alterar' : 'Crie uma senha'">
+        <input type="password" id="senha" formControlName="senha" class="form-control" placeholder="Crie uma senha">
         <div *ngIf="senha?.invalid && senha?.touched" class="error-message">
           A senha precisa ter no mínimo 6 caracteres.
         </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { UsuarioService } from '../../../services/usuario/usuario';
 import { SetorService } from '../../../services/setor/setor';
 import { AlertaService } from '../../../services/alerta/alerta.service';
@@ -13,7 +13,7 @@ import { ETipoAlerta } from '../../../models/ETipoAlerta';
 @Component({
   selector: 'app-cadastro-funcionario',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './cadastro-funcionario.html',
   styleUrls: ['./cadastro-funcionario.css']
 })
@@ -39,14 +39,13 @@ export class CadastroFuncionario implements OnInit {
     this.funcionarioForm = new FormGroup({
       nome: new FormControl('', [Validators.required, Validators.minLength(3)]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      senha: new FormControl('', Validators.required), // Validador é ajustado no ngOnInit para edição
+      senha: new FormControl('', Validators.required),
       papel: new FormControl<EPapel | null>(null, Validators.required),
       setor: new FormControl<Setor | null>(null, Validators.required),
     });
   }
 
   ngOnInit(): void {
-    // Garante que os setores são carregados ANTES de tentar popular o formulário no modo de edição.
     this.setorService.getAll().subscribe(resposta => {
       this.setores = resposta.content;
       
@@ -54,7 +53,9 @@ export class CadastroFuncionario implements OnInit {
       if (idParam) {
         this.isEditMode = true;
         this.usuarioId = +idParam;
-        this.funcionarioForm.controls['senha'].setValidators(null); // Senha não é obrigatória na edição
+        // ✅ A senha deixa de ser obrigatória no formulário de edição
+        this.funcionarioForm.controls['senha'].setValidators(null);
+        this.funcionarioForm.controls['senha'].updateValueAndValidity();
         this.carregarDadosFuncionario(this.usuarioId);
       }
     });
@@ -72,11 +73,6 @@ export class CadastroFuncionario implements OnInit {
     });
   }
 
-  /**
-   * ✅ ADIÇÃO CRÍTICA: Função de comparação para o dropdown de setores.
-   * Diz ao Angular como saber que dois objetos 'Setor' são iguais (comparando seus IDs).
-   * Isso resolve o problema de o setor ficar nulo no modo de edição.
-   */
   compareSetores(s1: Setor, s2: Setor): boolean {
     return s1 && s2 ? s1.idSetor === s2.idSetor : s1 === s2;
   }
@@ -92,10 +88,13 @@ export class CadastroFuncionario implements OnInit {
       id: this.usuarioId ?? undefined,
       nome: dadosFormulario.nome!,
       email: dadosFormulario.email!,
-      senha: dadosFormulario.senha!,
       papel: dadosFormulario.papel!,
       setor: dadosFormulario.setor!
     };
+
+    if (!this.isEditMode) {
+      usuarioParaSalvar.senha = dadosFormulario.senha!;
+    }
 
     this.usuarioService.save(usuarioParaSalvar).subscribe({
       next: () => {
