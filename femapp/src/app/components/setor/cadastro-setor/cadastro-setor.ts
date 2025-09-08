@@ -1,77 +1,73 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms'; // Adicione AbstractControl
-import { Router } from '@angular/router';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SetorService } from '../../../services/setor/setor';
 import { AlertaService } from '../../../services/alerta/alerta.service';
-import { AuthService } from '../../../services/auth/auth';
 import { ETipoAlerta } from '../../../models/ETipoAlerta';
 import { Setor } from '../../../models/Setor';
-import { EPapel } from '../../../models/EPapel';
 
 @Component({
   selector: 'app-cadastro-setor',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './cadastro-setor.html',
   styleUrls: ['./cadastro-setor.css']
 })
 export class CadastroSetor implements OnInit {
   
   setorForm: FormGroup;
-  temPermissao: boolean = false;
+  isEditMode = false;
+  setorId: number | null = null;
 
   constructor(
-    private fb: FormBuilder,
     private setorService: SetorService,
     private router: Router,
     private alertaService: AlertaService,
-    private authService: AuthService
+    private route: ActivatedRoute
   ) {
-    this.setorForm = this.fb.group({
-      nomeSetor: ['', [Validators.required, Validators.minLength(3)]],
-      tipoSetor: ['', [Validators.required]]
+    this.setorForm = new FormGroup({
+      nomeSetor: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      tipoSetor: new FormControl('', [Validators.required])
     });
   }
 
   ngOnInit(): void {
-    const usuario = this.authService.loggedUser;
-    if (usuario && (usuario.papel === EPapel.ADMINISTRADOR || usuario.papel === EPapel.COORDENADOR)) {
-      this.temPermissao = true;
-    } else {
-      this.temPermissao = false;
-      this.setorForm.disable();
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam) {
+      this.isEditMode = true;
+      this.setorId = +idParam;
+      this.carregarDadosSetor(this.setorId);
     }
   }
 
-  get nomeSetor(): AbstractControl | null {
-    return this.setorForm.get('nomeSetor');
+  carregarDadosSetor(id: number): void {
+    this.setorService.getById(id).subscribe(setor => {
+      this.setorForm.patchValue(setor);
+    });
   }
 
-  get tipoSetor(): AbstractControl | null {
-    return this.setorForm.get('tipoSetor');
-  }
+  get nomeSetor() { return this.setorForm.get('nomeSetor'); }
+  get tipoSetor() { return this.setorForm.get('tipoSetor'); }
 
   save(): void {
-    if (!this.temPermissao) {
-        this.alertaService.enviarAlerta({ tipo: ETipoAlerta.ERRO, mensagem: "Você não tem permissão para realizar esta ação." });
-        return;
-    }
-
     if (this.setorForm.invalid) {
       this.setorForm.markAllAsTouched();
       return;
     }
 
-    const novoSetor = this.setorForm.getRawValue() as Setor;
+    const setorParaSalvar = this.setorForm.getRawValue() as Setor;
+    if (this.isEditMode) {
+      setorParaSalvar.idSetor = this.setorId!;
+    }
 
-    this.setorService.save(novoSetor).subscribe({
+    this.setorService.save(setorParaSalvar).subscribe({
       next: () => {
         this.alertaService.enviarAlerta({
           tipo: ETipoAlerta.SUCESSO,
-          mensagem: "Setor cadastrado com sucesso!"
+          mensagem: `Setor ${this.isEditMode ? 'atualizado' : 'cadastrado'} com sucesso!`
         });
-        this.router.navigate(['/']);
+        this.router.navigate(['/setor/list']);
       },
       error: (erro) => {
         this.alertaService.enviarAlerta({

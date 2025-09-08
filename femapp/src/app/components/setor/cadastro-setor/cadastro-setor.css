@@ -1,93 +1,55 @@
-.cadastro-setor-container {
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+:host {
+  --primary-color: #007bff;
+  --primary-hover-color: #0056b3;
+  --background-color: #f4f7f6;
+  --form-background: #ffffff;
+  --text-color: #333;
+  --label-color: #555;
+  --border-color: #ced4da;
+  --error-color: #dc3545;
+}
+
+.form-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 80vh;
-  background-color: #f4f7f6;
   padding: 2rem;
+  min-height: 90vh;
+  background-color: var(--background-color);
   font-family: 'Poppins', sans-serif;
 }
 
-.cadastro-card {
-  background: white;
-  padding: 2.5rem;
+.form-card {
+  background: var(--form-background);
+  padding: 2rem 2.5rem;
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 600px;
 }
 
-.card-header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.card-header h1 {
-  margin: 0;
-  font-size: 2rem;
-  font-weight: 600;
-}
-
-.card-header p {
-  color: #666;
-  font-size: 1.1rem;
-}
-
-.form-group {
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   margin-bottom: 1.5rem;
-}
-
-.form-group label {
-  display: block;
+  color: #555;
+  text-decoration: none;
   font-weight: 500;
-  margin-bottom: 0.5rem;
+  transition: color 0.2s ease-in-out;
 }
 
-.form-control {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-  box-sizing: border-box;
-}
+.back-link:hover { color: var(--primary-color); }
+.back-link svg { width: 20px; height: 20px; }
 
-.error-message {
-  color: #dc3545;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-}
-
-.btn {
-  width: 100%;
-  padding: 0.8rem;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.btn:disabled {
-  background-color: #a0c7eb;
-  cursor: not-allowed;
-}
-
-.btn-principal {
-  background-color: #007bff;
-  color: white;
-}
-.btn-principal:hover:not(:disabled) {
-  background-color: #0056b3;
-}
-
-.sem-permissao {
-  background-color: #fff3cd;
-  color: #664d03;
-  border: 1px solid #ffecb5;
-  border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
+.form-card h2 { font-size: 1.8rem; margin-top: 0; text-align: center; }
+.form-card p { color: var(--label-color); margin-bottom: 2rem; text-align: center; }
+.form-group { margin-bottom: 1.5rem; }
+.form-group label { display: block; font-weight: 500; margin-bottom: 0.5rem; }
+.form-control { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1rem; }
+.form-control:focus { border-color: var(--primary-color); outline: none; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2); }
+.error-message { color: var(--error-color); font-size: 0.875rem; margin-top: 6px; }
+.btn-submit { width: 100%; padding: 14px; margin-top: 1rem; border: none; border-radius: 8px; background-color: var(--primary-color); color: white; font-size: 1.1rem; font-weight: 600; cursor: pointer; }
+.btn-submit:disabled { background-color: #a0c7eb; cursor: not-allowed; }

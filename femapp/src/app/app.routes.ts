@@ -11,14 +11,21 @@ import { CadastroAuditorio } from './components/auditorio/cadastro-auditorio/cad
 import { CadastroFuncionario } from './components/funcionario/cadastro-funcionario/cadastro-funcionario';
 import { ListFuncionario } from './components/funcionario/list-funcionario/list-funcionario';
 import { ListAuditorio } from './components/auditorio/list-auditorio/list-auditorio';
+import { ListSetor } from './components/setor/list-setor/list-setor';
 
 export const routes: Routes = [
     { path: '', children: [
+        // Visitantes
         { path: 'cadastro', component: CadastroVisitante },
         { path: 'login', component: LoginVisitante },
+
         { path: 'visitar', component: FazerVisita, canActivate: [authGuard] },
         { path: 'armario', component: ArmarioList, canActivate: [authGuard] },
-        { path: 'setor/cadastro', component: CadastroSetor, canActivate: [authGuard]},
+
+        // Setores
+        { path: 'setor/cadastro', component: CadastroSetor, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
+        { path: 'setor/editar/:id', component: CadastroSetor, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
+        { path: 'setor/list', component: ListSetor, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
 
         // Auditórios
         { path: 'auditorio/cadastro', component: CadastroAuditorio, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR]} },

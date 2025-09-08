@@ -86,7 +86,7 @@ public class SetorController implements IController<Setor> {
     }
 
     @Override
-    @PutMapping("/")
+    @PutMapping("/{id}")
     @Operation(
         summary = "Atualizar um setor existente",
         description = "Atualiza os dados de um setor existente."

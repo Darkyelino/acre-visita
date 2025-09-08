@@ -1,0 +1,54 @@
+<div class="list-container">
+  <header class="list-header">
+    <h1>Gerenciamento de Setores</h1>
+    <button class="btn btn-primary" routerLink="/setor/cadastro">
+      + Cadastrar Setor
+    </button>
+  </header>
+
+  <div class="filter-bar">
+    <input 
+      type="text" 
+      class="filter-input"
+      placeholder="Pesquisar por nome do setor..."
+      [(ngModel)]="filtroNome"
+      (input)="aplicarFiltros()">
+
+    <select class="filter-select" [(ngModel)]="filtroTipo" (change)="aplicarFiltros()">
+      <option value="TODOS">Todos os Tipos</option>
+      <option value="MUSEU">Museu</option>
+      <option value="BIBLIOTECA">Biblioteca</option>
+      <option value="ADMINISTRATIVO">Administrativo</option>
+      <option value="TEATRO">Teatro</option>
+      <option value="OUTRO">Outro</option>
+    </select>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Nome do Setor</th>
+          <th>Tipo</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let setor of setoresExibidos">
+          <td>{{ setor.nomeSetor }}</td>
+          <td>
+            <span class="badge">{{ setor.tipoSetor }}</span>
+          </td>
+          <td class="actions">
+            <button class="btn-icon btn-edit" (click)="editar(setor.idSetor)">Editar</button>
+            <button class="btn-icon btn-delete" (click)="excluir(setor.idSetor, setor.nomeSetor)">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="isLoading" class="loading">Carregando setores...</div>
+    <div *ngIf="!isLoading && setoresExibidos.length === 0" class="no-results">
+      Nenhum setor encontrado para os filtros selecionados.
+    </div>
+  </div>
+</div>

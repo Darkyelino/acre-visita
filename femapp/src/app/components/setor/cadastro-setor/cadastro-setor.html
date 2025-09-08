@@ -1,15 +1,18 @@
-<main class="cadastro-setor-container">
-  <div class="cadastro-card">
-    <header class="card-header">
-      <h1>Cadastro de Setor</h1>
-      <p>Preencha as informações para registrar um novo setor no sistema.</p>
-    </header>
+<div class="form-container">
+  <div class="form-card">
+    
+    <a routerLink="/setor/list" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      <span>Voltar para a listagem</span>
+    </a>
 
-    <div *ngIf="!temPermissao" class="sem-permissao">
-      <p>🔒 Você não tem permissão para cadastrar ou editar setores.</p>
-    </div>
+    <h2 *ngIf="!isEditMode">Cadastrar Novo Setor</h2>
+    <h2 *ngIf="isEditMode">Editar Setor</h2>
+    <p>Preencha as informações para registrar um novo setor no sistema.</p>
 
-    <form [formGroup]="setorForm" (ngSubmit)="save()" class="setor-form" novalidate>
+    <form [formGroup]="setorForm" (ngSubmit)="save()" novalidate>
       
       <div class="form-group">
         <label for="nomeSetor">Nome do Setor</label>
@@ -24,7 +27,7 @@
       <div class="form-group">
         <label for="tipoSetor">Tipo do Setor</label>
         <select id="tipoSetor" formControlName="tipoSetor" class="form-control">
-          <option [ngValue]="" disabled>Selecione o tipo...</option>
+          <option [ngValue]="null" disabled>Selecione o tipo...</option>
           <option value="MUSEU">Museu</option>
           <option value="BIBLIOTECA">Biblioteca</option>
           <option value="ADMINISTRATIVO">Administrativo</option>
@@ -37,10 +40,10 @@
         </div>
       </div>
 
-      <button type="submit" class="btn btn-principal" [disabled]="setorForm.invalid || !temPermissao">
-        Salvar Setor
+      <button type="submit" class="btn-submit" [disabled]="setorForm.invalid">
+        {{ isEditMode ? 'Atualizar Setor' : 'Salvar Setor' }}
       </button>
 
     </form>
   </div>
-</main>
+</div>
