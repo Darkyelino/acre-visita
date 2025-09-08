@@ -16,7 +16,7 @@ import { EPapel } from '../../../models/EPapel';
   templateUrl: './cadastro-setor.html',
   styleUrls: ['./cadastro-setor.css']
 })
-export class CadastroSetorComponent implements OnInit {
+export class CadastroSetor implements OnInit {
   
   setorForm: FormGroup;
   temPermissao: boolean = false;

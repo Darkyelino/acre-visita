@@ -1,0 +1,145 @@
+/* Importa uma fonte limpa do Google Fonts (Opcional, mas recomendado) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Estilos Globais e Variáveis de Cor */
+:host {
+  --primary-color: #007bff;
+  --primary-hover-color: #0056b3;
+  --background-color: #f4f7f6;
+  --form-background: #ffffff;
+  --text-color: #333;
+  --label-color: #555;
+  --border-color: #ced4da;
+  --error-color: #dc3545;
+  --white-color: #fff;
+}
+
+/* Container Principal - Centraliza o card na página */
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  min-height: 90vh;
+  background-color: var(--background-color);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Card do Formulário */
+.form-card {
+  background: var(--form-background);
+  padding: 2rem 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+}
+
+.form-card h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-top: 0;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.form-card p {
+  color: var(--label-color);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Grupos de Formulário e Rótulos */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  color: var(--label-color);
+  margin-bottom: 0.5rem;
+}
+
+/* Campos de Input e Select */
+.form-control {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit; /* Garante que o select use a mesma fonte */
+  transition: border-color 0.3s, box-shadow 0.3s;
+  -webkit-appearance: none; /* Remove a aparência padrão do select em alguns navegadores */
+  -moz-appearance: none;
+  appearance: none;
+  background-color: var(--white-color);
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+
+/* Para selects, adicionamos uma seta customizada */
+select.form-control {
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+    padding-right: 2.5rem; /* Deixa espaço para a seta */
+}
+
+/* Mensagens de Erro */
+.error-message {
+  color: var(--error-color);
+  font-size: 0.875rem;
+  margin-top: 6px;
+}
+
+/* Botão de Envio */
+.btn-submit {
+  width: 100%;
+  padding: 14px;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-color: var(--primary-hover-color);
+  transform: translateY(-2px);
+}
+
+.btn-submit:disabled {
+  background-color: #a0c7eb;
+  cursor: not-allowed;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+.back-link:hover {
+  color: #007bff;
+}
+
+.back-link svg {
+  width: 20px;
+  height: 20px;
+}

@@ -17,7 +17,7 @@ import { EPapel } from '../../../models/EPapel';
   templateUrl: './armario-list.html',
   styleUrls: ['./armario-list.css']
 })
-export class ArmarioListComponent implements OnInit {
+export class ArmarioList implements OnInit {
 
   todosArmarios: Armario[] = [];
   armariosVisiveis: Armario[] = [];

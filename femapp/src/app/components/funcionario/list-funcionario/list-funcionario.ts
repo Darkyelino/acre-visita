@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { UsuarioService } from '../../../../services/usuario/usuario';
-import { SetorService } from '../../../../services/setor/setor';
-import { AlertaService } from '../../../../services/alerta/alerta.service';
-import { Usuario } from '../../../../models/Usuario';
-import { Setor } from '../../../../models/Setor';
-import { EPapel } from '../../../../models/EPapel';
-import { ETipoAlerta } from '../../../../models/ETipoAlerta';
+import { UsuarioService } from '../../../services/usuario/usuario';
+import { SetorService } from '../../../services/setor/setor';
+import { AlertaService } from '../../../services/alerta/alerta.service';
+import { Usuario } from '../../../models/Usuario';
+import { Setor } from '../../../models/Setor';
+import { EPapel } from '../../../models/EPapel';
+import { ETipoAlerta } from '../../../models/ETipoAlerta';
 
 @Component({
   selector: 'app-list-funcionario',

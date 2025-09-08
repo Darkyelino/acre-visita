@@ -1,0 +1,60 @@
+<div class="list-container">
+  <header class="list-header">
+    <h1>Gerenciamento de Auditórios</h1>
+    <button class="btn btn-primary" routerLink="/auditorio/cadastro">
+      + Cadastrar Auditório
+    </button>
+  </header>
+
+  <div class="filter-bar">
+    <input 
+      type="text" 
+      class="filter-input"
+      placeholder="Pesquisar por nome..."
+      [(ngModel)]="filtroNome"
+      (input)="aplicarFiltros()">
+
+    <select class="filter-select" [(ngModel)]="filtroDisponibilidade" (change)="aplicarFiltros()">
+      <option value="TODOS">Todas as Disponibilidades</option>
+      <option value="true">Disponível</option>
+      <option value="false">Indisponível</option>
+    </select>
+    
+    <select class="filter-select" [(ngModel)]="filtroSetor" (change)="aplicarFiltros()">
+      <option value="TODOS">Todos os Setores</option>
+      <option *ngFor="let setor of setores" [value]="setor.idSetor">{{ setor.nomeSetor }}</option>
+    </select>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Nome do Auditório</th>
+          <th>Setor</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let auditorio of auditoriosExibidos">
+          <td>{{ auditorio.nomeAuditorio }}</td>
+          <td>{{ auditorio.localAuditorio.nomeSetor || 'N/A' }}</td>
+          <td>
+            <span class="badge" [class.badge-disponivel]="auditorio.disponibilidade" [class.badge-indisponivel]="!auditorio.disponibilidade">
+              {{ auditorio.disponibilidade ? 'Disponível' : 'Indisponível' }}
+            </span>
+          </td>
+          <td class="actions">
+            <button class="btn-icon btn-edit" (click)="editar(auditorio.idAuditorio)">Editar</button>
+            <button class="btn-icon btn-delete" (click)="excluir(auditorio.idAuditorio, auditorio.nomeAuditorio)">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="isLoading" class="loading">Carregando auditórios...</div>
+    <div *ngIf="!isLoading && auditoriosExibidos.length === 0" class="no-results">
+      Nenhum auditório encontrado para os filtros selecionados.
+    </div>
+  </div>
+</div>

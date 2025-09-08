@@ -1,5 +1,14 @@
 <div class="form-container">
   <div class="form-card">
+
+    <!-- ✅ ADICIONADO: Link para voltar para a listagem de auditórios -->
+    <a routerLink="/list-auditorios" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      <span>Voltar para a listagem</span>
+    </a>
+
     <h2 *ngIf="!isEditMode">Cadastrar Novo Auditório</h2>
     <h2 *ngIf="isEditMode">Editar Auditório</h2>
     <p>Preencha os dados abaixo.</p>
@@ -15,7 +24,8 @@
 
       <div class="form-group">
         <label for="localAuditorio">Setor de Localização</label>
-        <select id="localAuditorio" formControlName="localAuditorio" class="form-control">
+        <!-- ✅ ADICIONADO: [compareWith] para a edição funcionar corretamente -->
+        <select id="localAuditorio" formControlName="localAuditorio" class="form-control" [compareWith]="compareSetores">
           <option [ngValue]="null" disabled>Selecione um setor...</option>
           <option *ngFor="let setor of setores" [ngValue]="setor">{{ setor.nomeSetor }}</option>
         </select>
