@@ -29,7 +29,7 @@
           <option [ngValue]="null" disabled>Selecione um setor...</option>
           <option *ngFor="let setor of setores" [ngValue]="setor">{{ setor.nomeSetor }}</option>
         </select>
-        <div *ngIf="form.localAuditorio.invalid && form.localAuditorio.touched" class="error-message">
+        <div *ngIf="form.setor.invalid && form.setor.touched" class="error-message">
           O setor é obrigatório.
         </div>
       </div>

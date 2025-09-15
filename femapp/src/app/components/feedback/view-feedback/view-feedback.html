@@ -1,0 +1,32 @@
+<main class="view-feedback-container">
+  <div class="feedback-card" *ngIf="!isLoading && feedback; else loadingOrError">
+    
+    <a routerLink="/minhas-visitas" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      <span>Voltar para Minhas Visitas</span>
+    </a>
+
+    <header class="card-header">
+      <h1>Seu Feedback Enviado</h1>
+      <p>
+        Para a visita ao setor <strong>{{ feedback.visita.local.nomeSetor }}</strong> 
+        em <strong>{{ (feedback.visita.dataHoraAgendamento || feedback.visita.dataHoraEntrada) | date: 'dd/MM/yyyy' }}</strong>
+      </p>
+    </header>
+
+    <section class="feedback-content">
+      <p>"{{ feedback.texto }}"</p>
+    </section>
+
+    <footer class="card-footer">
+      <span>Enviado em: {{ feedback.dataEnvio | date: 'dd/MM/yyyy \'às\' HH:mm' }}</span>
+    </footer>
+  </div>
+
+  <ng-template #loadingOrError>
+    <div class="status-container">
+      <p *ngIf="isLoading">Carregando feedback...</p>
+      <p *ngIf="!isLoading">Não foi possível carregar o feedback.</p>
+    </div>
+  </ng-template>
+</main>

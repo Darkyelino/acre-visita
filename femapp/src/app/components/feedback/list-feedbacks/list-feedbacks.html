@@ -1,0 +1,47 @@
+<main class="list-container">
+  <header class="list-header">
+    <h1>Histórico de Feedbacks</h1>
+    <p>Veja as avaliações e sugestões enviadas pelos visitantes.</p>
+  </header>
+
+  <section class="filter-bar">
+    <input 
+      type="text" 
+      class="filter-input"
+      placeholder="Pesquisar por palavra-chave..."
+      [(ngModel)]="filtroTexto"
+      (input)="aplicarFiltros()">
+
+    <div class="date-filter">
+      <label for="dataInicio">De:</label>
+      <input type="date" id="dataInicio" class="filter-date" [(ngModel)]="filtroDataInicio" (change)="aplicarFiltros()">
+    </div>
+
+    <div class="date-filter">
+      <label for="dataFim">Até:</label>
+      <input type="date" id="dataFim" class="filter-date" [(ngModel)]="filtroDataFim" (change)="aplicarFiltros()">
+    </div>
+  </section>
+
+  <div *ngIf="isLoading" class="loading">
+    <p>Carregando feedbacks...</p>
+  </div>
+
+  <div *ngIf="!isLoading && feedbacksExibidos.length > 0" class="feedback-grid">
+    <article *ngFor="let feedback of feedbacksExibidos" class="feedback-card">
+      <p class="feedback-texto">"{{ feedback.texto }}"</p>
+      <footer class="feedback-footer">
+        <div class="autor-info">
+          <span>Feedback anônimo</span>
+        </div>
+        <div class="data-info">
+          {{ feedback.dataEnvio | date: 'dd/MM/yyyy' }}
+        </div>
+      </footer>
+    </article>
+  </div>
+
+  <div *ngIf="!isLoading && feedbacksExibidos.length === 0" class="no-results">
+    <p>Nenhum feedback encontrado para os filtros selecionados.</p>
+  </div>
+</main>

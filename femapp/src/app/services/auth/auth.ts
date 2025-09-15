@@ -30,7 +30,7 @@ export class AuthService {
       tap(user => {
         localStorage.setItem('loggedUser', JSON.stringify(user));
         this.userSubject.next(user);
-        this.router.navigate(['/visita/fazer']); // Redireciona para a página de fazer visita após o login
+        this.router.navigate(['/home']); // Redireciona para a página inicial após o login
       })
     );
   }

@@ -42,7 +42,7 @@ public class ReservaAuditorio implements Serializable {
     private Usuario usuario;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "auditorio_id")
+    @JoinColumn(name = "idAuditorio")
     private Auditorio auditorio;
 
     // ==================================(GETS E SETS)==================================

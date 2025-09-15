@@ -14,11 +14,34 @@ import { ListAuditorio } from './components/auditorio/list-auditorio/list-audito
 import { ListSetor } from './components/setor/list-setor/list-setor';
 import { GerenciarVisita } from './components/visitas/gerenciar-visita/gerenciar-visita';
 import { SugestaoFilmoteca } from './components/filmoteca/sugestao-filmoteca/sugestao-filmoteca';
+import { Home } from './components/home/home/home';
+import { MinhasVisitas } from './components/visitas/minhas-visitas/minhas-visitas';
+import { FazerFeedback } from './components/feedback/fazer-feedback/fazer-feedback';
+import { ViewFeedback } from './components/feedback/view-feedback/view-feedback';
+import { ReservarAuditorio } from './components/auditorio/reservar-auditorio/reservar-auditorio';
+import { ListFeedbacks } from './components/feedback/list-feedbacks/list-feedbacks';
+import { GerenciarReservas } from './components/auditorio/gerenciar-reservas/gerenciar-reservas';
+import { FormEnderecoVisitante } from './components/endereco-visitante/form-endereco-visitante/form-endereco-visitante';
+import { ListEnderecoVisitante } from './components/endereco-visitante/list-endereco-visitante/list-endereco-visitante';
 
 export const routes: Routes = [
     { path: '', children: [
+
+          // Adicione a rota para a home
+        { path: 'home', component: Home, canActivate: [authGuard] },
+
         // Visitantes
         { path: 'cadastro', component: CadastroVisitante },
+        { path: 'minhas-visitas', component: MinhasVisitas, canActivate: [authGuard], data: { roles: [EPapel.VISITANTE]} },
+
+        // Endereço Visitante
+        { path: 'endereco/form', component: FormEnderecoVisitante, canActivate: [authGuard], data: { roles: [EPapel.VISITANTE]} },
+        { path: 'endereco/list', component: ListEnderecoVisitante, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
+
+        // Feedbacks
+        { path: 'feedback/fazer', component: FazerFeedback, canActivate: [authGuard], data: { roles: [EPapel.VISITANTE]} },
+        { path: 'feedback/visualizar/:id', component: ViewFeedback, canActivate: [authGuard], data: { roles: [EPapel.VISITANTE]} },
+        { path: 'feedback/listar', component: ListFeedbacks, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
 
         // Usuários
         { path: 'login', component: LoginVisitante },
@@ -42,6 +65,8 @@ export const routes: Routes = [
         { path: 'auditorio/cadastro', component: CadastroAuditorio, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR]} },
         { path: 'auditorio/editar/:id', component: CadastroAuditorio, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR]} },
         { path: 'auditorio/list', component: ListAuditorio, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR]} },
+        { path: 'auditorio/reservar', component: ReservarAuditorio, canActivate: [roleGuard], data: { roles: [EPapel.VISITANTE]} },
+        { path: 'auditorio/gerenciar-reservas', component: GerenciarReservas, canActivate: [roleGuard], data: { roles: [EPapel.COORDENADOR, EPapel.ADMINISTRADOR]} },
 
         // Funcionários
         { path: 'cadastro-funcionario', component: CadastroFuncionario, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR]} },

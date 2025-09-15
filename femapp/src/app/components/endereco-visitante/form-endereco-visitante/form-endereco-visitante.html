@@ -1,0 +1,57 @@
+<main class="form-container">
+  <div class="form-card">
+    <a routerLink="/home" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      <span>Voltar para o Início</span>
+    </a>
+
+    <header class="card-header">
+      <h1 *ngIf="!isEditMode">Cadastrar Endereço</h1>
+      <h1 *ngIf="isEditMode">Editar Meu Endereço</h1>
+      <p>Mantenha seus dados sempre atualizados.</p>
+    </header>
+
+    <div *ngIf="isLoading" class="loading">Carregando...</div>
+
+    <form *ngIf="!isLoading" [formGroup]="enderecoForm" (ngSubmit)="save()">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="cepVisitante">CEP</label>
+          <input id="cepVisitante" type="text" formControlName="cepVisitante" class="form-control" placeholder="00000-000">
+          <div *ngIf="cep?.invalid && cep?.touched" class="error-message">CEP inválido.</div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group estado">
+          <label for="estadoVisitante">Estado</label>
+          <input id="estadoVisitante" type="text" formControlName="estadoVisitante" class="form-control" placeholder="Ex: Acre">
+        </div>
+        <div class="form-group cidade">
+          <label for="cidadeVisitante">Cidade</label>
+          <input id="cidadeVisitante" type="text" formControlName="cidadeVisitante" class="form-control" placeholder="Ex: Rio Branco">
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="bairroVisitante">Bairro</label>
+        <input id="bairroVisitante" type="text" formControlName="bairroVisitante" class="form-control" placeholder="Ex: Centro">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group rua">
+          <label for="ruaVisitante">Rua</label>
+          <input id="ruaVisitante" type="text" formControlName="ruaVisitante" class="form-control" placeholder="Ex: Av. Brasil">
+        </div>
+        <div class="form-group numero">
+          <label for="numeroVisitante">Número</label>
+          <input id="numeroVisitante" type="text" formControlName="numeroVisitante" class="form-control" placeholder="Ex: 123">
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="enderecoForm.invalid">
+        {{ isEditMode ? 'Atualizar Endereço' : 'Salvar Endereço' }}
+      </button>
+    </form>
+  </div>
+</main>

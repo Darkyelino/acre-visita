@@ -8,7 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Feedback implements Serializable {
@@ -25,7 +27,12 @@ public class Feedback implements Serializable {
     private LocalDate dataEnvio;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "idUsuario")
     private Usuario usuario;
+
+    @OneToOne(optional = false)
+    @JoinColumn(name = "idVisita", unique = true)
+    private Visita visita;
 
     // ==================================(GETS E SETS)==================================
 
@@ -59,6 +66,14 @@ public class Feedback implements Serializable {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public Visita getVisita() {
+        return visita;
+    }
+
+    public void setVisita(Visita visita) {
+        this.visita = visita;
     }
 
 }

@@ -1,0 +1,11 @@
+.view-feedback-container { display: flex; justify-content: center; align-items: center; padding: 2rem; font-family: sans-serif; background-color: #f8f9fa; min-height: 90vh; }
+.feedback-card { background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); width: 100%; max-width: 700px; }
+.back-link { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 1.5rem; color: #555; text-decoration: none; font-weight: 500; }
+.back-link:hover { color: #007bff; }
+.card-header { text-align: center; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid #eee; }
+.card-header h1 { margin: 0; }
+.card-header p { color: #555; font-size: 1.1rem; }
+.feedback-content { margin: 2rem 0; }
+.feedback-content p { font-size: 1.2rem; line-height: 1.7; font-style: italic; color: #333; text-align: center; }
+.card-footer { text-align: center; font-size: 0.9rem; color: #888; margin-top: 1rem; }
+.status-container { text-align: center; color: #666; }

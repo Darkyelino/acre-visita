@@ -8,7 +8,7 @@ export interface ReservaAuditorio {
   horaInicio: string;
   horaFim: string;
   observacoes: string | null;
-  status: 'PENDENTE' | 'APROVADA' | 'RECUSADA';
+  status: 'PENDENTE' | 'APROVADA' | 'RECUSADA' | 'FINALIZADO';
   usuario: Usuario;
   auditorio: Auditorio;
 }

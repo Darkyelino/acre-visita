@@ -39,7 +39,7 @@
       <tbody>
         <tr *ngFor="let auditorio of auditoriosExibidos">
           <td>{{ auditorio.nomeAuditorio }}</td>
-          <td>{{ auditorio.localAuditorio.nomeSetor || 'N/A' }}</td>
+          <td>{{ auditorio.setor.nomeSetor || 'N/A' }}</td>
           <td>
             <span class="badge" [class.badge-disponivel]="auditorio.disponibilidade" [class.badge-indisponivel]="!auditorio.disponibilidade">
               {{ auditorio.disponibilidade ? 'Disponível' : 'Indisponível' }}

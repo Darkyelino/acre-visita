@@ -20,7 +20,7 @@ export class CadastroAuditorio implements OnInit {
 
   auditorioForm = new FormGroup({
     nomeAuditorio: new FormControl('', Validators.required),
-    localAuditorio: new FormControl<Setor | null>(null, Validators.required),
+    setor: new FormControl<Setor | null>(null, Validators.required),
     disponibilidade: new FormControl(true, Validators.required)
   });
   

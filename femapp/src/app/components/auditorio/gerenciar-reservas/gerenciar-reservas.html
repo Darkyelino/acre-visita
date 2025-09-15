@@ -1,0 +1,70 @@
+<main class="list-container">
+  <header class="list-header">
+    <h1>Gerenciar Reservas de Auditório</h1>
+    <p *ngIf="funcionarioLogado?.setor">
+      Exibindo reservas para o setor: <strong>{{ funcionarioLogado?.setor?.nomeSetor }}</strong>
+    </p>
+  </header>
+
+  <nav class="filter-tabs">
+    <button 
+      class="tab-button" 
+      [class.active]="filtroAtivo === 'PENDENTE'" 
+      (click)="mudarFiltro('PENDENTE')">
+      Pendentes
+    </button>
+    <button 
+      class="tab-button" 
+      [class.active]="filtroAtivo === 'APROVADA'" 
+      (click)="mudarFiltro('APROVADA')">
+      Aprovadas & Finalizadas
+    </button>
+    <button 
+      class="tab-button" 
+      [class.active]="filtroAtivo === 'RECUSADA'" 
+      (click)="mudarFiltro('RECUSADA')">
+      Recusadas
+    </button>
+  </nav>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Evento</th>
+          <th>Solicitante</th>
+          <th>Auditório</th>
+          <th>Data & Hora</th>
+          <th>Status</th>
+          <th class="col-acoes">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reserva of reservasExibidas">
+          <td>{{ reserva.nomeEvento }}</td>
+          <td>{{ reserva.usuario.nome }}</td>
+          <td>{{ reserva.auditorio.nomeAuditorio }}</td>
+          <td>{{ reserva.data | date:'dd/MM/yyyy' }} das {{ reserva.horaInicio }} às {{ reserva.horaFim }}</td>
+          <td>
+            <span class="badge" [ngClass]="reserva.statusVisual.toLowerCase()">
+              {{ reserva.statusVisual }}
+            </span>
+          </td>
+          <td class="actions">
+            <ng-container *ngIf="reserva.statusVisual === 'PENDENTE'">
+              <button class="btn-icon btn-approve" (click)="aprovar(reserva)">Aprovar</button>
+              <button class="btn-icon btn-reject" (click)="recusar(reserva)">Recusar</button>
+            </ng-container>
+            <ng-container *ngIf="reserva.statusVisual === 'APROVADA'">
+              <button class="btn-icon btn-reject" (click)="recusar(reserva)">Cancelar Reserva</button>
+            </ng-container>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="isLoading" class="loading">Carregando reservas...</div>
+    <div *ngIf="!isLoading && reservasExibidas.length === 0" class="no-results">
+      Nenhuma reserva encontrada para este filtro.
+    </div>
+  </div>
+</main>

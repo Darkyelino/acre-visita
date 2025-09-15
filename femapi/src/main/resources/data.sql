@@ -18,8 +18,8 @@ INSERT INTO setor (id_setor, nome_setor, tipo_setor) VALUES
 (4, 'Ala de Exposições Temporárias', 'MUSEU');
 
 -- Inserindo Auditório
-INSERT INTO auditorio (id_auditorio, nome_auditorio, disponibilidade, local_auditorio_id_setor) VALUES
-(1, 'Auditório Jorge Amado', true, 1),
+INSERT INTO auditorio (id_auditorio, nome_auditorio, disponibilidade, id_setor) VALUES
+(1, 'Auditório Jorge Amado', true, 3),
 (2, 'Sala Chico Mendes', true, 2),
 (3, 'Anfiteatro Ziraldo', true, 4),
 (4, 'Auditório Clarice Lispector', false, 1),
@@ -100,8 +100,20 @@ INSERT INTO endereco_visitante (id_endereco_visitante, cep_visitante, estado_vis
 (1, '69900-062', 'Acre', 'Rio Branco', 'Centro', 'Rua Rui Barbosa', '123', 1); -- Ana Clara (ID 1)
 
 -- Inserindo Feedback de um usuário
-INSERT INTO feedback (id_feedback, texto, data_envio, usuario_id) VALUES
-(1, 'A exposição sobre a história do Acre estava incrível! Parabéns!', '2025-08-26', 1); -- Ana Clara (ID 1)
+INSERT INTO feedback (id_feedback, texto, data_envio, id_usuario, id_visita) VALUES
+(1, 'A exposição sobre a história do Acre estava incrível! Aprendi muito. Parabéns a todos os envolvidos na curadoria.', '2025-08-10', 1, 1),
+(2, 'A biblioteca é um espaço maravilhoso e muito silencioso, perfeito para estudos. O acervo de autores locais é impressionante.', '2025-08-11', 2, 2),
+(3, 'O atendimento na administração foi rápido e eficiente. Resolveram meu problema em poucos minutos.', '2025-08-12', 3, 3),
+(4, 'A nova ala de exposições temporárias está fantástica. A iluminação valoriza muito as obras. Recomendo!', '2025-08-14', 4, 4),
+(5, 'A recepção foi muito cordial. Os atendentes foram simpáticos e me deram todas as informações que eu precisava.', '2025-08-15', 5, 5),
+(6, 'Participei de uma oficina na biblioteca e foi uma experiência enriquecedora. Ótima organização.', '2025-08-18', 6, 6),
+(7, 'Gostaria de sugerir que houvesse mais opções de acessibilidade para cadeirantes na área administrativa.', '2025-08-20', 7, 7),
+(8, 'As obras expostas são de uma sensibilidade única. Fiquei emocionada. Um verdadeiro tesouro cultural.', '2025-08-21', 8, 8),
+(9, 'Achei o espaço da recepção um pouco cheio. Talvez reorganizar a fila de entrada pudesse ajudar nos horários de pico.', '2025-08-22', 9, 9),
+(10, 'O evento na biblioteca foi muito bem organizado. Espaço limpo e confortável.', '2025-08-25', 10, 10),
+(11, 'O processo administrativo para agendamento de grupos escolares poderia ser mais claro no site.', '2025-08-26', 1, 11),
+(12, 'Adorei a interatividade das novas instalações na ala de exposições. As crianças se divertiram muito!', '2025-08-28', 2, 12),
+(13, 'Fui muito bem recebido na entrada principal. A equipe está de parabéns pelo profissionalismo.', '2025-08-29', 3, 13);
 
 -- Inserindo Sugestão na Filmoteca
 INSERT INTO filmoteca (id_filmoteca, sugestao, usuario_id) VALUES
@@ -109,19 +121,19 @@ INSERT INTO filmoteca (id_filmoteca, sugestao, usuario_id) VALUES
 
 -- Inserindo Visitas (uma concluída e uma agendada)
 -- Visitas CONCLUÍDAS (13) - Datas passadas
-INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (1, '2025-08-10 10:00:00', NULL, 'CONCLUIDA', 1, 1); -- Ana Clara visitou a Recepção
-INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (2, '2025-08-11 11:30:00', NULL, 'CONCLUIDA', 2, 2); -- John Smith visitou a Biblioteca
-INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (3, '2025-08-12 14:00:00', '2025-08-12 14:00:00', 'CONCLUIDA', 3, 3); -- Carlos Garcia visitou a Administração
-INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (4, '2025-08-14 09:00:00', NULL, 'CONCLUIDA', 4, 4); -- Beatriz Oliveira visitou as Exposições
-INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (5, '2025-08-15 15:20:00', NULL, 'CONCLUIDA', 5, 1); -- Lucas Pereira visitou a Recepção
-INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (6, '2025-08-18 10:45:00', '2025-08-18 10:45:00', 'CONCLUIDA', 6, 2); -- Sofia Rodriguez visitou a Biblioteca
-INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (7, '2025-08-20 13:00:00', NULL, 'CONCLUIDA', 7, 3); -- Davi Martins visitou a Administração
-INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (8, '2025-08-21 16:00:00', NULL, 'CONCLUIDA', 8, 4); -- Isabela Souza visitou as Exposições
-INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (9, '2025-08-22 11:00:00', NULL, 'CONCLUIDA', 9, 1); -- Mateo Gonzales visitou a Recepção
-INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (10, '2025-08-25 14:30:00', '2025-08-25 14:30:00', 'CONCLUIDA', 10, 2); -- Laura Fernandes visitou a Biblioteca
-INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (11, '2025-08-26 09:30:00', NULL, 'CONCLUIDA', 1, 3); -- Ana Clara visitou a Administração
-INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (12, '2025-08-28 12:00:00', NULL, 'CONCLUIDA', 2, 4); -- John Smith visitou as Exposições
-INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (13, '2025-08-29 10:00:00', '2025-08-29 10:00:00', 'CONCLUIDA', 3, 1); -- Carlos Garcia visitou a Recepção
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (1, '2025-08-10 10:00:00', NULL, 'CONFIRMADA', 1, 1); -- Ana Clara visitou a Recepção
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (2, '2025-08-11 11:30:00', NULL, 'CONFIRMADA', 2, 2); -- John Smith visitou a Biblioteca
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (3, '2025-08-12 14:00:00', '2025-08-12 14:00:00', 'CONFIRMADA', 3, 3); -- Carlos Garcia visitou a Administração
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (4, '2025-08-14 09:00:00', NULL, 'CONFIRMADA', 4, 4); -- Beatriz Oliveira visitou as Exposições
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (5, '2025-08-15 15:20:00', NULL, 'CONFIRMADA', 5, 1); -- Lucas Pereira visitou a Recepção
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (6, '2025-08-18 10:45:00', '2025-08-18 10:45:00', 'CONFIRMADA', 6, 2); -- Sofia Rodriguez visitou a Biblioteca
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (7, '2025-08-20 13:00:00', NULL, 'CONFIRMADA', 7, 3); -- Davi Martins visitou a Administração
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (8, '2025-08-21 16:00:00', NULL, 'CONFIRMADA', 8, 4); -- Isabela Souza visitou as Exposições
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (9, '2025-08-22 11:00:00', NULL, 'CONFIRMADA', 9, 1); -- Mateo Gonzales visitou a Recepção
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (10, '2025-08-25 14:30:00', '2025-08-25 14:30:00', 'CONFIRMADA', 10, 2); -- Laura Fernandes visitou a Biblioteca
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (11, '2025-08-26 09:30:00', NULL, 'CONFIRMADA', 1, 3); -- Ana Clara visitou a Administração
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (12, '2025-08-28 12:00:00', NULL, 'CONFIRMADA', 2, 4); -- John Smith visitou as Exposições
+INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (13, '2025-08-29 10:00:00', '2025-08-29 10:00:00', 'CONFIRMADA', 3, 1); -- Carlos Garcia visitou a Recepção
 
 -- Visitas AGENDADAS (13) - Datas futuras
 INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (14, NULL, '2025-09-10 10:00:00', 'AGENDADA', 4, 2); -- Beatriz Oliveira agendou visita à Biblioteca
@@ -179,11 +191,57 @@ INSERT INTO armario (id_armario, numeracao, usuario_id) VALUES
 -- 4. Inserindo Reservas no Auditório
 -- As reservas agora são feitas por qualquer 'usuario'.
 -- ===================================================================================
-INSERT INTO reserva_auditorio (nome_evento, data, hora_inicio, hora_fim, observacoes, status, usuario_id, auditorio_id) VALUES
-('Palestra de Abertura: A História do Acre', '2025-09-05', '19:00:00', '21:00:00', 'Projetor e 2 microfones.', 'APROVADA', 1, 1),
-('Oficina de Cerâmica Indígena', '2025-09-10', '14:00:00', '17:00:00', NULL, 'APROVADA', 2, 1),
-('Reunião Anual da Associação de Historiadores', '2025-09-12', '09:00:00', '12:00:00', 'Mesa de centro e água.', 'PENDENTE', 3, 1),
-('Seminário sobre Sustentabilidade na Amazônia', '2025-09-25', '09:00:00', '17:00:00', 'Transmissão ao vivo necessária.', 'PENDENTE', 1, 1);
--- ... (as outras reservas podem ser adicionadas da mesma forma, usando os IDs 1, 2 ou 3)
+INSERT INTO reserva_auditorio (nome_evento, data, hora_inicio, hora_fim, observacoes, status, id_usuario, id_auditorio) VALUES
+-- Reservas PENDENTES (Aguardando ação do Coordenador/ADM)
+('Ensaio do Coral Municipal', '2025-09-18', '19:00:00', '21:00:00', 'Necessário espaço para 30 pessoas.', 'PENDENTE', 4, 1),
+('Lançamento do Livro "Crônicas da Floresta"', '2025-09-20', '18:30:00', '20:00:00', 'Mesa para autógrafos e um microfone.', 'PENDENTE', 5, 2),
+('Workshop de Fotografia com Celular', '2025-09-22', '09:00:00', '12:00:00', 'Projetor com entrada HDMI.', 'PENDENTE', 6, 3),
+('Palestra sobre Seringueiros do Acre', '2025-09-26', '19:00:00', '20:30:00', NULL, 'PENDENTE', 7, 5),
+('Reunião de Pais e Mestres - Escola ABC', '2025-09-29', '19:30:00', '21:00:00', 'Apenas cadeiras, sem mesas.', 'PENDENTE', 8, 1),
+('Apresentação de Projeto de Software', '2025-10-03', '10:00:00', '11:00:00', NULL, 'PENDENTE', 9, 2),
+('Clube de Leitura - Debate Mensal', '2025-10-06', '19:00:00', '20:00:00', 'Círculo de cadeiras.', 'PENDENTE', 10, 2),
+('Treinamento de Primeiros Socorros', '2025-10-10', '08:00:00', '17:00:00', 'Espaço livre no palco para demonstrações.', 'PENDENTE', 1, 3),
+('Gravação de Podcast Educativo', '2025-10-14', '14:00:00', '16:00:00', 'Sala silenciosa, por favor.', 'PENDENTE', 2, 2),
+('Exposição de Arte Digital', '2025-10-20', '19:00:00', '22:00:00', 'Necessita de projetor de alta definição.', 'PENDENTE', 3, 5),
+
+-- Reservas APROVADAS (Auditório ocupado nestes horários)
+('Exibição do filme "A Batalha da Borracha"', '2025-09-19', '20:00:00', '22:00:00', NULL, 'APROVADA', 2, 5),
+('Contação de Histórias Infantis', '2025-09-21', '10:00:00', '11:00:00', 'Público infantil, cerca de 20 crianças.', 'APROVADA', 3, 3),
+('Curso de Extensão Universitária - História da Amazônia', '2025-09-23', '18:00:00', '22:00:00', 'Aulas todas as terças por 1 mês.', 'APROVADA', 4, 2),
+('Defesa de Mestrado - Antropologia', '2025-09-27', '14:00:00', '16:00:00', NULL, 'APROVADA', 5, 1),
+('Concerto da Orquestra Jovem', '2025-09-30', '20:00:00', '21:30:00', 'Necessário afinar o piano do auditório.', 'APROVADA', 6, 1),
+('Palestra Motivacional com Atleta Local', '2025-10-04', '19:00:00', '20:00:00', 'Um copo d''água e um microfone.', 'APROVADA', 7, 3),
+('Sarau Poético "Vozes do Norte"', '2025-10-08', '19:30:00', '21:00:00', NULL, 'APROVADA', 8, 5),
+('Exibição de Documentário Ambiental', '2025-10-11', '16:00:00', '17:30:00', NULL, 'APROVADA', 9, 5),
+('Formatura do Curso de Teatro', '2025-10-15', '19:00:00', '22:00:00', 'Cerimônia de entrega de certificados.', 'APROVADA', 10, 1),
+('Conferência Anual de TI', '2025-10-17', '09:00:00', '18:00:00', 'Internet e múltiplos pontos de energia.', 'APROVADA', 1, 1),
+('Semana de Arte Moderna - Abertura', '2025-10-22', '19:00:00', '21:00:00', 'Iluminação especial para o palco.', 'APROVADA', 2, 3),
+
+-- Reservas RECUSADAS (Para histórico)
+('Festa de Aniversário Privada', '2025-09-24', '19:00:00', '23:00:00', 'Uso para evento particular.', 'RECUSADA', 1, 1),
+('Ensaio de Banda de Rock', '2025-09-28', '18:00:00', '22:00:00', 'Volume do som incompatível com o ambiente.', 'RECUSADA', 2, 3),
+('Palestra sobre Criptomoedas', '2025-10-02', '19:00:00', '21:00:00', 'Evento com fins lucrativos/venda de curso.', 'RECUSADA', 3, 2),
+('Workshop de Culinária', '2025-10-05', '13:00:00', '17:00:00', 'Estrutura do auditório inadequada para a atividade.', 'RECUSADA', 4, 1),
+('Feira de Artesanato Local', '2025-10-12', '09:00:00', '18:00:00', 'Duração excede o limite permitido por reserva.', 'RECUSADA', 5, 3),
+('Congresso Religioso', '2025-10-18', '08:00:00', '19:00:00', 'Evento desalinhado com o perfil da instituição.', 'RECUSADA', 6, 1),
+('Show de Mágica Infantil', '2025-10-25', '15:00:00', '16:00:00', 'Conflito com outro evento já aprovado.', 'RECUSADA', 7, 5),
+('Convenção de Vendas - Empresa XYZ', '2025-10-28', '09:00:00', '17:00:00', 'Evento privado, não aberto ao público.', 'RECUSADA', 8, 1),
+
+-- Reservas FINALIZADAS (Eventos que já ocorreram)
+('Palestra Inaugural', '2025-08-01', '19:00:00', '21:00:00', 'Evento de abertura do mês cultural.', 'FINALIZADO', 1, 1),
+('Reunião de Condomínio Cultural', '2025-08-05', '19:30:00', '20:30:00', NULL, 'FINALIZADO', 10, 2),
+('Apresentação de Dança Folclórica', '2025-08-08', '20:00:00', '21:00:00', 'Palco livre.', 'FINALIZADO', 9, 3),
+('Curso de Desenho para Iniciantes', '2025-08-10', '09:00:00', '12:00:00', 'Mesas e cadeiras para 20 pessoas.', 'FINALIZADO', 8, 2),
+('Cineclube: Clássicos do Cinema Nacional', '2025-08-12', '19:00:00', '22:00:00', NULL, 'FINALIZADO', 7, 5),
+('Evento de Caridade "Acre Solidário"', '2025-08-15', '10:00:00', '17:00:00', 'Arrecadação de alimentos.', 'FINALIZADO', 6, 1),
+('Palestra "A Fauna do Acre"', '2025-08-18', '19:00:00', '20:00:00', 'Projetor e microfone.', 'FINALIZADO', 5, 3),
+('Audiência Pública sobre Meio Ambiente', '2025-08-20', '09:00:00', '13:00:00', 'Mesa para 5 debatedores.', 'FINALIZADO', 4, 1),
+('Oficina de Escrita Criativa', '2025-08-22', '14:00:00', '17:00:00', NULL, 'FINALIZADO', 3, 2),
+('Lançamento de Produto Regional', '2025-08-25', '19:30:00', '21:00:00', 'Coquetel para convidados.', 'FINALIZADO', 2, 1),
+('Recital de Piano', '2025-08-28', '20:00:00', '21:00:00', NULL, 'FINALIZADO', 1, 1),
+('Seminário de Educação', '2025-08-30', '08:30:00', '17:30:00', 'Coffee break no intervalo.', 'FINALIZADO', 5, 3),
+('Apresentação de TCC - Biologia', '2025-09-01', '10:00:00', '11:00:00', 'Banca com 3 professores.', 'FINALIZADO', 6, 2),
+('Mostra de Curtas-Metragens', '2025-09-05', '18:00:00', '22:00:00', NULL, 'FINALIZADO', 7, 5),
+('Fórum de Turismo Sustentável', '2025-09-10', '09:00:00', '18:00:00', 'Evento de dia inteiro.', 'FINALIZADO', 8, 1);
 
 SET FOREIGN_KEY_CHECKS=1;

@@ -1,9 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
-import { RespostaPaginada } from '../../models/RespostaPaginada';
-import { RequisicaoPaginada } from '../../models/RequisicaoPaginada';
 import { EnderecoVisitante } from '../../models/EnderecoVisitante';
 
 @Injectable({
@@ -11,54 +9,30 @@ import { EnderecoVisitante } from '../../models/EnderecoVisitante';
 })
 export class EnderecoVisitanteService {
 
+  private readonly apiUrl = `${environment.API_URL}/enderecoVisitante/`;
+
   constructor(private http: HttpClient) { }
 
-  apiUrl: string = environment.API_URL + '/enderecoVisitante/';
-
-  get(termoBusca?: string, paginacao?: RequisicaoPaginada): Observable<RespostaPaginada<EnderecoVisitante>> {
-    let url = this.apiUrl;
-    const params: string[] = [];
-
-    if (termoBusca) {
-      params.push(`termoBusca=${termoBusca}`);
-    }
-
-    if (paginacao) {
-      params.push(`page=${paginacao.page}`);
-      params.push(`size=${paginacao.size}`);
-
-      if (paginacao.sort && paginacao.sort.length > 0) {
-        paginacao.sort.forEach(campo => {
-          params.push(`sort=${campo}`);
-        });
-      }
-    } else {
-      params.push('unpaged=true');
-    }
-
-    if (params.length > 0) {
-      url += '?' + params.join('&');
-    }
-
-    return this.http.get<RespostaPaginada<EnderecoVisitante>>(url);
+  /**
+   * Busca os endereços de um usuário específico.
+   * Assumindo que a API será estendida para suportar este filtro.
+   * Por enquanto, este método pode não ser usado se cada usuário só tem um endereço.
+   */
+  getByUsuario(usuarioId: number): Observable<EnderecoVisitante[]> {
+    const params = new HttpParams().set('usuarioId', usuarioId.toString());
+    return this.http.get<EnderecoVisitante[]>(this.apiUrl, { params });
   }
 
-  getById(id: number): Observable<EnderecoVisitante> {
-    let url = this.apiUrl + id;
-    return this.http.get<EnderecoVisitante>(url);
-  }
-
-  save(objeto: EnderecoVisitante): Observable<EnderecoVisitante> {
-    let url = this.apiUrl;
-    if (objeto.idEnderecoVisitante) {
-      return this.http.put<EnderecoVisitante>(url, objeto);
-    } else {
-      return this.http.post<EnderecoVisitante>(url, objeto);
+  /**
+   * Salva um novo endereço (POST) ou atualiza um existente (PUT).
+   * @param endereco O objeto de endereço a ser salvo.
+   */
+  save(endereco: EnderecoVisitante): Observable<EnderecoVisitante> {
+    if (endereco.idEnderecoVisitante) {
+      // Atualização (PUT) com ID na URL
+      return this.http.put<EnderecoVisitante>(`${this.apiUrl}${endereco.idEnderecoVisitante}`, endereco);
     }
-  }
-
-  delete(id: number): Observable<void> {
-    let url = this.apiUrl + id;
-    return this.http.delete<void>(url);
+    // Criação (POST)
+    return this.http.post<EnderecoVisitante>(this.apiUrl, endereco);
   }
 }

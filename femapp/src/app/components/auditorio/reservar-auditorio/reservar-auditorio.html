@@ -1,0 +1,64 @@
+<main class="reserva-container">
+  <div class="reserva-card" *ngIf="!isLoading; else loading">
+    <header class="card-header">
+      <h1>Reservar um Auditório</h1>
+      <p>Preencha os detalhes do seu evento para solicitar uma reserva.</p>
+    </header>
+
+    <form [formGroup]="reservaForm" (ngSubmit)="save()">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="setor">1. Escolha o Setor</label>
+          <select id="setor" formControlName="setor" class="form-control" (change)="onSetorChange()">
+            <option [ngValue]="null" disabled>Selecione um setor...</option>
+            <option *ngFor="let setor of setores" [ngValue]="setor">{{ setor.nomeSetor }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="auditorio">2. Escolha o Auditório</label>
+          <select id="auditorio" formControlName="auditorio" class="form-control">
+            <option [ngValue]="null" disabled>
+              {{ reservaForm.get('setor')?.value ? 'Selecione um auditório...' : 'Escolha um setor primeiro' }}
+            </option>
+            <option *ngFor="let auditorio of auditoriosFiltrados" [ngValue]="auditorio">{{ auditorio.nomeAuditorio }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="nomeEvento">Nome do Evento</label>
+        <input type="text" id="nomeEvento" formControlName="nomeEvento" class="form-control" placeholder="Ex: Palestra sobre Inovação">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="data">Data</label>
+          <input type="date" id="data" formControlName="data" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="horaInicio">Início</label>
+          <input type="time" id="horaInicio" formControlName="horaInicio" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="horaFim">Fim</label>
+          <input type="time" id="horaFim" formControlName="horaFim" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="observacoes">Observações (opcional)</label>
+        <textarea id="observacoes" formControlName="observacoes" class="form-control" rows="3" placeholder="Ex: Necessário microfone e projetor."></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="reservaForm.invalid">Solicitar Reserva</button>
+      </div>
+    </form>
+  </div>
+
+  <ng-template #loading>
+    <p>Carregando dados...</p>
+  </ng-template>
+</main>

@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+.home-container {
+  background-color: #f0f2f5;
+  min-height: 100vh;
+  padding: 2rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.content-wrapper {
+  max-width: 1200px;
+  margin: auto;
+}
+
+.home-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.titulo-principal {
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+}
+
+.subtitulo {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0.25rem 0 0;
+}
+
+.dashboard-titulo {
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e0e0e0;
+  margin-bottom: 2rem;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.dashboard-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.card-icon {
+  flex-shrink: 0;
+  background-color: #eaf2ff;
+  color: #007bff;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.card-titulo {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.card-descricao {
+  margin: 0;
+  color: #555;
+  line-height: 1.5;
+}
+
+.sem-acoes {
+  text-align: center;
+  color: #888;
+  padding: 3rem;
+  background-color: #fff;
+  border-radius: 12px;
+}

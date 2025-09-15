@@ -1,0 +1,50 @@
+<main class="minhas-visitas-container">
+  <header class="page-header">
+    <h1>Minhas Visitas</h1>
+    <p>Aqui está o seu histórico de visitas agendadas e realizadas.</p>
+  </header>
+
+  <div class="filter-bar">
+    <label for="filtro-status">Filtrar por status:</label>
+    <select id="filtro-status" [(ngModel)]="filtroStatus" (change)="aplicarFiltros()" class="filter-select">
+      <option value="TODAS">Todas as Visitas</option>
+      <option *ngFor="let status of statusDisponiveis" [value]="status.valor">{{ status.nome }}</option>
+    </select>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">
+    <p>Carregando seu histórico...</p>
+  </div>
+
+  <div *ngIf="!isLoading && visitasExibidas.length > 0" class="visitas-grid">
+    <div *ngFor="let visita of visitasExibidas" class="visita-card">
+      <header class="card-header">
+        <h3 class="setor-nome">{{ visita.local.nomeSetor }}</h3>
+        <span class="badge" [ngClass]="visita.status">{{ visita.status }}</span>
+      </header>
+      <section class="card-body">
+        <div class="info-item">
+          <span class="info-label">Data:</span>
+          <span class="info-value">
+            {{ (visita.dataHoraAgendamento || visita.dataHoraEntrada) | date: 'dd/MM/yyyy' }}
+          </span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Hora:</span>
+          <span class="info-value">
+            {{ (visita.dataHoraAgendamento || visita.dataHoraEntrada) | date: 'HH:mm' }}
+          </span>
+        </div>
+      </section>
+        <footer class="card-footer" *ngIf="visita.status === 'CONFIRMADA' || visita.status === 'CONCLUIDA'">
+        <button class="btn-feedback" (click)="gerenciarFeedback(visita)">
+            {{ visita.possuiFeedback ? 'Visualizar Feedback' : 'Adicionar Feedback' }}
+        </button>
+        </footer>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading && visitasExibidas.length === 0" class="no-results">
+    <p>Nenhuma visita encontrada para os filtros selecionados.</p>
+  </div>
+</main>

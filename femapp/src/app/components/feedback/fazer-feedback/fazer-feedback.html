@@ -1,0 +1,37 @@
+<main class="feedback-container">
+  <div class="feedback-card" *ngIf="!isLoading && visita; else loadingOrError">
+    
+    <a routerLink="/minhas-visitas" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      <span>Voltar para Minhas Visitas</span>
+    </a>
+
+    <header class="card-header">
+      <h1>Deixe seu Feedback</h1>
+      <p>Conte-nos como foi sua experiência na visita ao setor <strong>{{ visita.local.nomeSetor }}</strong> no dia <strong>{{ (visita.dataHoraAgendamento || visita.dataHoraEntrada) | date: 'dd/MM/yyyy' }}</strong>.</p>
+    </header>
+
+    <form [formGroup]="feedbackForm" (ngSubmit)="save()">
+      <div class="form-group">
+        <label for="texto">Sua Mensagem</label>
+        <textarea id="texto" formControlName="texto" class="form-control" rows="8" placeholder="Escreva aqui sua avaliação, crítica ou sugestão..."></textarea>
+        <div *ngIf="texto?.invalid && texto?.touched" class="error-message">
+          <span *ngIf="texto?.errors?.['required']">Sua mensagem não pode estar em branco.</span>
+          <span *ngIf="texto?.errors?.['minlength']">Por favor, escreva pelo menos 10 caracteres.</span>
+        </div>
+      </div>
+      
+      <button type="submit" class="btn-submit" [disabled]="feedbackForm.invalid">
+        Enviar Feedback
+      </button>
+    </form>
+
+  </div>
+
+  <ng-template #loadingOrError>
+    <div class="status-container">
+      <p *ngIf="isLoading">Carregando dados da visita...</p>
+      <p *ngIf="!isLoading">Não foi possível carregar os dados. <a routerLink="/minhas-visitas">Tente novamente</a>.</p>
+    </div>
+  </ng-template>
+</main>

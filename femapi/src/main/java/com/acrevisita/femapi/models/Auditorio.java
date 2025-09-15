@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -24,7 +25,8 @@ public class Auditorio implements Serializable {
     private boolean disponibilidade = true;
 
     @ManyToOne(optional = false)
-    private Setor localAuditorio;
+    @JoinColumn(name = "idSetor")
+    private Setor setor;
 
     // ==================================(GETS E SETS)==================================
 
@@ -52,12 +54,12 @@ public class Auditorio implements Serializable {
         this.disponibilidade = disponibilidade;
     }
 
-    public Setor getLocalAuditorio() {
-        return localAuditorio;
+    public Setor getSetor() {
+        return setor;
     }
 
-    public void setLocalAuditorio(Setor localAuditorio) {
-        this.localAuditorio = localAuditorio;
+    public void setSetor(Setor setor) {
+        this.setor = setor;
     }
 
 }

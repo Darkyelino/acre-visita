@@ -10,7 +10,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.acrevisita.femapi.models.Feedback;
+import com.acrevisita.femapi.models.Usuario;
+import com.acrevisita.femapi.models.Visita;
 import com.acrevisita.femapi.repository.FeedbackRepository;
+import com.acrevisita.femapi.repository.UsuarioRepository;
+import com.acrevisita.femapi.repository.VisitaRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -18,9 +22,13 @@ import jakarta.persistence.EntityNotFoundException;
 public class FeedbackService implements IService<Feedback> {
 
     private final FeedbackRepository repo;
+    private final UsuarioRepository usuarioRepo;
+    private final VisitaRepository visitaRepo;
 
-    public FeedbackService(FeedbackRepository repo) {
+    public FeedbackService(FeedbackRepository repo, UsuarioRepository usuarioRepo, VisitaRepository visitaRepo) {
         this.repo = repo;
+        this.usuarioRepo = usuarioRepo;
+        this.visitaRepo = visitaRepo;
     }
 
     @Override
@@ -47,8 +55,21 @@ public class FeedbackService implements IService<Feedback> {
         @CacheEvict(value = "feedback", key = "#objeto.idFeedback"),
         @CacheEvict(value = "feedbacks", allEntries = true)
     })
-    public Feedback save(Feedback objeto) {
-        return repo.save(objeto);
+    public Feedback save(Feedback feedback) {
+        // Valida e busca o Usuário
+        Long usuarioId = feedback.getUsuario().getId();
+        Usuario usuarioManaged = usuarioRepo.findById(usuarioId)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário com ID " + usuarioId + " não encontrado."));
+        
+        // Valida e busca a Visita
+        Long visitaId = feedback.getVisita().getIdVisita();
+        Visita visitaManaged = visitaRepo.findById(visitaId)
+                .orElseThrow(() -> new EntityNotFoundException("Visita com ID " + visitaId + " não encontrada."));
+                
+        feedback.setUsuario(usuarioManaged);
+        feedback.setVisita(visitaManaged);
+
+        return repo.save(feedback);
     }
 
     @Override

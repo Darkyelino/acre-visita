@@ -73,7 +73,7 @@ export class ListAuditorio implements OnInit {
     
     // 3. Filtro por SETOR
     if (this.filtroSetor !== 'TODOS') {
-      auditoriosFiltrados = auditoriosFiltrados.filter(a => a.localAuditorio?.idSetor === +this.filtroSetor);
+      auditoriosFiltrados = auditoriosFiltrados.filter(a => a.setor?.idSetor === +this.filtroSetor);
     }
     
     this.auditoriosExibidos = auditoriosFiltrados;

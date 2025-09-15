@@ -10,6 +10,7 @@ import { Usuario } from '../../../models/Usuario';
 import { Setor } from '../../../models/Setor';
 import { ETipoAlerta } from '../../../models/ETipoAlerta';
 import { Visita } from '../../../models/Visita';
+import { EStatus } from '../../../models/EStatus';
 
 @Component({
   selector: 'app-fazer-visita',
@@ -23,6 +24,7 @@ export class FazerVisita implements OnInit {
   usuarioLogado: Usuario | null = null;
   setores: Setor[] = [];
   isLoading = false;
+  dataMinima: string;
 
   visitaForm = new FormGroup({
     setor: new FormControl<Setor | null>(null, Validators.required),
@@ -36,7 +38,9 @@ export class FazerVisita implements OnInit {
     private visitaService: VisitaService,
     private alertaService: AlertaService,
     private router: Router
-  ) {}
+  ) {
+    this.dataMinima = new Date().toISOString().split('T')[0];
+  }
 
   ngOnInit(): void {
     this.usuarioLogado = this.authService.loggedUser;
@@ -54,36 +58,37 @@ export class FazerVisita implements OnInit {
   }
 
   /**
-   * Registra uma entrada imediata para o setor selecionado.
+   * ✅ MÉTODO CORRIGIDO
+   * Registra uma entrada para o dia e hora ATUAIS com status PENDENTE.
    */
   registrarEntradaAgora(): void {
     if (this.form.setor.invalid) {
-      this.visitaForm.markAllAsTouched();
+      this.form.setor.markAsTouched();
+      this.alertaService.enviarAlerta({ tipo: ETipoAlerta.ERRO, mensagem: 'Por favor, selecione um setor primeiro.'});
       return;
     }
 
     const novaVisita: Visita = {
-      dataHoraEntrada: new Date().toISOString(), // Data e hora atuais
-      dataHoraAgendamento: null,
-      status: 'PENDENTE',
+      // CORREÇÃO 1: A data de entrada é nula, pois a visita ainda está pendente de aprovação.
+      dataHoraEntrada: null,
+      // CORREÇÃO 2: A data de agendamento é a data/hora ATUAL, respeitando o fuso horário.
+      dataHoraAgendamento: new Date().toISOString(),
+      // CORREÇÃO 3: O status inicial é PENDENTE.
+      status: EStatus.PENDENTE,
       usuario: this.usuarioLogado!,
       local: this.form.setor.value!
     };
 
-    this.salvarVisita(novaVisita, 'Entrada registrada com sucesso! Tenha uma ótima visita.');
+    this.salvarVisita(novaVisita, 'Solicitação de visita enviada! Aguarde a confirmação do atendente.');
   }
 
   /**
    * Agenda uma visita para a data e hora selecionadas.
    */
   agendarVisita(): void {
-    // Adiciona validadores para data e hora apenas para esta ação
-    this.form.dataAgendamento.setValidators([Validators.required]);
-    this.form.horaAgendamento.setValidators([Validators.required]);
-    this.visitaForm.updateValueAndValidity();
-
-    if (this.visitaForm.invalid) {
+    if (this.form.setor.invalid || !this.form.dataAgendamento.value || !this.form.horaAgendamento.value) {
       this.visitaForm.markAllAsTouched();
+      this.alertaService.enviarAlerta({ tipo: ETipoAlerta.ERRO, mensagem: 'Para agendar, selecione o setor, a data e a hora.'});
       return;
     }
 
@@ -91,10 +96,15 @@ export class FazerVisita implements OnInit {
     const hora = this.form.horaAgendamento.value!;
     const dataHoraAgendamento = new Date(`${data}T${hora}`).toISOString();
 
+    if (new Date(dataHoraAgendamento).getTime() < new Date().getTime()) {
+      this.alertaService.enviarAlerta({ tipo: ETipoAlerta.ERRO, mensagem: 'Não é possível agendar uma visita para uma data ou hora no passado.'});
+      return;
+    }
+
     const novaVisita: Visita = {
       dataHoraEntrada: null,
       dataHoraAgendamento: dataHoraAgendamento,
-      status: 'AGENDADA',
+      status: EStatus.AGENDADA,
       usuario: this.usuarioLogado!,
       local: this.form.setor.value!
     };
@@ -107,13 +117,14 @@ export class FazerVisita implements OnInit {
     this.visitaService.save(visita).subscribe({
       next: () => {
         this.alertaService.enviarAlerta({ tipo: ETipoAlerta.SUCESSO, mensagem: mensagemSucesso });
-        this.router.navigate(['/visitar']); // Redireciona para a página principal
-        this.isLoading = false;
+        this.router.navigate(['/minhas-visitas']);
       },
-      error: () => {
+      error: (err) => {
+        console.error("Erro ao salvar visita:", err);
         this.alertaService.enviarAlerta({ tipo: ETipoAlerta.ERRO, mensagem: 'Ocorreu um erro. Tente novamente.' });
         this.isLoading = false;
-      }
+      },
+      complete: () => this.isLoading = false
     });
   }
 }

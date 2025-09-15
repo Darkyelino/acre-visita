@@ -1,0 +1,78 @@
+<main class="list-container">
+  <header class="list-header">
+    <h1>Documentos de Visitantes</h1>
+    <p>Busque um visitante para adicionar, visualizar ou editar seu documento.</p>
+  </header>
+
+  <section class="filter-bar">
+    <input 
+      type="text" 
+      class="filter-input"
+      placeholder="Pesquisar por nome do visitante..."
+      [(ngModel)]="filtroNome"
+      (input)="aplicarFiltros()">
+  </section>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Nome do Visitante</th>
+          <th>Email</th>
+          <th>Telefone</th>
+          <th class="col-acoes">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let visitante of visitantesExibidos">
+          <td>{{ visitante.nome }}</td>
+          <td>{{ visitante.email }}</td>
+          <td>{{ visitante.telefone || 'N/A' }}</td>
+          <td class="col-acoes">
+            <button class="btn-acao" (click)="abrirModal(visitante)">
+              Gerenciar Documento
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="isLoading && !isModalVisible" class="loading">
+      Carregando visitantes...
+    </div>
+    <div *ngIf="!isLoading && visitantesExibidos.length === 0" class="no-results">
+      <p>Nenhum visitante encontrado.</p>
+    </div>
+  </div>
+</main>
+
+<div class="modal-overlay" *ngIf="isModalVisible">
+  <div class="modal-content">
+    <h3 *ngIf="!documentoAtual">Adicionar Documento para {{ visitanteSelecionado?.nome }}</h3>
+    <h3 *ngIf="documentoAtual">Editar Documento de {{ visitanteSelecionado?.nome }}</h3>
+    
+    <div *ngIf="isLoading" class="loading-modal">Carregando...</div>
+
+    <form *ngIf="!isLoading" [formGroup]="documentoForm" (ngSubmit)="salvarDocumento()">
+      <div class="form-group">
+        <label for="tipo">Tipo de Documento</label>
+        <select id="tipo" formControlName="tipo" class="form-control">
+          <option value="CPF">CPF</option>
+          <option value="Passaporte">Passaporte</option>
+          <option value="RG">RG</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="numero">Número do Documento</label>
+        <input type="text" id="numero" formControlName="numero" placeholder="Digite o número aqui..." class="form-control">
+      </div>
+      
+      <div class="modal-acoes">
+        <button *ngIf="documentoAtual" type="button" class="btn-excluir" (click)="excluirDocumento()">Excluir</button>
+        <div class="espacador"></div>
+        <button type="button" class="btn-cancelar" (click)="fecharModal()">Cancelar</button>
+        <button type="submit" class="btn-salvar" [disabled]="documentoForm.invalid">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,47 +1,65 @@
+<header class="app-header" *ngIf="usuarioLogado$ | async as usuario; else cabecalhoDeslogado">
+  <button class="sidebar-toggle" (click)="toggleSidebar()" title="Abrir menu">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+  <a routerLink="/home" class="header-brand">
+    <img src="assets/img/acrevisita.png" alt="Logo AcreVisita" class="header-logo">
+  </a>
+  <div class="user-menu">
+    <span class="user-greeting">Olá, {{ usuario.nome }}</span>
+    <button (click)="logout()" class="btn-logout">Sair</button>
+  </div>
+</header>
+
+<ng-template #cabecalhoDeslogado>
+  <header class="app-header">
+    <a routerLink="/login" class="header-brand">
+      <img src="assets/img/acrevisita.png" alt="Logo AcreVisita" class="header-logo">
+    </a>
+    <div class="auth-buttons">
+      <a routerLink="/login" class="btn-login">Entrar</a>
+      <a routerLink="/cadastro-visitante" class="btn-cadastro">Cadastre-se</a>
+    </div>
+  </header>
+</ng-template>
+
+<aside class="app-sidebar" [class.open]="isSidebarOpen" *ngIf="usuarioLogado$ | async as usuario">
+  <nav class="sidebar-nav">
+    <a routerLink="/home" (click)="closeSidebar()">Início</a>
+    <a routerLink="/visitar" (click)="closeSidebar()">Fazer Visita</a>
+    <a routerLink="/sugerir-filmoteca" (click)="closeSidebar()">Sugerir Filme</a>
+    <ng-container *ngIf="temPermissaoAdmin(usuario)">
+      <hr>
+      <span class="nav-section-title">Painel Administrativo</span>
+      <a routerLink="/admin/funcionarios" (click)="closeSidebar()">Funcionários</a>
+      <a routerLink="/admin/auditorios" (click)="closeSidebar()">Auditórios</a>
+      <a routerLink="/admin/setores" (click)="closeSidebar()">Setores</a>
+    </ng-container>
+  </nav>
+</aside>
+<div class="sidebar-overlay" [class.visible]="isSidebarOpen" (click)="closeSidebar()"></div>
+
 <main class="content-container">
   <router-outlet></router-outlet>
 </main>
 
-<footer class="footer-container">
-  <div class="footer-content">
-    
-    <div class="footer-section logos">
-      <img 
-        src="assets/img/brasao-acre.png" 
-        alt="Brasão do Estado do Acre" 
-        class="logo"
-      />
-      <img 
-        src="assets/img/logo-fem.png" 
-        alt="Logo da Fundação Elias Mansour" 
-        class="logo"
-      />
-    </div>
-
-    <div class="footer-section info-center">
-      <p class="title-app">AcreVisita - Sistema de Gestão de Visitantes</p>
-      <p>© 2025 Todos os direitos reservados.</p>
-      <div class="version-links">
-        <span>Versão 1.0.0 - </span>
-        <a href="#">Termos de uso</a> -
-        <a href="#">Política de privacidade</a>
-      </div>
-    </div>
-
-    <div class="footer-section contact-right">
-      <h4>Contato</h4>
-      <div class="contact-item">
-        <span class="icon">📞</span>
-        <span>(68) 99999-9999</span>
-      </div>
-      <div class="contact-item">
-        <span class="icon">📧</span>
-        <a href="mailto:exemplo@email.com">exemplo@email.com</a>
-      </div>
-      <div class="contact-item">
-        <span class="icon">📷</span>
-        <a href="#">@exemplo_insta</a>
-      </div>
-    </div>
-  </div>
+<footer class="app-footer">
+  <section class="footer-brand">
+    <img src="assets/img/brasao-acre.png" alt="Brasão do Estado do Acre" class="footer-logo">
+    <img src="assets/img/logo-fem.png" alt="Logo da Fundação Elias Mansour" class="footer-logo">
+  </section>
+  <section class="footer-info">
+    <p class="app-name">AcreVisita</p>
+    <p class="copyright-text">© 2025 Fundação Elias Mansour. Todos os direitos reservados.</p>
+    <nav class="footer-links">
+      <a href="#">Termos de Uso</a>
+      <span>&bull;</span>
+      <a href="#">Política de Privacidade</a>
+    </nav>
+  </section>
+  <section class="footer-contact">
+    <p><strong>Contato</strong></p>
+    <p>📞 (68) 3223-1414</p>
+    <p>📧 <a href="mailto:contato@fem.ac.gov.br">contato@fem.ac.gov.br</a></p>
+  </section>
 </footer>
