@@ -9,7 +9,7 @@ import { RequisicaoPaginada } from '../../../models/RequisicaoPaginada';
 @Component({
   selector: 'app-list-feedbacks',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './list-feedbacks.html',
   styleUrls: ['./list-feedbacks.css']
 })
