@@ -95,7 +95,7 @@ public class EnderecoVisitanteController implements IController<EnderecoVisitant
     }
 
     @Override
-    @PutMapping("/")
+    @PutMapping("/{id}")
     @Operation(
         summary = "Atualizar um endereço do visitante",
         description = "Atualiza um endereço existente do visitante"

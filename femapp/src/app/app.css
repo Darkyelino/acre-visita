@@ -171,8 +171,8 @@ body {
 
 /* ======== FOOTER ======== */
 .app-footer {
-  background: #263238;
-  color: #eee;
+  background: #ffffff;
+  color: #000000;
   padding: 1.5rem;
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
@@ -195,7 +195,7 @@ body {
 }
 
 .footer-links a {
-  color: #eee;
+  color: #000000;
   text-decoration: none;
   margin: 0 0.3rem;
 }
@@ -228,4 +228,76 @@ body {
   .footer-contact {
     text-align: center;
   }
+}
+
+/* ======== ESTILO DO MENU DROPDOWN DO USUÁRIO ======== */
+
+/* Transforma o .user-menu em um container clicável */
+.user-menu {
+  position: relative; /* Essencial para o posicionamento do dropdown */
+  cursor: pointer;
+}
+
+/* Cria o avatar circular com a primeira letra do nome */
+.avatar-placeholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #00796b; /* Cor verde do seu tema */
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-left: 0.5rem;
+}
+
+/* O menu dropdown em si, escondido por padrão */
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px); /* Posiciona 10px abaixo do header */
+  right: 0;
+  background-color: #ffffff; /* Fundo branco */
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  width: 200px;
+  overflow: hidden;
+  display: none; /* Começa invisível */
+  z-index: 1100; /* Garante que fique acima de outros elementos */
+}
+
+/* Mostra o dropdown quando a classe .open é adicionada ao .user-menu */
+.user-menu.open .dropdown-menu {
+  display: block;
+}
+
+/* Estilo dos links dentro do dropdown */
+.dropdown-menu a {
+  display: block;
+  padding: 0.75rem 1.25rem;
+  color: #333; /* Texto escuro para o fundo branco */
+  text-decoration: none;
+  transition: background-color 0.2s;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f1f3f5; /* Cor de fundo suave ao passar o mouse */
+}
+
+/* Estilo específico para o link de "Sair" */
+.dropdown-menu a.logout-link {
+  color: #e53935; /* Cor vermelha de perigo */
+}
+
+.dropdown-menu a.logout-link:hover {
+  background-color: #ffebee; /* Fundo avermelhado suave */
+}
+
+/* Oculta o botão de logout antigo, já que agora ele está no dropdown */
+.btn-logout {
+  display: none;
 }

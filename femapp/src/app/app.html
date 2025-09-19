@@ -1,13 +1,19 @@
 <header class="app-header" *ngIf="usuarioLogado$ | async as usuario; else cabecalhoDeslogado">
   <button class="sidebar-toggle" (click)="toggleSidebar()" title="Abrir menu">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
   </button>
   <a routerLink="/home" class="header-brand">
     <img src="assets/img/acrevisita.png" alt="Logo AcreVisita" class="header-logo">
   </a>
-  <div class="user-menu">
+  
+  <div class="user-menu" (click)="toggleUserMenu()" [class.open]="userMenuOpen">
     <span class="user-greeting">Olá, {{ usuario.nome }}</span>
-    <button (click)="logout()" class="btn-logout">Sair</button>
+    <div class="avatar-placeholder">{{ usuario.nome.charAt(0) }}</div>
+
+    <div class="dropdown-menu">
+      <a routerLink="/perfil" (click)="closeUserMenu()">Meu Perfil</a>
+      <a (click)="logout()" class="logout-link">Sair</a>
+    </div>
   </div>
 </header>
 
@@ -18,22 +24,43 @@
     </a>
     <div class="auth-buttons">
       <a routerLink="/login" class="btn-login">Entrar</a>
-      <a routerLink="/cadastro-visitante" class="btn-cadastro">Cadastre-se</a>
+      <a routerLink="/cadastro" class="btn-cadastro">Cadastre-se</a>
     </div>
   </header>
 </ng-template>
 
 <aside class="app-sidebar" [class.open]="isSidebarOpen" *ngIf="usuarioLogado$ | async as usuario">
   <nav class="sidebar-nav">
-    <a routerLink="/home" (click)="closeSidebar()">Início</a>
-    <a routerLink="/visitar" (click)="closeSidebar()">Fazer Visita</a>
-    <a routerLink="/sugerir-filmoteca" (click)="closeSidebar()">Sugerir Filme</a>
-    <ng-container *ngIf="temPermissaoAdmin(usuario)">
+    <a routerLink="/home" routerLinkActive="active-link" (click)="closeSidebar()">Início</a>
+    <hr>
+    <ng-container *ngIf="isVisitante(usuario)">
+      <span class="nav-section-title">Minha Conta</span>
+      <a routerLink="/minhas-visitas" routerLinkActive="active-link" (click)="closeSidebar()">Minhas Visitas</a>
+      <a routerLink="/meu-endereco" routerLinkActive="active-link" (click)="closeSidebar()">Meu Endereço</a>
+      <a routerLink="/perfil" routerLinkActive="active-link" (click)="closeSidebar()">Meu Perfil</a>
       <hr>
-      <span class="nav-section-title">Painel Administrativo</span>
-      <a routerLink="/admin/funcionarios" (click)="closeSidebar()">Funcionários</a>
-      <a routerLink="/admin/auditorios" (click)="closeSidebar()">Auditórios</a>
-      <a routerLink="/admin/setores" (click)="closeSidebar()">Setores</a>
+      <span class="nav-section-title">Ações</span>
+      <a routerLink="/visitar" routerLinkActive="active-link" (click)="closeSidebar()">Fazer Visita</a>
+      <a routerLink="/auditorio/reservar" routerLinkActive="active-link" (click)="closeSidebar()">Reservar Auditório</a>
+      <a routerLink="/filmoteca/sugestao" routerLinkActive="active-link" (click)="closeSidebar()">Sugerir Filme</a>
+    </ng-container>
+    <ng-container *ngIf="isFuncionario(usuario)">
+      <span class="nav-section-title">Operacional</span>
+      <a routerLink="/visita/gerenciar" routerLinkActive="active-link" (click)="closeSidebar()">Gerenciar Visitas</a>
+      <a routerLink="/admin/gerenciar-documentos" routerLinkActive="active-link" (click)="closeSidebar()">Gerenciar Documentos</a>
+      <a routerLink="/feedback/listar" routerLinkActive="active-link" (click)="closeSidebar()">Ver Feedbacks</a>
+    </ng-container>
+    <ng-container *ngIf="isCoordenadorOuAdmin(usuario)">
+      <hr>
+      <span class="nav-section-title">Gestão</span>
+      <a routerLink="/auditorio/gerenciar-reservas" routerLinkActive="active-link" (click)="closeSidebar()">Gerenciar Reservas</a>
+      <a routerLink="/admin/auditorios" routerLinkActive="active-link" (click)="closeSidebar()">Gerenciar Auditórios</a>
+    </ng-container>
+    <ng-container *ngIf="isAdmin(usuario)">
+      <hr>
+      <span class="nav-section-title">Sistema</span>
+      <a routerLink="/admin/funcionarios" routerLinkActive="active-link" (click)="closeSidebar()">Gerenciar Funcionários</a>
+      <a routerLink="/admin/setores" routerLinkActive="active-link" (click)="closeSidebar()">Gerenciar Setores</a>
     </ng-container>
   </nav>
 </aside>

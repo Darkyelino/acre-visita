@@ -108,7 +108,7 @@ export class Home implements OnInit {
       titulo: 'Gerenciar Funcionários',
       descricao: 'Adicione, edite ou remova atendentes e coordenadores.',
       icone: 'users',
-      link: '/list-funcionarios', // Corrigido
+      link: '/funcionario/list', // Corrigido
       papeisPermitidos: [EPapel.ADMINISTRADOR]
     },
     {

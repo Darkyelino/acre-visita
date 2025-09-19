@@ -86,7 +86,7 @@ public class FilmotecaController implements IController<Filmoteca> {
     }
 
     @Override
-    @PutMapping("/")
+    @PutMapping("/{id}")
     @Operation(
         summary = "Atualizar uma sugestão existente",
         description = "Atualiza os dados de uma sugestão existente."

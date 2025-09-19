@@ -1,0 +1,91 @@
+.perfil-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 3rem 1rem;
+  font-family: sans-serif;
+}
+.perfil-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 900px;
+  overflow: hidden;
+}
+.card-header {
+  background-color: #f8f9fa;
+  padding: 2rem;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+}
+.avatar-placeholder {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  font-size: 2.5rem;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+.card-header h1 { margin: 0; }
+.user-role {
+  background-color: #eaf2ff;
+  color: #0056b3;
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: inline-block;
+  margin-top: 0.5rem;
+  text-transform: capitalize;
+}
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  padding: 2rem;
+}
+@media (min-width: 768px) {
+  .info-grid { grid-template-columns: 1fr 1fr; }
+}
+.info-section h2 {
+  font-size: 1.2rem;
+  margin: 0 0 1.5rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+.info-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+.info-item label {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+.info-item span {
+  font-size: 1rem;
+  font-weight: 500;
+}
+.info-placeholder { color: #888; font-style: italic; }
+.card-footer {
+  padding: 1rem;
+  text-align: right;
+  background-color: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
+}
+.btn-editar {
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 500;
+}
+.status-container { text-align: center; padding: 3rem; }

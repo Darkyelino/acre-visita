@@ -1,4 +1,4 @@
-import { Component, HostBinding } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from './services/auth/auth';
@@ -17,11 +17,8 @@ export class App {
 
   usuarioLogado$: Observable<Usuario | null>;
   isSidebarOpen = false;
+  userMenuOpen = false; // ✅ Variável para controlar o dropdown do usuário
 
-  @HostBinding('class.sidebar-is-open') get sidebarOpen() {
-    return this.isSidebarOpen;
-  }
-  
   constructor(private authService: AuthService) {
     this.usuarioLogado$ = this.authService.user$;
   }
@@ -33,14 +30,37 @@ export class App {
   closeSidebar(): void {
     this.isSidebarOpen = false;
   }
+  
+  // ✅ Métodos para controlar o dropdown do usuário
+  toggleUserMenu(): void {
+    this.userMenuOpen = !this.userMenuOpen;
+  }
+
+  closeUserMenu(): void {
+    this.userMenuOpen = false;
+  }
 
   logout(): void {
     this.authService.logout();
     this.closeSidebar();
+    this.closeUserMenu();
   }
 
-  temPermissaoAdmin(usuario: Usuario | null): boolean {
+  isVisitante(usuario: Usuario | null): boolean {
+    return usuario?.papel === EPapel.VISITANTE;
+  }
+
+  isFuncionario(usuario: Usuario | null): boolean {
     if (!usuario) return false;
-    return [EPapel.ADMINISTRADOR, EPapel.COORDENADOR].includes(usuario.papel);
+    return [EPapel.ATENDENTE, EPapel.COORDENADOR, EPapel.ADMINISTRADOR].includes(usuario.papel);
+  }
+
+  isCoordenadorOuAdmin(usuario: Usuario | null): boolean {
+    if (!usuario) return false;
+    return [EPapel.COORDENADOR, EPapel.ADMINISTRADOR].includes(usuario.papel);
+  }
+  
+  isAdmin(usuario: Usuario | null): boolean {
+    return usuario?.papel === EPapel.ADMINISTRADOR;
   }
 }

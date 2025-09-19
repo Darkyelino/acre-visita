@@ -86,7 +86,7 @@ public class AuditorioController implements IController<Auditorio> {
     }
 
     @Override
-    @PutMapping("/")
+    @PutMapping("/{id}")
     @Operation(
         summary = "Atualizar um auditório existente",
         description = "Atualiza os dados de um auditório existente."

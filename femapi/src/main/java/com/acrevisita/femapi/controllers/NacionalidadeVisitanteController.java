@@ -86,7 +86,7 @@ public class NacionalidadeVisitanteController implements IController<Nacionalida
     }
 
     @Override
-    @PutMapping("/")
+    @PutMapping("/{id}")
     @Operation(
         summary = "Atualizar uma nacionalidade existente",
         description = "Atualiza os dados de uma nacionalidade existente."

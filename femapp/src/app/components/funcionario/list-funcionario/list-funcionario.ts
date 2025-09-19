@@ -84,7 +84,7 @@ export class ListFuncionario implements OnInit {
   
   editar(id: number | undefined): void {
     if (id) {
-      this.router.navigate(['/editar-funcionario', id]);
+      this.router.navigate(['funcionario/editar', id]);
     }
   }
 

@@ -85,7 +85,7 @@ public class FeedbackController implements IController<Feedback> {
     }
 
     @Override
-    @PutMapping("/")
+    @PutMapping("/{id}")
     @Operation(
         summary = "Atualizar um feedback existente",
         description = "Atualiza os dados de um feedback existente."

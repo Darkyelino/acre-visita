@@ -75,7 +75,7 @@ public class ReservaAuditorioController { // Não precisa mais da interface ICon
         return ResponseEntity.status(HttpStatus.CREATED).body(registro);
     }
 
-    @PutMapping("/")
+    @PutMapping("/{id}")
     @Operation(summary = "Atualizar uma reserva existente")
     public ResponseEntity<ReservaAuditorio> update(@RequestBody ReservaAuditorio objeto) {
         ReservaAuditorio registro = servico.save(objeto);

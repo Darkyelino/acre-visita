@@ -1,1 +1,74 @@
-<p>perfil works!</p>
+<main class="perfil-container">
+  <div class="perfil-card" *ngIf="!isLoading && usuarioLogado; else loadingOrError">
+    <header class="card-header">
+      <div class="avatar-placeholder">{{ usuarioLogado.nome.charAt(0) }}</div>
+      <h1>{{ usuarioLogado.nome }}</h1>
+      <p class="user-role">{{ usuarioLogado.papel.replace('ROLE_', '') }}</p>
+    </header>
+
+    <section class="info-grid">
+      <!-- Seção de Dados Pessoais -->
+      <div class="info-section">
+        <h2>Dados Pessoais</h2>
+        <div class="info-item">
+          <label>Email</label>
+          <span>{{ usuarioLogado.email }}</span>
+        </div>
+        <div class="info-item" *ngIf="usuarioLogado.telefone">
+          <label>Telefone</label>
+          <span>{{ usuarioLogado.telefone }}</span>
+        </div>
+        <div class="info-item" *ngIf="usuarioLogado.nacionalidade">
+          <label>Nacionalidade</label>
+          <span>{{ usuarioLogado.nacionalidade.nacionalidade }}</span>
+        </div>
+        <div class="info-item" *ngIf="usuarioLogado.setor">
+          <label>Setor</label>
+          <span>{{ usuarioLogado.setor.nomeSetor }}</span>
+        </div>
+      </div>
+
+      <!-- Seção de Endereço -->
+      <div class="info-section">
+        <h2>Endereço</h2>
+        <ng-container *ngIf="meuEndereco; else semEndereco">
+          <div class="info-item">
+            <label>CEP</label>
+            <span>{{ meuEndereco.cepVisitante }}</span>
+          </div>
+          <div class="info-item">
+            <label>Logradouro</label>
+            <span>{{ meuEndereco.ruaVisitante }}, {{ meuEndereco.numeroVisitante }}</span>
+          </div>
+          <div class="info-item">
+            <label>Bairro</label>
+            <span>{{ meuEndereco.bairroVisitante }}</span>
+          </div>
+          <div class="info-item">
+            <label>Cidade / Estado</label>
+            <span>{{ meuEndereco.cidadeVisitante }} - {{ meuEndereco.estadoVisitante }}</span>
+          </div>
+        </ng-container>
+        <ng-template #semEndereco>
+          <p class="info-placeholder">Nenhum endereço cadastrado.</p>
+        </ng-template>
+      </div>
+    </section>
+
+    <footer class="card-footer">
+      <a *ngIf="usuarioLogado.papel === EPapel.VISITANTE" routerLink="/meu-endereco" class="btn-editar">
+        Editar Endereço
+      </a>
+      <a *ngIf="usuarioLogado.papel !== EPapel.VISITANTE" [routerLink]="['/admin/editar-funcionario', usuarioLogado.id]" class="btn-editar">
+        Editar Perfil
+      </a>
+    </footer>
+  </div>
+
+  <ng-template #loadingOrError>
+    <div class="status-container">
+      <p *ngIf="isLoading">Carregando perfil...</p>
+      <p *ngIf="!isLoading">Usuário não encontrado.</p>
+    </div>
+  </ng-template>
+</main>

@@ -23,12 +23,14 @@ import { ListFeedbacks } from './components/feedback/list-feedbacks/list-feedbac
 import { GerenciarReservas } from './components/auditorio/gerenciar-reservas/gerenciar-reservas';
 import { FormEnderecoVisitante } from './components/endereco-visitante/form-endereco-visitante/form-endereco-visitante';
 import { ListEnderecoVisitante } from './components/endereco-visitante/list-endereco-visitante/list-endereco-visitante';
+import { Perfil } from './components/home/perfil/perfil';
 
 export const routes: Routes = [
     { path: '', children: [
 
           // Adicione a rota para a home
         { path: 'home', component: Home, canActivate: [authGuard] },
+        { path: 'perfil', component: Perfil, canActivate: [authGuard] },
 
         // Visitantes
         { path: 'cadastro', component: CadastroVisitante },
@@ -69,8 +71,8 @@ export const routes: Routes = [
         { path: 'auditorio/gerenciar-reservas', component: GerenciarReservas, canActivate: [roleGuard], data: { roles: [EPapel.COORDENADOR, EPapel.ADMINISTRADOR]} },
 
         // Funcionários
-        { path: 'cadastro-funcionario', component: CadastroFuncionario, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
-        { path: 'editar-funcionario/:id', component: CadastroFuncionario, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
-        { path: 'list-funcionarios', component: ListFuncionario, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR] }}
+        { path: 'funcionario/cadastro', component: CadastroFuncionario, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
+        { path: 'funcionario/editar/:id', component: CadastroFuncionario, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
+        { path: 'funcionario/list', component: ListFuncionario, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR] }}
     ]},
 ];

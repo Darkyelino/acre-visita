@@ -86,7 +86,7 @@ public class ArmarioController implements IController<Armario> {
     }
 
     @Override
-    @PutMapping("/")
+    @PutMapping("/{id}")
     @Operation(
         summary = "Atualizar um armário existente",
         description = "Atualiza os dados de um armário existente."

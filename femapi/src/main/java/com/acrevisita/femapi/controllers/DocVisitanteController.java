@@ -86,7 +86,7 @@ public class DocVisitanteController implements IController<DocVisitante> {
     }
 
     @Override
-    @PutMapping("/")
+    @PutMapping("/{id}")
     @Operation(
         summary = "Atualizar um documento existente",
         description = "Atualiza os dados de um documento existente."

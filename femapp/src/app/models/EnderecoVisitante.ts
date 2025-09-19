@@ -1,3 +1,5 @@
+import { Usuario } from "./Usuario";
+
 export interface EnderecoVisitante {
   idEnderecoVisitante: number;
   cepVisitante: string;
@@ -6,4 +8,5 @@ export interface EnderecoVisitante {
   bairroVisitante: string;
   ruaVisitante: string;
   numeroVisitante: string;
+  usuario: Usuario
 }

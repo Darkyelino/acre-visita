@@ -102,7 +102,7 @@ export class CadastroFuncionario implements OnInit {
           tipo: ETipoAlerta.SUCESSO,
           mensagem: `Funcionário ${this.isEditMode ? 'atualizado' : 'cadastrado'} com sucesso!`
         });
-        this.router.navigate(['/list-funcionarios']);
+        this.router.navigate(['/funcionario/list']);
       },
       error: (erro) => {
         let mensagemErro = 'Erro ao salvar funcionário.';

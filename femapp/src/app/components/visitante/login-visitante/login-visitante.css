@@ -90,7 +90,8 @@
   border: 1px solid var(--cor-borda);
   border-radius: 8px;
   font-size: 1rem;
-  background-color: #f8f9fa; /* Fundo sutil para destacar os campos */
+  background-color: 
+  #f8f9fa; /* Fundo sutil para destacar os campos */
   transition: border-color 0.2s, box-shadow 0.2s;
   box-sizing: border-box;
 }

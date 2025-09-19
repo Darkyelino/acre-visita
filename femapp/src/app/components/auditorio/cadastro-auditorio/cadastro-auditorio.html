@@ -23,9 +23,9 @@
       </div>
 
       <div class="form-group">
-        <label for="localAuditorio">Setor de Localização</label>
+        <label for="setor">Setor de Localização</label>
         <!-- ✅ ADICIONADO: [compareWith] para a edição funcionar corretamente -->
-        <select id="localAuditorio" formControlName="localAuditorio" class="form-control" [compareWith]="compareSetores">
+        <select id="setor" formControlName="setor" class="form-control" [compareWith]="compareSetores">
           <option [ngValue]="null" disabled>Selecione um setor...</option>
           <option *ngFor="let setor of setores" [ngValue]="setor">{{ setor.nomeSetor }}</option>
         </select>
