@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AlertaService } from '../../../services/alerta/alerta.service';
 import { AuthService } from '../../../services/auth/auth';
 import { SetorService } from '../../../services/setor/setor';
@@ -15,7 +15,7 @@ import { EStatus } from '../../../models/EStatus';
 @Component({
   selector: 'app-fazer-visita',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './fazer-visita.html',
   styleUrls: ['./fazer-visita.css']
 })

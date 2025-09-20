@@ -16,3 +16,25 @@ th { background-color: #f8f9fa; font-weight: 600; }
 .badge-disponivel { background-color: #28a745; }
 .badge-indisponivel { background-color: #6c757d; }
 .loading, .no-results { text-align: center; padding: 2rem; color: #6c757d; font-size: 1.1rem; }
+
+/* Adicione este estilo ao seu CSS existente */
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+.back-link:hover {
+  color: #007bff;
+}
+
+.back-link img {
+  width: 48px;
+  height: 48px;
+}

@@ -1,17 +1,159 @@
-.list-container { padding: 2rem; max-width: 1200px; margin: auto; font-family: sans-serif; }
-.list-header { margin-bottom: 1.5rem; }
-.list-header h1 { margin: 0; }
-.list-header p { margin: 0.5rem 0 0; font-size: 1rem; color: #555; }
-.table-container { min-height: 300px; overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; }
-th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #e0e0e0; }
-th { background-color: #f8f9fa; font-weight: 600; }
-.actions { display: flex; gap: 0.5rem; }
-.col-acoes { text-align: right; }
-.btn-icon { background: none; border: 1px solid; padding: 0.4rem 0.8rem; border-radius: 5px; cursor: pointer; font-weight: 500; }
-.btn-confirm { color: #28a745; border-color: #28a745; }
-.btn-delete { color: #dc3545; border-color: #dc3545; }
-.badge { padding: 0.3rem 0.6rem; border-radius: 10px; color: white; font-size: 0.8rem; text-transform: uppercase; }
-.badge.AGENDADA { background-color: #17a2b8; }
+.list-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
+  font-family: sans-serif;
+}
+
+.list-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.list-header h1 {
+  margin: 0;
+}
+
+.list-header p {
+  margin-top: 0.5rem;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* ✅ ESTILO DAS ABAS ADICIONADO AQUI */
+.filter-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.tab-button {
+  background: none;
+  border: none;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  color: #6c757d;
+  border-bottom: 3px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.tab-button.active {
+  color: #007bff;
+  border-bottom-color: #007bff;
+}
+/* Fim do estilo das abas */
+
+.table-container {
+  min-height: 300px;
+  overflow-x: auto;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 1rem 1.5rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+  vertical-align: middle;
+}
+
+thead th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #343a40;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.col-acoes {
+  text-align: right;
+}
+
+.btn-icon {
+  background: none;
+  border: 1px solid;
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-confirm {
+  color: #28a745;
+  border-color: #28a745;
+}
+
+.btn-confirm:hover {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-delete {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-delete:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+.badge {
+  padding: 0.4rem 0.7rem;
+  border-radius: 12px;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
 .badge.PENDENTE { background-color: #ffc107; color: #333; }
-.loading, .no-results { text-align: center; padding: 2rem; color: #6c757d; font-size: 1.1rem; }
+.badge.AGENDADA { background-color: #17a2b8; }
+.badge.CONFIRMADA { background-color: #28a745; }
+.badge.CANCELADA { background-color: #dc3545; }
+
+.loading, .no-results {
+  text-align: center;
+  padding: 3rem;
+  color: #6c757d;
+  font-size: 1.1rem;
+}
+
+/* Adicione este estilo ao seu CSS existente */
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+.back-link:hover {
+  color: #007bff;
+}
+
+.back-link img {
+  width: 48px;
+  height: 48px;
+}

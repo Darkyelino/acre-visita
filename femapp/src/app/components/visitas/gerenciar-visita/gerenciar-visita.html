@@ -1,38 +1,58 @@
-<div class="list-container">
+<main class="list-container">
+
+  <a routerLink="/home" class="back-link">
+    <img src="assets/img/back.png" alt="Voltar">
+    <span>Voltar</span>
+  </a>
+
   <header class="list-header">
     <h1>Gerenciamento de Visitas</h1>
     <p *ngIf="funcionarioLogado?.setor">
-      Visitas pendentes ou agendadas para o setor: <strong>{{ funcionarioLogado?.setor?.nomeSetor }}</strong>
+      Exibindo visitas para o setor: <strong>{{ funcionarioLogado?.setor?.nomeSetor }}</strong>
     </p>
   </header>
+
+  <nav class="filter-tabs">
+    <button class="tab-button" [class.active]="filtroAtivo === 'PARA_CONFIRMAR'" (click)="mudarFiltro('PARA_CONFIRMAR')">
+      Para Confirmar
+    </button>
+    <button class="tab-button" [class.active]="filtroAtivo === 'EM_ANDAMENTO'" (click)="mudarFiltro('EM_ANDAMENTO')">
+      Em Andamento
+    </button>
+    <button class="tab-button" [class.active]="filtroAtivo === 'HISTORICO'" (click)="mudarFiltro('HISTORICO')">
+      Canceladas
+    </button>
+  </nav>
 
   <div class="table-container">
     <table>
       <thead>
         <tr>
           <th>Visitante</th>
-          <th>Data/Hora Agendada</th>
+          <th>Data & Hora</th>
           <th>Status</th>
           <th class="col-acoes">Ações</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let visita of visitasParaGerenciar">
+        <tr *ngFor="let visita of visitasExibidas">
           <td>{{ visita.usuario.nome }}</td>
-          <td>{{ visita.dataHoraAgendamento | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ (visita.dataHoraAgendamento || visita.dataHoraEntrada) | date: 'dd/MM/yyyy HH:mm' }}</td>
           <td>
             <span class="badge" [ngClass]="visita.status">{{ visita.status }}</span>
           </td>
           <td class="actions">
-            <button class="btn-icon btn-confirm" (click)="confirmar(visita)">Confirmar Entrada</button>
-            <button class="btn-icon btn-delete" (click)="cancelar(visita)">Cancelar</button>
+            <ng-container *ngIf="filtroAtivo === 'PARA_CONFIRMAR'">
+              <button class="btn-icon btn-confirm" (click)="confirmar(visita)">Confirmar Entrada</button>
+              <button class="btn-icon btn-delete" (click)="cancelar(visita)">Cancelar</button>
+            </ng-container>
           </td>
         </tr>
       </tbody>
     </table>
     <div *ngIf="isLoading" class="loading">Carregando visitas...</div>
-    <div *ngIf="!isLoading && visitasParaGerenciar.length === 0" class="no-results">
-      Nenhuma visita pendente ou agendada para seu setor no momento.
+    <div *ngIf="!isLoading && visitasExibidas.length === 0" class="no-results">
+      Nenhuma visita encontrada para este filtro.
     </div>
   </div>
-</div>
+</main>

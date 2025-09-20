@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { forkJoin } from 'rxjs'
 import { AlertaService } from '../../../services/alerta/alerta.service';
 import { AuthService } from '../../../services/auth/auth';
@@ -9,7 +9,6 @@ import { VisitaService } from '../../../services/visita/visita';
 import { FeedbackService } from '../../../services/feedback/feedback';
 import { Usuario } from '../../../models/Usuario';
 import { Visita } from '../../../models/Visita';
-import { Feedback } from '../../../models/Feedback';
 import { RequisicaoPaginada } from '../../../models/RequisicaoPaginada';
 import { EStatus } from '../../../models/EStatus';
 
@@ -21,7 +20,7 @@ interface VisitaComFeedback extends Visita {
 @Component({
   selector: 'app-minhas-visitas',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './minhas-visitas.html',
   styleUrls: ['./minhas-visitas.css']
 })

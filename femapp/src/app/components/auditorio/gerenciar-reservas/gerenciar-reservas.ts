@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { AlertaService } from '../../../services/alerta/alerta.service';
 import { AuthService } from '../../../services/auth/auth';
@@ -21,7 +21,7 @@ interface ReservaComStatusVisual extends ReservaAuditorio {
 @Component({
   selector: 'app-gerenciar-reservas',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './gerenciar-reservas.html',
   styleUrls: ['./gerenciar-reservas.css']
 })
