@@ -2,18 +2,19 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { AlertaService } from '../../../services/alerta/alerta.service';
+import { AlertaService } from '../../../services/alerta/alerta';
 import { UsuarioService } from '../../../services/usuario/usuario';
 import { NacionalidadeService } from '../../../services/nacionalidade/nacionalidade';
 import { Usuario } from '../../../models/Usuario';
 import { NacionalidadeVisitante } from '../../../models/NacionalidadeVisitante';
 import { ETipoAlerta } from '../../../models/ETipoAlerta';
 import { EPapel } from '../../../models/EPapel';
+import { NgxMaskDirective } from 'ngx-mask'; // ✅ 1. Importe a diretiva da máscara
 
 @Component({
   selector: 'app-cadastro-visitante',
   standalone: true,
-  imports: [ CommonModule, RouterLink, ReactiveFormsModule ],
+  imports: [ CommonModule, RouterLink, ReactiveFormsModule, NgxMaskDirective ], // ✅ 2. Adicione a diretiva aqui
   templateUrl: './cadastro-visitante.html',
   styleUrls: ['./cadastro-visitante.css']
 })
@@ -23,10 +24,10 @@ export class CadastroVisitante implements OnInit {
   isEditMode: boolean = false;
   usuarioId: number | null = null;
 
-  // ✅ Formulário atualizado para os nomes de campos do Usuario
   usuarioForm = new FormGroup({
     nome: new FormControl<string>('', [Validators.required, Validators.minLength(3)]),
     email: new FormControl<string>('', [Validators.required, Validators.email]),
+    // O validador de tamanho/formato não é mais necessário, a máscara cuida disso
     telefone: new FormControl<string>('', Validators.required),
     senha: new FormControl<string>('', [Validators.required, Validators.minLength(6)]),
     nacionalidade: new FormControl<NacionalidadeVisitante | null>(null, Validators.required),
@@ -76,7 +77,7 @@ export class CadastroVisitante implements OnInit {
       nome: dadosFormulario.nome!,
       email: dadosFormulario.email!,
       senha: dadosFormulario.senha!,
-      papel: EPapel.VISITANTE, // ✅ Define o papel automaticamente!
+      papel: EPapel.VISITANTE,
       telefone: dadosFormulario.telefone!,
       nacionalidade: dadosFormulario.nacionalidade!
     };

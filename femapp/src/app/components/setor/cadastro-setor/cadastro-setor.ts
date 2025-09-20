@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SetorService } from '../../../services/setor/setor';
-import { AlertaService } from '../../../services/alerta/alerta.service';
+import { AlertaService } from '../../../services/alerta/alerta';
 import { ETipoAlerta } from '../../../models/ETipoAlerta';
 import { Setor } from '../../../models/Setor';
 

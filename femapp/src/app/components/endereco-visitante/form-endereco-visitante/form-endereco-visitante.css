@@ -16,3 +16,8 @@
 .form-row .form-group { flex-grow: 1; }
 .form-row .rua { flex-grow: 3; }
 .form-row .numero { flex-grow: 1; }
+.loading-cep {
+  font-size: 0.8rem;
+  color: #007bff;
+  margin-top: 4px;
+}

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth/auth'; // ✅ O serviço injetado é o mesmo
-import { AlertaService } from '../../../services/alerta/alerta.service';
+import { AlertaService } from '../../../services/alerta/alerta';
 import { ETipoAlerta } from '../../../models/ETipoAlerta';
 import { LoginRequest } from '../../../models/LoginRequest';
 

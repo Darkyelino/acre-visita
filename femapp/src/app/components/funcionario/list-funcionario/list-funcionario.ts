@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { UsuarioService } from '../../../services/usuario/usuario';
 import { SetorService } from '../../../services/setor/setor';
-import { AlertaService } from '../../../services/alerta/alerta.service';
+import { AlertaService } from '../../../services/alerta/alerta';
 import { Usuario } from '../../../models/Usuario';
 import { Setor } from '../../../models/Setor';
 import { EPapel } from '../../../models/EPapel';

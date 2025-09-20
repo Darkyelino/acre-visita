@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { AlertaService } from '../../../services/alerta/alerta.service';
+import { AlertaService } from '../../../services/alerta/alerta';
 import { AuthService } from '../../../services/auth/auth';
 import { VisitaService } from '../../../services/visita/visita';
 import { FeedbackService } from '../../../services/feedback/feedback';

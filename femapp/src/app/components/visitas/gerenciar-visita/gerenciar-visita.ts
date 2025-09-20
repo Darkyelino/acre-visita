@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AlertaService } from '../../../services/alerta/alerta.service';
+import { AlertaService } from '../../../services/alerta/alerta';
 import { AuthService } from '../../../services/auth/auth';
 import { VisitaService } from '../../../services/visita/visita';
 import { Usuario } from '../../../models/Usuario';

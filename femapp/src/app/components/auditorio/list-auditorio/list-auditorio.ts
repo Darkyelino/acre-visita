@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuditorioService } from '../../../services/auditorio/auditorio';
 import { SetorService } from '../../../services/setor/setor';
-import { AlertaService } from '../../../services/alerta/alerta.service';
+import { AlertaService } from '../../../services/alerta/alerta';
 import { Auditorio } from '../../../models/Auditorio';
 import { Setor } from '../../../models/Setor';
 import { ETipoAlerta } from '../../../models/ETipoAlerta';

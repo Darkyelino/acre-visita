@@ -2,17 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AlertaService } from '../../../services/alerta/alerta.service';
+import { AlertaService } from '../../../services/alerta/alerta';
 import { AuthService } from '../../../services/auth/auth';
 import { EnderecoVisitanteService } from '../../../services/endereco-visitante/endereco-visitante';
+import { Cep } from '../../../services/api/cep';
 import { Usuario } from '../../../models/Usuario';
 import { EnderecoVisitante } from '../../../models/EnderecoVisitante';
 import { ETipoAlerta } from '../../../models/ETipoAlerta';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-form-endereco-visitante',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, NgxMaskDirective],
   templateUrl: './form-endereco-visitante.html',
   styleUrls: ['./form-endereco-visitante.css']
 })
@@ -23,15 +25,19 @@ export class FormEnderecoVisitante implements OnInit {
   enderecoExistente: EnderecoVisitante | null = null;
   isEditMode = false;
   isLoading = true;
+  isBuscandoCep = false;
 
   constructor(
     private authService: AuthService,
     private enderecoService: EnderecoVisitanteService,
+    private cepService: Cep,
     private alertaService: AlertaService,
     private router: Router
   ) {
     this.enderecoForm = new FormGroup({
-      cepVisitante: new FormControl('', [Validators.required, Validators.pattern(/^\d{5}-\d{3}$/)]),
+      // ✅ CORREÇÃO: Removido o Validators.minLength(9).
+      // A máscara já garante o formato, e o Validators.required garante que não está vazio.
+      cepVisitante: new FormControl('', [Validators.required]),
       estadoVisitante: new FormControl('', Validators.required),
       cidadeVisitante: new FormControl('', Validators.required),
       bairroVisitante: new FormControl('', Validators.required),
@@ -42,40 +48,47 @@ export class FormEnderecoVisitante implements OnInit {
 
   ngOnInit(): void {
     this.usuarioLogado = this.authService.loggedUser;
-    if (this.usuarioLogado) {
-      // Simulação: busca o primeiro endereço associado ao usuário.
-      // Em um cenário real, a API teria um endpoint /endereco/por-usuario/{id}
-      this.enderecoService.getByUsuario(this.usuarioLogado.id!).subscribe({
-        next: (enderecos) => {
-          if (enderecos && enderecos.length > 0) {
-            this.enderecoExistente = enderecos[0];
-            this.isEditMode = true;
-            this.enderecoForm.patchValue(this.enderecoExistente);
-          }
-          this.isLoading = false;
-        },
-        error: () => this.isLoading = false
-      });
-    } else {
-      this.isLoading = false;
-    }
+    this.isLoading = false;
   }
   
-  // Getters para facilitar o acesso no template
   get cep() { return this.enderecoForm.get('cepVisitante'); }
-  get estado() { return this.enderecoForm.get('estadoVisitante'); }
-  get cidade() { return this.enderecoForm.get('cidadeVisitante'); }
-  get bairro() { return this.enderecoForm.get('bairroVisitante'); }
-  get rua() { return this.enderecoForm.get('ruaVisitante'); }
-  get numero() { return this.enderecoForm.get('numeroVisitante'); }
+  // ... outros getters
+
+  buscarCep(): void {
+    const cepValue = this.cep?.value;
+    // A condição de busca agora é mais flexível, checando apenas se o campo é válido (ou seja, preenchido)
+    if (cepValue && this.cep?.valid) {
+      this.isBuscandoCep = true;
+      const cepNumerico = cepValue.replace(/\D/g, ''); // Remove qualquer coisa que não seja dígito
+
+      this.cepService.consultarCep(cepNumerico).subscribe({
+        next: (dados) => {
+          if (dados.erro) {
+            this.alertaService.enviarAlerta({ tipo: ETipoAlerta.ERRO, mensagem: 'CEP não encontrado.' });
+            this.enderecoForm.patchValue({ ruaVisitante: '', bairroVisitante: '', cidadeVisitante: '', estadoVisitante: '' });
+            return;
+          }
+          this.enderecoForm.patchValue({
+            ruaVisitante: dados.logradouro,
+            bairroVisitante: dados.bairro,
+            cidadeVisitante: dados.localidade,
+            estadoVisitante: dados.uf
+          });
+        },
+        error: () => this.alertaService.enviarAlerta({ tipo: ETipoAlerta.ERRO, mensagem: 'Erro ao consultar o CEP.' }),
+        complete: () => this.isBuscandoCep = false
+      });
+    }
+  }
 
   save(): void {
+    // ... (seu método save continua igual)
     if (this.enderecoForm.invalid || !this.usuarioLogado) {
       this.enderecoForm.markAllAsTouched();
       return;
     }
 
-    const enderecoParaSalvar: any = { // Usamos 'any' para adicionar a propriedade 'usuario'
+    const enderecoParaSalvar: any = {
       ...this.enderecoForm.getRawValue(),
       usuario: this.usuarioLogado
     };
@@ -92,9 +105,7 @@ export class FormEnderecoVisitante implements OnInit {
         });
         this.router.navigate(['/home']);
       },
-      error: () => {
-        this.alertaService.enviarAlerta({ tipo: ETipoAlerta.ERRO, mensagem: 'Erro ao salvar endereço.' });
-      }
+      error: () => this.alertaService.enviarAlerta({ tipo: ETipoAlerta.ERRO, mensagem: 'Erro ao salvar endereço.' })
     });
   }
 }

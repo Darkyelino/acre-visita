@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { UsuarioService } from '../../../services/usuario/usuario';
 import { DocVisitanteService } from '../../../services/doc-visitante/doc-visitante';
-import { AlertaService } from '../../../services/alerta/alerta.service';
+import { AlertaService } from '../../../services/alerta/alerta';
 import { Usuario } from '../../../models/Usuario';
 import { DocVisitante } from '../../../models/DocVisitante';
 import { RequisicaoPaginada } from '../../../models/RequisicaoPaginada';

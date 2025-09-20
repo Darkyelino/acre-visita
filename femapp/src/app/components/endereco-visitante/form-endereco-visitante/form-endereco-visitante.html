@@ -14,22 +14,27 @@
     <div *ngIf="isLoading" class="loading">Carregando...</div>
 
     <form *ngIf="!isLoading" [formGroup]="enderecoForm" (ngSubmit)="save()">
-      <div class="form-row">
-        <div class="form-group">
-          <label for="cepVisitante">CEP</label>
-          <input id="cepVisitante" type="text" formControlName="cepVisitante" class="form-control" placeholder="00000-000">
-          <div *ngIf="cep?.invalid && cep?.touched" class="error-message">CEP inválido.</div>
-        </div>
+      <div class="form-group">
+        <label for="cepVisitante">CEP</label>
+        <input id="cepVisitante" 
+              type="text" 
+              formControlName="cepVisitante" 
+              class="form-control" 
+              placeholder="00000-000"
+              mask="00000-000"
+              (blur)="buscarCep()">
+        <div *ngIf="isBuscandoCep" class="loading-cep">Buscando...</div>
+        <div *ngIf="cep?.invalid && cep?.touched" class="error-message">CEP inválido.</div>
       </div>
 
       <div class="form-row">
         <div class="form-group estado">
           <label for="estadoVisitante">Estado</label>
-          <input id="estadoVisitante" type="text" formControlName="estadoVisitante" class="form-control" placeholder="Ex: Acre">
+          <input id="estadoVisitante" type="text" formControlName="estadoVisitante" class="form-control" placeholder="Ex: Acre" [readonly]="true">
         </div>
         <div class="form-group cidade">
           <label for="cidadeVisitante">Cidade</label>
-          <input id="cidadeVisitante" type="text" formControlName="cidadeVisitante" class="form-control" placeholder="Ex: Rio Branco">
+          <input id="cidadeVisitante" type="text" formControlName="cidadeVisitante" class="form-control" placeholder="Ex: Rio Branco" [readonly]="true">
         </div>
       </div>
       

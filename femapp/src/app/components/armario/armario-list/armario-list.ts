@@ -6,7 +6,7 @@ import { UsuarioService } from '../../../services/usuario/usuario';
 import { AuthService } from '../../../services/auth/auth';
 import { Armario } from '../../../models/Armario';
 import { Usuario } from '../../../models/Usuario';
-import { AlertaService } from '../../../services/alerta/alerta.service';
+import { AlertaService } from '../../../services/alerta/alerta';
 import { ETipoAlerta } from '../../../models/ETipoAlerta';
 import { EPapel } from '../../../models/EPapel';
 

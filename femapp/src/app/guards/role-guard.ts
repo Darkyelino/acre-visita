@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth/auth';
-import { AlertaService } from '../services/alerta/alerta.service';
+import { AlertaService } from '../services/alerta/alerta';
 import { ETipoAlerta } from '../models/ETipoAlerta';
 
 export const roleGuard: CanActivateFn = (route, state) => {

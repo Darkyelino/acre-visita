@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { SetorService } from '../../../services/setor/setor';
-import { AlertaService } from '../../../services/alerta/alerta.service';
+import { AlertaService } from '../../../services/alerta/alerta';
 import { Setor } from '../../../models/Setor';
 import { ETipoAlerta } from '../../../models/ETipoAlerta';
 
