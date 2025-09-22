@@ -73,6 +73,13 @@ export class Home implements OnInit {
       papeisPermitidos: [EPapel.ATENDENTE, EPapel.COORDENADOR, EPapel.ADMINISTRADOR]
     },
     {
+      titulo: 'Gerenciar Filmoteca',
+      descricao: 'Visualize e filtre as sugestões de filmes enviadas.',
+      icone: 'video', // Novo ícone
+      link: '/filmoteca/gerenciar',
+      papeisPermitidos: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]
+    },
+    {
       titulo: 'Gerenciar Documentos',
       descricao: 'Adicione ou edite documentos dos visitantes.',
       icone: 'file-text',

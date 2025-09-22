@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -21,9 +22,11 @@ public class Filmoteca implements Serializable {
     private String sugestao;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "idSetor")
     private Setor setor;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "idUsuario")
     private Usuario usuario;
 
     // ==================================(GETS E SETS)==================================

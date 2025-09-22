@@ -27,6 +27,7 @@ import { Perfil } from './components/home/perfil/perfil';
 import { FormVisitante } from './components/visitante/form-visitante/form-visitante';
 import { ListVisitante } from './components/visitante/list-visitante/list-visitante';
 import { GerenciarDocumentos } from './components/doc-visitante/gerenciar-documentos/gerenciar-documentos';
+import { GerenciaFilmoteca } from './components/filmoteca/gerencia-filmoteca/gerencia-filmoteca';
 
 export const routes: Routes = [
     { path: '', children: [
@@ -69,6 +70,7 @@ export const routes: Routes = [
         
         // Filmoteca
         { path: 'filmoteca/sugestao', component: SugestaoFilmoteca, canActivate: [authGuard], data: { roles: [EPapel.VISITANTE]} },
+        { path: 'filmoteca/gerenciar', component: GerenciaFilmoteca, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
 
         // Setores
         { path: 'setor/cadastro', component: CadastroSetor, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR]} },

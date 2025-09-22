@@ -116,8 +116,22 @@ INSERT INTO feedback (id_feedback, texto, data_envio, id_usuario, id_visita) VAL
 (13, 'Fui muito bem recebido na entrada principal. A equipe está de parabéns pelo profissionalismo.', '2025-08-29', 3, 13);
 
 -- Inserindo Sugestão na Filmoteca
-INSERT INTO filmoteca (id_filmoteca, sugestao, usuario_id) VALUES
-(1, 'Gostaria de sugerir o documentário "A Amazônia Desconhecida".', 2); -- John Smith (ID 2)
+INSERT INTO filmoteca (id_filmoteca, sugestao, id_setor, id_usuario) VALUES
+(1, 'Gostaria de sugerir o documentário "A Amazônia Desconhecida".', 1, 2), -- John Smith (ID 2)
+(2, 'Seria incrível se vocês exibissem o filme "Central do Brasil". É um clássico!', 4, 1), -- Ana Clara para a Ala de Exposições
+(3, 'Sugiro o documentário "O Sal da Terra", sobre Sebastião Salgado.', 2, 3), -- Carlos Garcia para a Biblioteca
+(4, 'Para as crianças, o filme "O Menino e o Mundo" seria uma ótima pedida.', 4, 4), -- Beatriz Oliveira para a Ala de Exposições
+(5, 'Por favor, considerem adicionar a série de documentários "Guerras do Brasil.doc".', 2, 5), -- Lucas Pereira para a Biblioteca
+(6, 'Acho que o filme "Bacurau" geraria ótimos debates se exibido aqui.', 1, 6), -- Sofia Rodriguez para a Recepção
+(7, 'Sugestão: "Cidade de Deus". Um marco do nosso cinema.', 4, 7), -- Davi Martins para a Ala de Exposições
+(8, 'O documentário "Democracia em Vertigem" é essencial para entender a história recente do Brasil.', 2, 8), -- Isabela Souza para a Biblioteca
+(9, 'Poderiam passar curtas-metragens de diretores acreanos?', 1, 9), -- Mateo Gonzales para a Recepção
+(10, 'Recomendo fortemente o filme "Que Horas Ela Volta?".', 4, 10), -- Laura Fernandes para a Ala de Exposições
+(11, 'O documentário "Amazônia Groove" seria muito pertinente para o local.', 2, 1), -- Ana Clara para a Biblioteca
+(12, 'Sugiro a exibição de filmes de Charlie Chaplin na Biblioteca, para os mais velhos.', 2, 2), -- John Smith para a Biblioteca
+(13, 'Seria interessante ter uma mostra de cinema peruano, considerando a proximidade.', 4, 9), -- Mateo Gonzales para a Ala de Exposições
+(14, 'Acho que o filme "Tropa de Elite" seria popular, apesar de polêmico.', 1, 5), -- Lucas Pereira para a Recepção
+(15, 'Gostaria de ver "Aquarius" com Sônia Braga na programação.', 4, 8); -- Isabela Souza para a Ala de Exposições
 
 -- Inserindo Visitas (uma concluída e uma agendada)
 -- Visitas CONCLUÍDAS (13) - Datas passadas

@@ -1,1 +1,49 @@
-<p>gerencia-filmoteca works!</p>
+<main class="list-container">
+
+  <a routerLink="/home" class="back-link">
+    <img src="assets/img/back.png" alt="Voltar">
+    <span>Voltar</span>
+  </a>
+
+  <header class="list-header">
+    <h1>Gerenciamento da Filmoteca</h1>
+    <p>Visualize e filtre as sugestões de filmes enviadas pelos visitantes.</p>
+  </header>
+
+  <section class="filter-bar">
+    <input 
+      type="text" 
+      class="filter-input"
+      placeholder="Pesquisar por palavra-chave na sugestão..."
+      [(ngModel)]="filtroTexto"
+      (keyup.enter)="buscarPorTexto()">
+    
+    <select class="filter-select" [(ngModel)]="filtroSetor" (change)="aplicarFiltroSetor()">
+      <option value="TODOS">Todos os Setores</option>
+      <option *ngFor="let setor of setores" [value]="setor.idSetor">{{ setor.nomeSetor }}</option>
+    </select>
+
+    <button class="btn btn-secondary" (click)="buscarPorTexto()">Pesquisar</button>
+  </section>
+
+  <div *ngIf="isLoading" class="loading">
+    <p>Carregando sugestões...</p>
+  </div>
+
+  <div *ngIf="!isLoading && sugestoesExibidas.length > 0" class="feedback-grid">
+    <article *ngFor="let sugestao of sugestoesExibidas" class="feedback-card">
+      <button class="btn-delete" (click)="excluir(sugestao)" title="Excluir Sugestão">&times;</button>
+      <p class="feedback-texto">"{{ sugestao.sugestao }}"</p>
+      <footer class="feedback-footer">
+        <div class="autor-info">
+          <strong>{{ sugestao.usuario.nome }}</strong>
+          <span>{{ sugestao.setor.nomeSetor || 'Setor não informado' }}</span>
+        </div>
+        </footer>
+    </article>
+  </div>
+
+  <div *ngIf="!isLoading && sugestoesExibidas.length === 0" class="no-results">
+    <p>Nenhuma sugestão encontrada para os filtros selecionados.</p>
+  </div>
+</main>
