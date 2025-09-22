@@ -14,10 +14,10 @@
 
   <nav class="filter-tabs">
     <button class="tab-button" [class.active]="filtroAtivo === 'PARA_CONFIRMAR'" (click)="mudarFiltro('PARA_CONFIRMAR')">
-      Para Confirmar
+      Agendadas/Pendentes
     </button>
     <button class="tab-button" [class.active]="filtroAtivo === 'EM_ANDAMENTO'" (click)="mudarFiltro('EM_ANDAMENTO')">
-      Em Andamento
+      Confirmadas
     </button>
     <button class="tab-button" [class.active]="filtroAtivo === 'HISTORICO'" (click)="mudarFiltro('HISTORICO')">
       Canceladas

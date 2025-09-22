@@ -29,9 +29,11 @@ export class ListFuncionario implements OnInit {
   
   isLoading = false;
 
+  // ✅ CORREÇÃO 1: Adicionado o papel de ADMINISTRADOR à lista do filtro
   papeisDisponiveis = [
     { nome: 'Atendente', valor: EPapel.ATENDENTE },
-    { nome: 'Coordenador', valor: EPapel.COORDENADOR }
+    { nome: 'Coordenador', valor: EPapel.COORDENADOR },
+    { nome: 'Administrador', valor: EPapel.ADMINISTRADOR }
   ];
 
   constructor(
@@ -51,8 +53,11 @@ export class ListFuncionario implements OnInit {
     
     this.usuarioService.get(undefined, { page: 0, size: 1000, sort: ['nome'] }).subscribe({
       next: (resposta) => {
+        // ✅ CORREÇÃO 2: A lógica agora inclui ADMINISTRADOR ao buscar os funcionários
         this.todosFuncionarios = resposta.content.filter(u => 
-            u.papel === EPapel.ATENDENTE || u.papel === EPapel.COORDENADOR
+            u.papel === EPapel.ATENDENTE || 
+            u.papel === EPapel.COORDENADOR || 
+            u.papel === EPapel.ADMINISTRADOR
         );
         this.aplicarFiltros();
         this.isLoading = false;
@@ -75,7 +80,6 @@ export class ListFuncionario implements OnInit {
     }
     
     if (this.filtroSetor !== 'TODOS') {
-      // ✅ CORREÇÃO: Adicionado o '+' para converter a string do filtro para número
       funcionariosFiltrados = funcionariosFiltrados.filter(u => u.setor?.idSetor === +this.filtroSetor);
     }
     
@@ -84,7 +88,9 @@ export class ListFuncionario implements OnInit {
   
   editar(id: number | undefined): void {
     if (id) {
-      this.router.navigate(['funcionario/editar', id]);
+      // ✅ ATENÇÃO: Verifique se sua rota de edição está correta.
+      // Baseado no que fizemos, deve ser '/admin/funcionarios/editar/:id'
+      this.router.navigate(['/admin/funcionarios/editar', id]);
     }
   }
 

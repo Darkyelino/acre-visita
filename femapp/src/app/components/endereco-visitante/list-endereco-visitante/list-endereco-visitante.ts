@@ -1,131 +1,93 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { forkJoin } from 'rxjs';
 import { UsuarioService } from '../../../services/usuario/usuario';
-import { DocVisitanteService } from '../../../services/doc-visitante/doc-visitante';
-import { AlertaService } from '../../../services/alerta/alerta';
+import { EnderecoVisitanteService } from '../../../services/endereco-visitante/endereco-visitante';
 import { Usuario } from '../../../models/Usuario';
-import { DocVisitante } from '../../../models/DocVisitante';
-import { RequisicaoPaginada } from '../../../models/RequisicaoPaginada';
+import { EnderecoVisitante } from '../../../models/EnderecoVisitante';
 import { EPapel } from '../../../models/EPapel';
-import { ETipoAlerta } from '../../../models/ETipoAlerta';
+
+// Interface interna para combinar os dados
+interface VisitanteComEndereco extends Usuario {
+  endereco?: EnderecoVisitante;
+}
 
 @Component({
   selector: 'app-list-endereco-visitante',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './list-endereco-visitante.html',
   styleUrls: ['./list-endereco-visitante.css']
 })
 export class ListEnderecoVisitante implements OnInit {
 
-  todosVisitantes: Usuario[] = [];
-  visitantesExibidos: Usuario[] = [];
-
+  todosVisitantes: VisitanteComEndereco[] = [];
+  visitantesExibidos: VisitanteComEndereco[] = [];
   filtroNome: string = '';
   isLoading = true;
-  isModalVisible = false;
-
-  visitanteSelecionado: Usuario | null = null;
-  documentoAtual: DocVisitante | null = null;
-
-  documentoForm = new FormGroup({
-    tipo: new FormControl<string | null>('CPF', Validators.required),
-    numero: new FormControl<string | null>('', Validators.required),
-  });
 
   constructor(
     private usuarioService: UsuarioService,
-    private docVisitanteService: DocVisitanteService,
-    private alertaService: AlertaService
+    private enderecoService: EnderecoVisitanteService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.carregarVisitantes();
+    this.carregarDados();
   }
 
-  carregarVisitantes(): void {
+  carregarDados(): void {
     this.isLoading = true;
-    const paginacao = new RequisicaoPaginada();
-    paginacao.size = 1000; // Busca um grande número de usuários
+    
+    // Busca todos os usuários e todos os endereços em paralelo
+    forkJoin({
+      usuarios: this.usuarioService.get(),
+      enderecos: this.enderecoService.get()
+    }).subscribe({
+      next: ({ usuarios, enderecos }) => {
+        const listaDeEnderecos = enderecos.content;
+        
+        // 1. Filtra para pegar apenas os usuários que são VISITANTES
+        const visitantes = usuarios.content.filter(u => u.papel === EPapel.VISITANTE);
+        
+        // 2. "Junta" os dados: para cada visitante, encontra seu endereço correspondente
+        this.todosVisitantes = visitantes.map(visitante => {
+          const enderecoEncontrado = listaDeEnderecos.find(end => end.usuario.id === visitante.id);
+          return {
+            ...visitante,
+            endereco: enderecoEncontrado
+          };
+        });
 
-    this.usuarioService.get(undefined, paginacao).subscribe({
-      next: (resposta) => {
-        // Filtra para manter apenas os usuários com o papel de VISITANTE
-        this.todosVisitantes = resposta.content.filter(u => u.papel === EPapel.VISITANTE);
         this.aplicarFiltros();
+        this.isLoading = false;
       },
-      error: (err) => console.error("Erro ao carregar visitantes", err),
-      complete: () => this.isLoading = false
+      error: (err) => {
+        console.error("Erro ao carregar dados", err);
+        this.isLoading = false;
+      }
     });
   }
 
   aplicarFiltros(): void {
-    let filtrados = [...this.todosVisitantes];
-
     if (this.filtroNome.trim()) {
-      filtrados = filtrados.filter(u =>
-        u.nome.toLowerCase().includes(this.filtroNome.toLowerCase())
+      this.visitantesExibidos = this.todosVisitantes.filter(v =>
+        v.nome.toLowerCase().includes(this.filtroNome.toLowerCase())
       );
+    } else {
+      this.visitantesExibidos = [...this.todosVisitantes];
     }
-    
-    this.visitantesExibidos = filtrados;
   }
-
-  abrirModal(visitante: Usuario): void {
-    this.visitanteSelecionado = visitante;
-    this.isLoading = true;
-    
-    this.docVisitanteService.getByUsuarioId(visitante.id!).subscribe(doc => {
-      if (doc) {
-        this.documentoAtual = doc;
-        this.documentoForm.patchValue(doc);
-      } else {
-        this.documentoAtual = null;
-        this.documentoForm.reset({ tipo: 'CPF' });
-      }
-      this.isLoading = false;
-      this.isModalVisible = true;
-    });
-  }
-
-  fecharModal(): void {
-    this.isModalVisible = false;
-    this.visitanteSelecionado = null;
-    this.documentoAtual = null;
-  }
-
-  salvarDocumento(): void {
-    if (this.documentoForm.invalid || !this.visitanteSelecionado) return;
-
-    const dadosForm = this.documentoForm.getRawValue();
-    const documentoParaSalvar: DocVisitante = {
-      idDocumento: this.documentoAtual?.idDocumento,
-      tipo: dadosForm.tipo!,
-      numero: dadosForm.numero!,
-      usuario: this.visitanteSelecionado
-    };
-
-    this.docVisitanteService.save(documentoParaSalvar).subscribe({
-      next: () => {
-        this.alertaService.enviarAlerta({ tipo: ETipoAlerta.SUCESSO, mensagem: 'Documento salvo com sucesso!' });
-        this.fecharModal();
-      },
-      error: () => this.alertaService.enviarAlerta({ tipo: ETipoAlerta.ERRO, mensagem: 'Erro ao salvar o documento.' })
-    });
-  }
-
-  excluirDocumento(): void {
-    if (!this.documentoAtual?.idDocumento) return;
-
-    if (confirm('Tem certeza que deseja excluir este documento?')) {
-      this.docVisitanteService.delete(this.documentoAtual.idDocumento).subscribe({
-        next: () => {
-          this.alertaService.enviarAlerta({ tipo: ETipoAlerta.SUCESSO, mensagem: 'Documento excluído com sucesso!' });
-          this.fecharModal();
-        },
-        error: () => this.alertaService.enviarAlerta({ tipo: ETipoAlerta.ERRO, mensagem: 'Erro ao excluir o documento.' })
-      });
+  
+  gerenciarEndereco(visitante: VisitanteComEndereco): void {
+    if (visitante.endereco) {
+      // Se já tem endereço, navega para a rota de edição com o ID do ENDEREÇO
+      this.router.navigate(['/endereco/editar', visitante.endereco.idEnderecoVisitante]);
+    } else {
+      // Se não tem, navega para o formulário de criação, passando o ID do USUÁRIO
+      this.router.navigate(['/endereco/form'], { queryParams: { usuarioId: visitante.id } });
     }
   }
 }

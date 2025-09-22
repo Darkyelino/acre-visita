@@ -56,10 +56,19 @@
     </section>
 
     <footer class="card-footer">
-      <a *ngIf="usuarioLogado.papel === EPapel.VISITANTE" routerLink="/meu-endereco" class="btn-editar">
-        Editar Endereço
-      </a>
-      <a *ngIf="usuarioLogado.papel !== EPapel.VISITANTE" [routerLink]="['/admin/editar-funcionario', usuarioLogado.id]" class="btn-editar">
+      <!-- ✅ CORREÇÃO AQUI: Lógica de botões para endereço -->
+      <ng-container *ngIf="usuarioLogado.papel === EPapel.VISITANTE">
+        <!-- Se já tem endereço, mostra o botão de editar -->
+        <a *ngIf="meuEndereco" [routerLink]="['/endereco/editar', meuEndereco.idEnderecoVisitante]" class="btn-editar">
+          Editar Endereço
+        </a>
+        <!-- Se não tem endereço, mostra o botão de cadastrar -->
+        <a *ngIf="!meuEndereco" routerLink="/endereco/form" class="btn-editar">
+          Cadastrar Endereço
+        </a>
+      </ng-container>
+      
+      <a *ngIf="usuarioLogado.papel !== EPapel.VISITANTE" [routerLink]="['/admin/funcionarios/editar', usuarioLogado.id]" class="btn-editar">
         Editar Perfil
       </a>
     </footer>

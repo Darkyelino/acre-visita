@@ -1,0 +1,66 @@
+<main class="form-container">
+  <div class="form-card">
+    <a routerLink="/visitante/list" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      <span>Voltar para a Listagem</span>
+    </a>
+
+    <header class="card-header">
+      <h1 *ngIf="!isEditMode">Cadastrar Novo Visitante</h1>
+      <h1 *ngIf="isEditMode">Editar Visitante</h1>
+      <p>Preencha os dados do visitante abaixo.</p>
+    </header>
+
+    <form [formGroup]="usuarioForm" (ngSubmit)="save()">
+      <div class="form-group">
+        <label for="nome">Nome Completo</label>
+        <input id="nome" type="text" formControlName="nome" class="form-control" placeholder="Nome completo do visitante">
+        <div *ngIf="form.nome.invalid && form.nome.touched" class="error-message">
+          O nome é obrigatório.
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" type="email" formControlName="email" class="form-control" placeholder="email@exemplo.com">
+          <div *ngIf="form.email.invalid && form.email.touched" class="error-message">
+            <span *ngIf="form.email.errors?.['required']">Email é obrigatório.</span>
+            <span *ngIf="form.email.errors?.['email']">Formato de email inválido.</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="telefone">Telefone</label>
+          <input id="telefone" type="text" formControlName="telefone" class="form-control" placeholder="(00) 00000-0000" mask="(00) 00000-0000">
+           <div *ngIf="form.telefone.invalid && form.telefone.touched" class="error-message">
+            Telefone é obrigatório.
+          </div>
+        </div>
+      </div>
+      
+      <!-- O campo de senha só aparece no modo de CADASTRO -->
+      <div class="form-group" *ngIf="!isEditMode">
+        <label for="senha">Senha Provisória</label>
+        <input id="senha" type="password" formControlName="senha" class="form-control" placeholder="Crie uma senha para o visitante">
+        <div *ngIf="form.senha.invalid && form.senha.touched" class="error-message">
+          A senha deve ter no mínimo 6 caracteres.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="nacionalidade">Nacionalidade</label>
+        <select id="nacionalidade" formControlName="nacionalidade" class="form-control" [compareWith]="compareNacionalidades">
+          <option [ngValue]="null" disabled>Selecione a nacionalidade...</option>
+          <option *ngFor="let nac of nacionalidades" [ngValue]="nac">{{ nac.nacionalidade }}</option>
+        </select>
+        <div *ngIf="form.nacionalidade.invalid && form.nacionalidade.touched" class="error-message">
+          A nacionalidade é obrigatória.
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="usuarioForm.invalid">
+        {{ isEditMode ? 'Atualizar Visitante' : 'Cadastrar Visitante' }}
+      </button>
+    </form>
+  </div>
+</main>

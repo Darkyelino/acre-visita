@@ -70,7 +70,7 @@ export class SugestaoFilmoteca implements OnInit {
     this.filmotecaService.save(novaSugestao).subscribe({
       next: () => {
         this.alertaService.enviarAlerta({ tipo: ETipoAlerta.SUCESSO, mensagem: 'Obrigado! Sua sugestão foi enviada.' });
-        this.router.navigate(['/']); // Navega para a página principal
+        this.router.navigate(['/home']); // Navega para a página principal
         this.isLoading = false;
       },
       error: () => {

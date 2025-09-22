@@ -1,0 +1,67 @@
+<div class="list-container">
+
+  <a routerLink="/home" class="back-link">
+    <img src="assets/img/back.png" alt="Voltar">
+    <span>Voltar</span>
+  </a>
+
+  <header class="list-header">
+    <h1>Gerenciamento de Visitantes</h1>
+    <button class="btn btn-primary" routerLink="/visitante/form">
+      + Cadastrar Visitante
+    </button>
+  </header>
+
+  <div class="filter-bar">
+    <input 
+      type="text" 
+      class="filter-input"
+      placeholder="Pesquisar por nome..."
+      [(ngModel)]="filtroNome"
+      (keyup.enter)="carregarVisitantes()">
+      
+    <input 
+      type="text" 
+      class="filter-input"
+      placeholder="Filtrar por email..."
+      [(ngModel)]="filtroEmail"
+      (input)="aplicarFiltrosLocais()">
+
+    <input 
+      type="text" 
+      class="filter-input"
+      placeholder="Filtrar por telefone..."
+      [(ngModel)]="filtroTelefone"
+      (input)="aplicarFiltrosLocais()">
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Telefone</th>
+          <th>Nacionalidade</th>
+          <th class="col-acoes">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let visitante of visitantesExibidos">
+          <td>{{ visitante.nome }}</td>
+          <td>{{ visitante.email }}</td>
+          <td>{{ visitante.telefone || 'N/A' }}</td>
+          <td>{{ visitante.nacionalidade?.nacionalidade || 'N/A' }}</td>
+          <td class="actions">
+            <button class="btn-icon btn-edit" (click)="editar(visitante.id)">Editar</button>
+            <button class="btn-icon btn-delete" (click)="excluir(visitante.id, visitante.nome)">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="isLoading" class="loading">Carregando...</div>
+    <div *ngIf="!isLoading && visitantesExibidos.length === 0" class="no-results">
+      Nenhum visitante encontrado.
+    </div>
+  </div>
+</div>

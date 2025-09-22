@@ -15,6 +15,9 @@ th { background-color: #f8f9fa; }
 .badge { padding: 0.3rem 0.6rem; border-radius: 10px; color: white; font-size: 0.8rem; text-transform: capitalize; }
 .badge.ATENDENTE { background-color: #ffc107; color: #333; }
 .badge.COORDENADOR { background-color: #28a745; }
+.badge.ADMINISTRADOR {
+  background-color: #007bff; /* Um azul para diferenciar */
+}
 .loading, .no-results { text-align: center; padding: 2rem; color: #6c757d; }
 
 

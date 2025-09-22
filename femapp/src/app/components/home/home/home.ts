@@ -25,7 +25,7 @@ export class Home implements OnInit {
   usuarioLogado: Usuario | null = null;
   dataAtual = new Date();
   
-  // ✅ LISTA DE CARTÕES ATUALIZADA COM OS NOVOS ÍCONES
+  // ✅ LISTA DE CARTÕES 100% ATUALIZADA COM SUAS ROTAS
   todosOsCards: DashboardCard[] = [
     // --- Para Visitantes ---
     {
@@ -38,7 +38,7 @@ export class Home implements OnInit {
     {
       titulo: 'Minhas Visitas',
       descricao: 'Veja seu histórico de visitas e envie feedbacks.',
-      icone: 'history', // Ícone novo
+      icone: 'history',
       link: '/minhas-visitas',
       papeisPermitidos: [EPapel.VISITANTE]
     },
@@ -59,12 +59,12 @@ export class Home implements OnInit {
     {
       titulo: 'Meu Endereço',
       descricao: 'Cadastre ou atualize suas informações de endereço.',
-      icone: 'map-pin', // Ícone novo
+      icone: 'map-pin',
       link: '/endereco/form',
       papeisPermitidos: [EPapel.VISITANTE]
     },
     
-    // --- Para Funcionários ---
+    // --- Para Funcionários (Atendente, Coordenador, ADM) ---
     {
       titulo: 'Gerenciar Visitas',
       descricao: 'Confirme ou cancele as visitas agendadas para o seu setor.',
@@ -76,13 +76,27 @@ export class Home implements OnInit {
       titulo: 'Gerenciar Documentos',
       descricao: 'Adicione ou edite documentos dos visitantes.',
       icone: 'file-text',
+      link: '/documentos/list',
+      papeisPermitidos: [EPapel.ATENDENTE, EPapel.COORDENADOR, EPapel.ADMINISTRADOR]
+    },
+    {
+      titulo: 'Gerenciar Visitantes', // ✅ NOVO
+      descricao: 'Liste, edite ou cadastre novos visitantes manualmente.',
+      icone: 'list-check', // Ícone novo
+      link: '/visitante/list',
+      papeisPermitidos: [EPapel.ATENDENTE, EPapel.COORDENADOR, EPapel.ADMINISTRADOR]
+    },
+    {
+      titulo: 'Gerenciar Endereços', // ✅ NOVO
+      descricao: 'Adicione ou edite os endereços de todos os visitantes.',
+      icone: 'map', // Ícone novo
       link: '/endereco/list',
       papeisPermitidos: [EPapel.ATENDENTE, EPapel.COORDENADOR, EPapel.ADMINISTRADOR]
     },
     {
       titulo: 'Ver Feedbacks',
       descricao: 'Leia as avaliações e sugestões enviadas pelos visitantes.',
-      icone: 'message-square', // Ícone novo
+      icone: 'message-square',
       link: '/feedback/listar',
       papeisPermitidos: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]
     },
@@ -91,14 +105,14 @@ export class Home implements OnInit {
     {
       titulo: 'Gerenciar Reservas',
       descricao: 'Aprove ou recuse as solicitações de reserva de auditório.',
-      icone: 'clipboard', // Ícone novo
+      icone: 'clipboard',
       link: '/auditorio/gerenciar-reservas',
       papeisPermitidos: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR]
     },
     {
       titulo: 'Gerenciar Auditórios',
       descricao: 'Cadastre, edite e veja a lista de todos os auditórios.',
-      icone: 'mic-2', // Ícone novo
+      icone: 'mic-2',
       link: '/auditorio/list',
       papeisPermitidos: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR]
     },

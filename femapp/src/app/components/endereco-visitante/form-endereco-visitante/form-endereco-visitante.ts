@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { NgxMaskDirective } from 'ngx-mask';
 import { AlertaService } from '../../../services/alerta/alerta';
 import { AuthService } from '../../../services/auth/auth';
 import { EnderecoVisitanteService } from '../../../services/endereco-visitante/endereco-visitante';
 import { Cep } from '../../../services/api/cep';
+import { UsuarioService } from '../../../services/usuario/usuario'; // ✅ Importe o UsuarioService
 import { Usuario } from '../../../models/Usuario';
 import { EnderecoVisitante } from '../../../models/EnderecoVisitante';
 import { ETipoAlerta } from '../../../models/ETipoAlerta';
-import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-form-endereco-visitante',
@@ -21,9 +22,10 @@ import { NgxMaskDirective } from 'ngx-mask';
 export class FormEnderecoVisitante implements OnInit {
 
   enderecoForm: FormGroup;
-  usuarioLogado: Usuario | null = null;
-  enderecoExistente: EnderecoVisitante | null = null;
+  // ✅ Esta variável guardará para qual usuário o endereço se destina
+  usuarioAlvo: Usuario | null = null;
   isEditMode = false;
+  enderecoId: number | null = null;
   isLoading = true;
   isBuscandoCep = false;
 
@@ -32,11 +34,11 @@ export class FormEnderecoVisitante implements OnInit {
     private enderecoService: EnderecoVisitanteService,
     private cepService: Cep,
     private alertaService: AlertaService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
+    private usuarioService: UsuarioService // ✅ Injete o UsuarioService
   ) {
     this.enderecoForm = new FormGroup({
-      // ✅ CORREÇÃO: Removido o Validators.minLength(9).
-      // A máscara já garante o formato, e o Validators.required garante que não está vazio.
       cepVisitante: new FormControl('', [Validators.required]),
       estadoVisitante: new FormControl('', Validators.required),
       cidadeVisitante: new FormControl('', Validators.required),
@@ -47,8 +49,36 @@ export class FormEnderecoVisitante implements OnInit {
   }
 
   ngOnInit(): void {
-    this.usuarioLogado = this.authService.loggedUser;
-    this.isLoading = false;
+    // Tenta pegar um 'usuarioId' dos parâmetros de consulta (quando um funcionário adiciona)
+    const usuarioIdQueryParam = this.route.snapshot.queryParamMap.get('usuarioId');
+    // Tenta pegar um 'id' dos parâmetros de rota (quando editando um endereço existente)
+    const idParam = this.route.snapshot.paramMap.get('id');
+
+    if (idParam) { // --- MODO DE EDIÇÃO ---
+      this.isEditMode = true;
+      this.enderecoId = +idParam;
+      this.carregarDadosEndereco(this.enderecoId);
+    } else if (usuarioIdQueryParam) { // --- MODO DE CRIAÇÃO (por funcionário) ---
+      // Se um funcionário está criando, busca os dados do visitante alvo
+      this.usuarioService.getById(+usuarioIdQueryParam).subscribe(usuario => {
+        this.usuarioAlvo = usuario;
+        this.isLoading = false;
+      });
+    } else { // --- MODO DE CRIAÇÃO (pelo próprio visitante) ---
+      this.usuarioAlvo = this.authService.loggedUser;
+      this.isLoading = false;
+    }
+  }
+  
+  carregarDadosEndereco(id: number): void {
+    this.enderecoService.getById(id).subscribe({
+      next: (endereco) => {
+        this.usuarioAlvo = endereco.usuario; // O usuário alvo é o que já está no endereço
+        this.enderecoForm.patchValue(endereco);
+        this.isLoading = false;
+      },
+      error: () => this.isLoading = false
+    });
   }
   
   get cep() { return this.enderecoForm.get('cepVisitante'); }
@@ -56,11 +86,9 @@ export class FormEnderecoVisitante implements OnInit {
 
   buscarCep(): void {
     const cepValue = this.cep?.value;
-    // A condição de busca agora é mais flexível, checando apenas se o campo é válido (ou seja, preenchido)
     if (cepValue && this.cep?.valid) {
       this.isBuscandoCep = true;
-      const cepNumerico = cepValue.replace(/\D/g, ''); // Remove qualquer coisa que não seja dígito
-
+      const cepNumerico = cepValue.replace(/\D/g, '');
       this.cepService.consultarCep(cepNumerico).subscribe({
         next: (dados) => {
           if (dados.erro) {
@@ -82,20 +110,17 @@ export class FormEnderecoVisitante implements OnInit {
   }
 
   save(): void {
-    // ... (seu método save continua igual)
-    if (this.enderecoForm.invalid || !this.usuarioLogado) {
+    if (this.enderecoForm.invalid || !this.usuarioAlvo) {
       this.enderecoForm.markAllAsTouched();
       return;
     }
 
+    // ✅ Monta o objeto para salvar usando o 'usuarioAlvo'
     const enderecoParaSalvar: any = {
+      idEnderecoVisitante: this.enderecoId ?? undefined,
       ...this.enderecoForm.getRawValue(),
-      usuario: this.usuarioLogado
+      usuario: this.usuarioAlvo // Associa ao usuário correto
     };
-
-    if (this.isEditMode) {
-      enderecoParaSalvar.idEnderecoVisitante = this.enderecoExistente!.idEnderecoVisitante;
-    }
 
     this.enderecoService.save(enderecoParaSalvar).subscribe({
       next: () => {
@@ -103,7 +128,9 @@ export class FormEnderecoVisitante implements OnInit {
           tipo: ETipoAlerta.SUCESSO,
           mensagem: `Endereço ${this.isEditMode ? 'atualizado' : 'cadastrado'} com sucesso!`
         });
-        this.router.navigate(['/home']);
+        // Decide para onde voltar
+        const rotaDeRetorno = this.authService.loggedUser?.papel === 'VISITANTE' ? '/perfil' : 'endereco/list';
+        this.router.navigate([rotaDeRetorno]);
       },
       error: () => this.alertaService.enviarAlerta({ tipo: ETipoAlerta.ERRO, mensagem: 'Erro ao salvar endereço.' })
     });

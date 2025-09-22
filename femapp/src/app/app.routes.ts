@@ -24,6 +24,9 @@ import { GerenciarReservas } from './components/auditorio/gerenciar-reservas/ger
 import { FormEnderecoVisitante } from './components/endereco-visitante/form-endereco-visitante/form-endereco-visitante';
 import { ListEnderecoVisitante } from './components/endereco-visitante/list-endereco-visitante/list-endereco-visitante';
 import { Perfil } from './components/home/perfil/perfil';
+import { FormVisitante } from './components/visitante/form-visitante/form-visitante';
+import { ListVisitante } from './components/visitante/list-visitante/list-visitante';
+import { GerenciarDocumentos } from './components/doc-visitante/gerenciar-documentos/gerenciar-documentos';
 
 export const routes: Routes = [
     { path: '', children: [
@@ -36,8 +39,17 @@ export const routes: Routes = [
         { path: 'cadastro', component: CadastroVisitante },
         { path: 'minhas-visitas', component: MinhasVisitas, canActivate: [authGuard], data: { roles: [EPapel.VISITANTE]} },
 
+        // Documentos de Visitantes
+        { path: 'documentos/list', component: GerenciarDocumentos, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
+
+        // Gerenciamento de Visitantes (Admin, Coordenador, Atendente)
+        { path: 'visitante/form', component: FormVisitante, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
+        { path: 'visitante/list', component: ListVisitante, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
+        { path: 'visitante/editar/:id', component: FormVisitante, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
+
         // Endereço Visitante
         { path: 'endereco/form', component: FormEnderecoVisitante, canActivate: [authGuard], data: { roles: [EPapel.VISITANTE]} },
+        { path: 'endereco/editar/:id', component: FormEnderecoVisitante, canActivate: [authGuard], data: { roles: [EPapel.VISITANTE]} },
         { path: 'endereco/list', component: ListEnderecoVisitante, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
 
         // Feedbacks
