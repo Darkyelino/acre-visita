@@ -1,90 +1,157 @@
-# AcreVisita
+<div align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Poppins&size=30&pause=1000&color=007BFF&center=true&vCenter=true&width=435&lines=AcreVisita;Sistema+de+Gerenciamento" alt="Typing SVG" />
+</div>
 
-![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
+<div align="center">
+  <img alt="Status" src="https://img.shields.io/badge/status-em%20desenvolvimento-yellow">
+  <img alt="Angular" src="https://img.shields.io/badge/Angular-20.1-red?logo=angular">
+  <img alt="Spring Boot" src="https://img.shields.io/badge/Spring%20Boot-3.5-brightgreen?logo=spring-boot">
+  <img alt="Java" src="https://img.shields.io/badge/Java-17-blue?logo=java">
+  <img alt="License" src="https://img.shields.io/badge/License-MIT-informational">
+</div>
 
-AcreVisita é um sistema completo para gerenciamento de visitas e recursos de instituições, como museus ou centros culturais. A plataforma permite o cadastro e login de diferentes tipos de usuários (visitantes, atendentes, coordenadores e administradores), cada um com suas permissões específicas, garantindo uma experiência segura e organizada tanto para o público quanto para a equipe interna.
+<br>
 
----
-## ✨ Funcionalidades Principais
+**AcreVisita** é um sistema completo para gerenciamento de visitas e recursos de instituições culturais, como museus, bibliotecas e centros culturais. A plataforma foi desenvolvida para modernizar a gestão de fluxo de visitantes, agendamentos, e interações do público com as instituições, oferecendo uma experiência digital e organizada tanto para os visitantes quanto para a equipe administrativa.
 
-### Para Visitantes
-* **Cadastro e Login:** Sistema de autenticação seguro com senhas criptografadas.
-* **Realização de Visitas:** Permite registrar a entrada imediata em um setor.
-* **Agendamento de Visitas:** Permite agendar uma visita para uma data e hora futuras.
-* **Reserva de Auditórios:** Solicitação de reserva de espaços para eventos.
-* **Interação:** Envio de feedback sobre a visita e sugestões para a filmoteca.
+<br>
 
-### Para Funcionários (Atendente, Coordenador, ADM)
-* **Controle de Acesso por Papel (Role):** Rotas e funcionalidades protegidas de acordo com o cargo do usuário (Atendente, Coordenador, Administrador).
-* **Gerenciamento de Funcionários (ADM):** Painel para cadastrar, listar, filtrar, editar e excluir usuários do tipo Atendente e Coordenador.
-* **Gerenciamento de Auditórios (ADM/Coordenador):** Formulário para cadastro e edição de auditórios e uma tela de listagem com filtros.
-* **Confirmação de Reservas (Coordenador):** Tela para aprovar ou recusar solicitações de reserva de auditório.
-* **Gerenciamento de Documentos (Atendente):** Interface para adicionar, editar ou excluir documentos (CPF, Passaporte) dos visitantes que fizeram check-in no dia.
+## 📋 Tabela de Conteúdos
 
----
+1.  [✨ Sobre o Projeto](#-sobre-o-projeto)
+2.  [🚀 Funcionalidades Principais](#-funcionalidades-principais)
+3.  [🛠️ Tecnologias Utilizadas](#️-tecnologias-utilizadas)
+4.  [⚙️ Como Executar o Projeto Localmente](#️-como-executar-o-projeto-localmente)
+5.  [📄 Documentação da API](#-documentação-da-api)
+
+<br>
+
+## ✨ Sobre o Projeto
+
+Este projeto foi criado para atender a uma demanda da **Fundação de Cultura Elias Mansour**, visando substituir processos manuais e sistemas legados por uma solução web moderna, centralizada e eficiente. O sistema organiza o fluxo de entrada de visitantes, controla o uso de armários, permite o agendamento de espaços como auditórios e gera relatórios estratégicos para apoiar a tomada de decisão.
+
+A aplicação é dividida em dois componentes principais:
+
+-   **`femapp`**: O front-end desenvolvido em **Angular**, responsável pela interface do usuário.
+-   **`femapi`**: O back-end **RESTful** construído com **Spring Boot**, que gerencia toda a lógica de negócio e a comunicação com o banco de dados.
+
+<br>
+
+## 🚀 Funcionalidades Principais
+
+O sistema oferece diferentes funcionalidades com base nos perfis de usuário, garantindo uma experiência segura e personalizada.
+
+### 👤 Para Visitantes (`VISITANTE`)
+
+-   **Autenticação**: Cadastro e login seguros no sistema.
+-   **Gestão de Visitas**: Agendamento de visitas futuras e registro de entrada imediata (check-in).
+-   **Histórico Pessoal**: Visualização do histórico de visitas e agendamentos.
+-   **Feedback**: Envio de feedback sobre as visitas realizadas.
+-   **Interação Cultural**: Envio de sugestões de filmes e documentários para a filmoteca do local.
+-   **Reserva de Espaços**: Solicitação de reserva de auditórios para eventos.
+-   **Gestão de Perfil**: Cadastro e atualização de dados pessoais e de endereço.
+
+### 👨‍💼 Para Funcionários (`ATENDENTE`, `COORDENADOR`)
+
+-   **Gerenciamento de Visitas**: Confirmação de entrada e cancelamento de visitas agendadas para o seu setor.
+-   **Gerenciamento de Documentos**: Adição e edição de documentos dos visitantes.
+-   **Visualização de Feedbacks**: Acesso aos feedbacks e sugestões enviadas pelos visitantes.
+-   **Gestão de Sugestões**: Acesso e gerenciamento das sugestões para a filmoteca.
+
+### 📈 Para Gestores (`COORDENADOR`, `ADM`)
+
+-   **Controle de Reservas**: Aprovação ou recusa de solicitações de reserva de auditórios.
+-   **Gerenciamento de Auditórios**: Cadastro, edição e visualização da lista de auditórios.
+-   **Acesso a Relatórios**: Consulta a dados e estatísticas de uso do sistema (funcionalidade em desenvolvimento).
+
+### 👑 Para Administradores (`ADMINISTRADOR`)
+
+-   **Gestão Total de Usuários**: Cadastro, edição e exclusão de todos os perfis de usuários, incluindo funcionários.
+-   **Gerenciamento de Setores**: Criação e edição dos setores da instituição.
+-   **CRUD de Armários**: Gerenciamento completo dos armários disponíveis.
+-   **Acesso ao Histórico Completo**: Visualização de logs e movimentações no sistema.
+
+<br>
+
 ## 🛠️ Tecnologias Utilizadas
 
-O projeto é construído com uma arquitetura moderna dividida entre back-end e front-end.
+O projeto foi construído utilizando uma arquitetura moderna, com tecnologias de ponta para o back-end e front-end.
 
-### Backend (API REST)
-* **Java 17+**
-* **Spring Boot 3+**
-* **Spring Data JPA (Hibernate)** para persistência de dados.
-* **Spring Security** para autenticação e segurança de senhas (BCrypt).
-* **MySQL** como banco de dados relacional.
-* **Maven** para gerenciamento de dependências.
-* **`springdoc-openapi`** para documentação automática da API (Swagger UI).
+### **Back-end (API REST)**
 
-### Frontend (Single Page Application)
-* **Angular 17+**
-* **TypeScript**
-* **Angular CLI**
-* **RxJS** para programação reativa.
-* **Angular Router** para gerenciamento de rotas e lazy loading.
-* **Standalone Components** para uma arquitetura moderna e modular.
+-   **Java 17**
+-   **Spring Boot 3.5**
+-   **Spring Data JPA (Hibernate)** para persistência de dados
+-   **Spring Security** para autenticação e controle de acesso
+-   **MySQL** como banco de dados relacional
+-   **Maven** para gerenciamento de dependências
+-   **SpringDoc OpenAPI** para documentação da API (Swagger UI)
 
----
-## 🚀 Como Executar o Projeto
+### **Front-end (Single Page Application)**
 
-### Pré-requisitos
-* **Java JDK 17** ou superior.
-* **Maven 3.8+**
-* **MySQL Server 8+**
-* **Node.js 18+**
-* **Angular CLI** (`npm install -g @angular/cli`)
+-   **Angular 20.1**
+-   **TypeScript**
+-   **Angular CLI**
+-   **RxJS** para programação reativa
+-   **Standalone Components**
+-   **NgxMask** para formatação de inputs
 
-### Backend (API)
+<br>
+
+## ⚙️ Como Executar o Projeto Localmente
+
+Siga os passos abaixo para configurar e executar o projeto em seu ambiente de desenvolvimento.
+
+### **Pré-requisitos**
+
+-   **Java JDK 17** ou superior
+-   **Maven 3.8+**
+-   **MySQL Server 8+** (ou um banco de dados compatível)
+-   **Node.js 20+**
+-   **Angular CLI** (`npm install -g @angular/cli`)
+
+### **1. Back-end (API)**
+
 1.  **Clone o repositório:**
     ```bash
-    git clone [URL_DO_SEU_REPOSITORIO]
+    git clone [https://github.com/darkyelino/acre-visita.git](https://github.com/darkyelino/acre-visita.git)
+    cd acre-visita/femapi
     ```
-2.  **Configure o Banco de Dados:**
-    * Abra o arquivo `src/main/resources/application.properties`.
-    * Altere as propriedades `spring.datasource.url`, `spring.datasource.username`, e `spring.datasource.password` com os dados do seu banco MySQL.
-3.  **Execute a Aplicação:**
-    * Navegue até a pasta raiz do back-end (`femapi`).
-    * Execute o comando: `mvn spring-boot:run`
-    * A API estará rodando em `http://localhost:8080`.
 
-### Frontend (App)
+2.  **Configure o Banco de Dados:**
+    -   Abra o arquivo `src/main/resources/application.properties`.
+    -   Altere as propriedades `spring.datasource.url`, `spring.datasource.username`, e `spring.datasource.password` com os dados do seu banco de dados MySQL.
+
+3.  **Execute a Aplicação:**
+    ```bash
+    mvn spring-boot:run
+    ```
+    A API estará em execução em `http://localhost:8080`.
+
+### **2. Front-end (App)**
+
 1.  **Navegue até a pasta do front-end:**
     ```bash
-    cd femapp 
+    cd ../femapp
     ```
+
 2.  **Instale as dependências:**
     ```bash
     npm install
     ```
+
 3.  **Execute a Aplicação:**
     ```bash
     ng serve
     ```
-    * A aplicação estará disponível em `http://localhost:4200`.
+    A aplicação estará disponível em `http://localhost:4200`.
 
----
+<br>
+
 ## 📄 Documentação da API
 
-A API utiliza `springdoc-openapi` para gerar a documentação Swagger UI. Após iniciar o back-end, a documentação interativa pode ser acessada em:
+A documentação da API é gerada automaticamente pelo **SpringDoc** e pode ser acessada através do Swagger UI. Após iniciar o back-end, acesse:
+
 [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
 ---
