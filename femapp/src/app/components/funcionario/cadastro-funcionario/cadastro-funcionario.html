@@ -32,9 +32,17 @@
 
       <div class="form-group" *ngIf="!isEditMode">
         <label for="senha">Senha</label>
-        <input type="password" id="senha" formControlName="senha" class="form-control" placeholder="Crie uma senha">
+        <input type="password" id="senha" formControlName="senha" class="form-control" placeholder="Crie uma senha" autocomplete="new-password">
         <div *ngIf="senha?.invalid && senha?.touched" class="error-message">
           A senha precisa ter no mínimo 6 caracteres.
+        </div>
+      </div>
+      
+      <div class="form-group" *ngIf="isEditMode">
+        <label for="senha">Nova Senha (Opcional)</label>
+        <input type="password" id="senha" formControlName="senha" class="form-control" placeholder="Deixe em branco para manter a atual" autocomplete="new-password">
+        <div *ngIf="senha?.invalid && senha?.touched" class="error-message">
+          A nova senha precisa ter no mínimo 6 caracteres.
         </div>
       </div>
       

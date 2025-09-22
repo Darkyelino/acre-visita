@@ -28,11 +28,12 @@ import { FormVisitante } from './components/visitante/form-visitante/form-visita
 import { ListVisitante } from './components/visitante/list-visitante/list-visitante';
 import { GerenciarDocumentos } from './components/doc-visitante/gerenciar-documentos/gerenciar-documentos';
 import { GerenciaFilmoteca } from './components/filmoteca/gerencia-filmoteca/gerencia-filmoteca';
+import { Graficos } from './components/relatorio/graficos/graficos';
 
 export const routes: Routes = [
     { path: '', children: [
 
-          // Adicione a rota para a home
+        // Adicione a rota para a home
         { path: 'home', component: Home, canActivate: [authGuard] },
         { path: 'perfil', component: Perfil, canActivate: [authGuard] },
 
@@ -87,6 +88,10 @@ export const routes: Routes = [
         // Funcionários
         { path: 'funcionario/cadastro', component: CadastroFuncionario, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
         { path: 'funcionario/editar/:id', component: CadastroFuncionario, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
-        { path: 'funcionario/list', component: ListFuncionario, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR] }}
+        { path: 'funcionario/list', component: ListFuncionario, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR] }},
+
+        // Relatórios
+        { path: 'relatorio/graficos', component: Graficos, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} }
+        
     ]},
 ];

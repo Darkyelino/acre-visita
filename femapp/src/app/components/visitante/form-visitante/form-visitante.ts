@@ -47,7 +47,10 @@ export class FormVisitante implements OnInit {
     if (idParam) {
       this.isEditMode = true;
       this.usuarioId = +idParam;
-      this.usuarioForm.get('senha')?.setValidators(null); // Senha opcional na edição
+      
+      this.usuarioForm.get('senha')?.setValidators([Validators.minLength(6)]);
+      this.usuarioForm.get('senha')?.updateValueAndValidity();
+      
       this.carregarDadosVisitante(this.usuarioId);
     }
   }
@@ -61,10 +64,10 @@ export class FormVisitante implements OnInit {
   carregarDadosVisitante(id: number): void {
     this.usuarioService.getById(id).subscribe(usuario => {
       this.usuarioForm.patchValue(usuario);
+      this.usuarioForm.get('senha')?.setValue(''); 
     });
   }
 
-  // Função para o [compareWith] do select de nacionalidade
   compareNacionalidades(n1: NacionalidadeVisitante, n2: NacionalidadeVisitante): boolean {
     return n1 && n2 ? n1.idNacionalidade === n2.idNacionalidade : n1 === n2;
   }
@@ -78,15 +81,19 @@ export class FormVisitante implements OnInit {
     }
     
     const dados = this.usuarioForm.getRawValue();
+    
     const usuarioParaSalvar: Usuario = {
       id: this.usuarioId ?? undefined,
       nome: dados.nome!,
       email: dados.email!,
-      senha: dados.senha!,
-      papel: EPapel.VISITANTE, // Sempre cria como Visitante
+      papel: EPapel.VISITANTE,
       telefone: dados.telefone!,
       nacionalidade: dados.nacionalidade!
     };
+
+    if (dados.senha) {
+      usuarioParaSalvar.senha = dados.senha;
+    }
 
     this.usuarioService.save(usuarioParaSalvar).subscribe({
       next: () => {
@@ -99,7 +106,7 @@ export class FormVisitante implements OnInit {
       error: (erro) => {
         this.alertaService.enviarAlerta({
           tipo: ETipoAlerta.ERRO,
-          mensagem: 'Erro ao salvar visitante: ' + (erro.error.message || 'Tente novamente.')
+          mensagem: 'Erro ao salvar visitante: ' + (erro.error?.message || 'Tente novamente.')
         });
       }
     });

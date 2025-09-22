@@ -25,7 +25,7 @@ export class Home implements OnInit {
   usuarioLogado: Usuario | null = null;
   dataAtual = new Date();
   
-  // ✅ LISTA DE CARTÕES 100% ATUALIZADA COM SUAS ROTAS
+  // Lista de todos os cards possíveis no sistema
   todosOsCards: DashboardCard[] = [
     // --- Para Visitantes ---
     {
@@ -75,7 +75,7 @@ export class Home implements OnInit {
     {
       titulo: 'Gerenciar Filmoteca',
       descricao: 'Visualize e filtre as sugestões de filmes enviadas.',
-      icone: 'video', // Novo ícone
+      icone: 'video',
       link: '/filmoteca/gerenciar',
       papeisPermitidos: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]
     },
@@ -87,16 +87,16 @@ export class Home implements OnInit {
       papeisPermitidos: [EPapel.ATENDENTE, EPapel.COORDENADOR, EPapel.ADMINISTRADOR]
     },
     {
-      titulo: 'Gerenciar Visitantes', // ✅ NOVO
+      titulo: 'Gerenciar Visitantes',
       descricao: 'Liste, edite ou cadastre novos visitantes manualmente.',
-      icone: 'list-check', // Ícone novo
+      icone: 'list-check',
       link: '/visitante/list',
       papeisPermitidos: [EPapel.ATENDENTE, EPapel.COORDENADOR, EPapel.ADMINISTRADOR]
     },
     {
-      titulo: 'Gerenciar Endereços', // ✅ NOVO
+      titulo: 'Gerenciar Endereços',
       descricao: 'Adicione ou edite os endereços de todos os visitantes.',
-      icone: 'map', // Ícone novo
+      icone: 'map',
       link: '/endereco/list',
       papeisPermitidos: [EPapel.ATENDENTE, EPapel.COORDENADOR, EPapel.ADMINISTRADOR]
     },
@@ -105,6 +105,15 @@ export class Home implements OnInit {
       descricao: 'Leia as avaliações e sugestões enviadas pelos visitantes.',
       icone: 'message-square',
       link: '/feedback/listar',
+      papeisPermitidos: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]
+    },
+    
+    // ✅ NOVO CARD ADICIONADO AQUI
+    {
+      titulo: 'Relatórios e Gráficos',
+      descricao: 'Visualize dados e estatísticas do sistema.',
+      icone: 'pie-chart',
+      link: '/relatorio/graficos',
       papeisPermitidos: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]
     },
     

@@ -39,7 +39,7 @@ export class CadastroFuncionario implements OnInit {
     this.funcionarioForm = new FormGroup({
       nome: new FormControl('', [Validators.required, Validators.minLength(3)]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      senha: new FormControl('', Validators.required),
+      senha: new FormControl('', [Validators.required, Validators.minLength(6)]), // Começa como obrigatório
       papel: new FormControl<EPapel | null>(null, Validators.required),
       setor: new FormControl<Setor | null>(null, Validators.required),
     });
@@ -53,9 +53,11 @@ export class CadastroFuncionario implements OnInit {
       if (idParam) {
         this.isEditMode = true;
         this.usuarioId = +idParam;
-        // ✅ A senha deixa de ser obrigatória no formulário de edição
-        this.funcionarioForm.controls['senha'].setValidators(null);
-        this.funcionarioForm.controls['senha'].updateValueAndValidity();
+        
+        // ✅ CORREÇÃO 1: Valida o tamanho mínimo da senha apenas se o campo for preenchido
+        this.funcionarioForm.get('senha')?.setValidators([Validators.minLength(6)]);
+        this.funcionarioForm.get('senha')?.updateValueAndValidity();
+        
         this.carregarDadosFuncionario(this.usuarioId);
       }
     });
@@ -70,6 +72,8 @@ export class CadastroFuncionario implements OnInit {
   carregarDadosFuncionario(id: number): void {
     this.usuarioService.getById(id).subscribe(usuario => {
       this.funcionarioForm.patchValue(usuario);
+      // ✅ CORREÇÃO 2: Garante que o campo de senha sempre comece vazio na edição
+      this.funcionarioForm.get('senha')?.setValue('');
     });
   }
 
@@ -92,8 +96,9 @@ export class CadastroFuncionario implements OnInit {
       setor: dadosFormulario.setor!
     };
 
-    if (!this.isEditMode) {
-      usuarioParaSalvar.senha = dadosFormulario.senha!;
+    // ✅ CORREÇÃO 3: Adiciona a senha ao objeto somente se o campo foi preenchido
+    if (dadosFormulario.senha) {
+      usuarioParaSalvar.senha = dadosFormulario.senha;
     }
 
     this.usuarioService.save(usuarioParaSalvar).subscribe({
