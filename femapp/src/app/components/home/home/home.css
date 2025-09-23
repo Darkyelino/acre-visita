@@ -21,7 +21,7 @@
   position: relative;
   height: 40vh;
   min-height: 280px;
-  background-image: url('../../../../assets/img/image.png');
+  /* ✅ CORREÇÃO: Removida a imagem de fundo estática daqui */
   background-size: cover;
   background-position: center;
   border-radius: 0 0 20px 20px;
@@ -31,8 +31,9 @@
   text-align: center;
   color: white;
   padding: 2rem;
-  /* ✅ CORREÇÃO: Removida a margem negativa para que o conteúdo não se sobreponha */
-  margin-bottom: 2.5rem; 
+  margin-bottom: 2.5rem;
+  /* ✅ NOVO: Adicionada transição para suavizar a troca de imagem */
+  transition: background-image 1s ease-in-out;
 }
 
 /* Overlay escuro para legibilidade */
@@ -74,7 +75,6 @@
   margin: 0 auto;
   padding: 0 2rem 2rem;
   position: relative;
-  /* O z-index não é mais necessário aqui */
 }
 
 .dashboard-title {

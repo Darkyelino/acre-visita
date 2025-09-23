@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 90vh;
+  background-color: #f4f7f6;
+  padding: 2rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.form-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  width: 100%;
+  max-width: 500px;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.back-link:hover { color: #007bff; }
+.back-link svg { width: 20px; height: 20px; }
+
+.card-header { text-align: center; margin-bottom: 2rem; }
+.card-header h1 { margin: 0; font-size: 1.8rem; }
+.card-header p { color: #666; }
+
+.loading { text-align: center; padding: 2rem; color: #555; }
+
+.form-group { margin-bottom: 1.5rem; }
+.form-group label { display: block; font-weight: 500; margin-bottom: 0.5rem; }
+.form-control { width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; background-color: #fff; }
+.form-control[formControlName="setor"] { background-color: #f8f9fa; cursor: not-allowed; }
+
+.error-message { color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem; }
+
+.btn-submit { width: 100%; padding: 0.8rem; border: none; border-radius: 8px; background-color: #28a745; color: white; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s; }
+.btn-submit:hover { background-color: #218838; }
+.btn-submit:disabled { background-color: #a3d9b1; cursor: not-allowed; }
+
+/* ✅ NOVOS ESTILOS PARA O CAMPO DE BUSCA */
+.search-container {
+  position: relative;
+}
+
+.search-input {
+  padding-right: 2.5rem; /* Espaço para o botão de limpar */
+}
+
+.clear-btn {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #888;
+}
+
+.results-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.result-item {
+  padding: 0.75rem;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.result-item:last-child {
+  border-bottom: none;
+}
+
+.result-item:hover {
+  background-color: #f0f2f5;
+}

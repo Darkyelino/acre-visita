@@ -1,9 +1,8 @@
 <main class="home-container">
-  <!-- ✅ NOVO: Seção de Destaque (Hero) -->
-  <section class="hero-section">
+  <section class="hero-section" [style.backgroundImage]="'url(' + currentBackgroundImage + ')'">
     <div class="hero-content">
       <h1 class="hero-title">Bem-vindo(a) ao AcreVisita, {{ usuarioLogado?.nome }}!</h1>
-      <p class="hero-subtitle">Sua plataforma para explorar e gerenciar a cultura local.</p>
+      <p class="hero-subtitle">Sua plataforma para explorar a rica cultura local do Acre.</p>
     </div>
   </section>
 

@@ -31,6 +31,7 @@ import { Graficos } from './components/relatorio/graficos/graficos';
 import { FormDocumento } from './components/doc-visitante/form-documento/form-documento';
 import { ViewReserva } from './components/auditorio/view-reserva/view-reserva';
 import { AddArmario } from './components/armario/add-armario/add-armario';
+import { FormArmario } from './components/armario/form-armario/form-armario';
 
 export const routes: Routes = [
     { path: '', children: [
@@ -72,7 +73,9 @@ export const routes: Routes = [
         { path: 'visita/fazer', component: FazerVisita, canActivate: [authGuard], data: { roles: [EPapel.VISITANTE]} },
 
         // Armários
-        { path: 'armario/adicionar', component: AddArmario, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR]} },        
+        { path: 'armario/adicionar', component: AddArmario, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
+        { path: 'armario/editar/:id', component: FormArmario, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
+
         // Filmoteca
         { path: 'filmoteca/sugestao', component: SugestaoFilmoteca, canActivate: [authGuard], data: { roles: [EPapel.VISITANTE]} },
         { path: 'filmoteca/gerenciar', component: GerenciaFilmoteca, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },

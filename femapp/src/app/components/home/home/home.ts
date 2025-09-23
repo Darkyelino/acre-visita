@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth/auth';
@@ -20,12 +20,26 @@ interface DashboardCard {
   templateUrl: './home.html',
   styleUrls: ['./home.css']
 })
-export class Home implements OnInit {
+export class Home implements OnInit, OnDestroy {
 
   usuarioLogado: Usuario | null = null;
   dataAtual = new Date();
   
-  // Lista de todos os cards possíveis no sistema
+  // Lista de imagens para o carrossel. Adicione novos nomes de arquivo aqui!
+  heroImages: string[] = [
+    '../../../../assets/img/image.png',
+    '../../../../assets/img/biblioteca-central.png',
+    '../../../../assets/img/memorial-autonomistas.png',
+    '../../../../assets/img/museu-borracha.png',
+    '../../../../assets/img/teatro-nauas.png',
+    '../../../../assets/img/galeria-juvenal-antunes.png',
+    '../../../../assets/img/juvenal-antunes.png'
+    // Adicione mais imagens aqui, ex: '../../../../assets/img/outra-imagem.png'
+  ];
+  currentBackgroundImage: string = this.heroImages[0];
+  private imageChangeInterval: any;
+
+  // ... (a lista de cards permanece a mesma)
   todosOsCards: DashboardCard[] = [
     // --- Para Visitantes ---
     {
@@ -167,6 +181,23 @@ export class Home implements OnInit {
   ngOnInit(): void {
     this.usuarioLogado = this.authService.loggedUser;
     this.filtrarCardsPorPapel();
+    this.startImageSlideshow(); // ✅ Inicia o carrossel
+  }
+
+  // ✅ NOVO: Limpa o intervalo quando o componente é destruído para evitar vazamento de memória
+  ngOnDestroy(): void {
+    if (this.imageChangeInterval) {
+      clearInterval(this.imageChangeInterval);
+    }
+  }
+  
+  // ✅ NOVO: Lógica para trocar a imagem a cada 5 segundos
+  startImageSlideshow(): void {
+    let currentIndex = 0;
+    this.imageChangeInterval = setInterval(() => {
+      currentIndex = (currentIndex + 1) % this.heroImages.length;
+      this.currentBackgroundImage = this.heroImages[currentIndex];
+    }, 3000); // Troca a cada 5 segundos
   }
 
   filtrarCardsPorPapel(): void {
