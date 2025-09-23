@@ -1,58 +1,96 @@
 package com.acrevisita.femapi.models;
 
-import java.io.Serializable;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
-public class Usuario implements Serializable {
+@Table(name = "usuario")
+public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, updatable = false)
     private Long id;
 
-    // --- Campos Comuns a Todos ---
+    @NotBlank(message = "O nome é obrigatório")
+    @Size(min = 3, message = "O nome deve ter pelo menos 3 caracteres")
     @Column(nullable = false)
     private String nome;
 
-    @Column(nullable = false, unique = true)
+    @NotBlank(message = "O email é obrigatório")
+    @Email(message = "Formato de email inválido")
+    @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @NotBlank(message = "A senha é obrigatória")
+    @Size(min = 6, message = "A senha deve ter pelo menos 6 caracteres")
     private String senha;
 
-    @Enumerated(EnumType.STRING) // Salva o nome do Enum (ex: "VISITANTE") no banco, o que é mais legível
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EPapel papel;
 
-
-    // --- Campos Específicos (agora anuláveis) ---
-
-    // Campo específico para VISITANTE
-    @Column(nullable = true)
     private String telefone;
 
-    // Relacionamento específico para VISITANTE
-    @ManyToOne(optional = true) // 'optional = true' significa que a FK pode ser nula
-    @JoinColumn(name = "idNacionalidade")
-    private NacionalidadeVisitante nacionalidade;
-
-    // Relacionamento específico para ADM, COORDENADOR, ATENDENTE
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "idSetor")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_setor")
     private Setor setor;
 
-    
-    // --- Getters e Setters ---
+    @ManyToOne
+    @JoinColumn(name = "id_nacionalidade")
+    private NacionalidadeVisitante nacionalidade;
+
+    // ✅ CORREÇÃO: Adicionando cascade para limpar os dados do usuário ao deletar
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Visita> visitas;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReservaAuditorio> reservas;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Feedback> feedbacks;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DocVisitante> documentos;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EnderecoVisitante> enderecos;
+
+    // ✅ NOVO: Adicionando cascade para as sugestões da filmoteca
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Filmoteca> filmotecas;
+
+    public Usuario() {}
+
+    public Usuario(Long id,
+            @NotBlank(message = "O nome é obrigatório") @Size(min = 3, message = "O nome deve ter pelo menos 3 caracteres") String nome,
+            @NotBlank(message = "O email é obrigatório") @Email(message = "Formato de email inválido") String email,
+            @NotBlank(message = "A senha é obrigatória") @Size(min = 6, message = "A senha deve ter pelo menos 6 caracteres") String senha,
+            EPapel papel, String telefone, Setor setor, NacionalidadeVisitante nacionalidade) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.papel = papel;
+        this.telefone = telefone;
+        this.setor = setor;
+        this.nacionalidade = nacionalidade;
+    }
 
     public Long getId() {
         return id;
@@ -102,19 +140,19 @@ public class Usuario implements Serializable {
         this.telefone = telefone;
     }
 
-    public NacionalidadeVisitante getNacionalidade() {
-        return nacionalidade;
-    }
-
-    public void setNacionalidade(NacionalidadeVisitante nacionalidade) {
-        this.nacionalidade = nacionalidade;
-    }
-
     public Setor getSetor() {
         return setor;
     }
 
     public void setSetor(Setor setor) {
         this.setor = setor;
+    }
+
+    public NacionalidadeVisitante getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(NacionalidadeVisitante nacionalidade) {
+        this.nacionalidade = nacionalidade;
     }
 }
