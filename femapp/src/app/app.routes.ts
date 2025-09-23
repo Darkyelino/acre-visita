@@ -4,7 +4,6 @@ import { LoginVisitante } from './components/visitante/login-visitante/login-vis
 import { FazerVisita } from './components/visitas/fazer-visita/fazer-visita';
 import { authGuard } from './guards/auth-guard';
 import { roleGuard } from './guards/role-guard';
-import { ArmarioList } from './components/armario/armario-list/armario-list';
 import { CadastroSetor } from './components/setor/cadastro-setor/cadastro-setor';
 import { EPapel } from './models/EPapel';
 import { CadastroAuditorio } from './components/auditorio/cadastro-auditorio/cadastro-auditorio';
@@ -31,6 +30,7 @@ import { GerenciaFilmoteca } from './components/filmoteca/gerencia-filmoteca/ger
 import { Graficos } from './components/relatorio/graficos/graficos';
 import { FormDocumento } from './components/doc-visitante/form-documento/form-documento';
 import { ViewReserva } from './components/auditorio/view-reserva/view-reserva';
+import { AddArmario } from './components/armario/add-armario/add-armario';
 
 export const routes: Routes = [
     { path: '', children: [
@@ -72,8 +72,7 @@ export const routes: Routes = [
         { path: 'visita/fazer', component: FazerVisita, canActivate: [authGuard], data: { roles: [EPapel.VISITANTE]} },
 
         // Armários
-        { path: 'armario', component: ArmarioList, canActivate: [authGuard] },
-        
+        { path: 'armario/adicionar', component: AddArmario, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR]} },        
         // Filmoteca
         { path: 'filmoteca/sugestao', component: SugestaoFilmoteca, canActivate: [authGuard], data: { roles: [EPapel.VISITANTE]} },
         { path: 'filmoteca/gerenciar', component: GerenciaFilmoteca, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },

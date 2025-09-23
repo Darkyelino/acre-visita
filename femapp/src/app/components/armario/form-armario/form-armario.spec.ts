@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ArmarioList } from './armario-list';
+import { FormArmario } from './form-armario';
 
-describe('ArmarioList', () => {
-  let component: ArmarioList;
-  let fixture: ComponentFixture<ArmarioList>;
+describe('FormArmario', () => {
+  let component: FormArmario;
+  let fixture: ComponentFixture<FormArmario>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ArmarioList]
+      imports: [FormArmario]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ArmarioList);
+    fixture = TestBed.createComponent(FormArmario);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,1 +1,40 @@
-<p>add-armario works!</p>
+<main class="form-container">
+  <div class="form-card">
+    <a routerLink="/armario/list" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      <span>Voltar para a Listagem</span>
+    </a>
+
+    <header class="card-header">
+      <h1>Adicionar Armários em Lote</h1>
+      <p>Selecione o setor e a quantidade de armários a serem criados.</p>
+    </header>
+
+    <form [formGroup]="armarioForm" (ngSubmit)="save()">
+      <div class="form-group">
+        <label for="setor">Setor</label>
+        <select id="setor" formControlName="setor" class="form-control">
+          <option [ngValue]="null" disabled>Selecione um setor...</option>
+          <option *ngFor="let setor of setores" [ngValue]="setor">{{ setor.nomeSetor }}</option>
+        </select>
+        <div *ngIf="form.setor?.invalid && form.setor?.touched" class="error-message">
+          O setor é obrigatório.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="quantidade">Quantidade de Armários</label>
+        <input type="number" id="quantidade" formControlName="quantidade" class="form-control" placeholder="Ex: 10">
+        <div *ngIf="form.quantidade?.invalid && form.quantidade?.touched" class="error-message">
+          <span *ngIf="form.quantidade.errors?.['required']">A quantidade é obrigatória.</span>
+          <span *ngIf="form.quantidade.errors?.['min']">A quantidade deve ser no mínimo 1.</span>
+           <span *ngIf="form.quantidade.errors?.['max']">A quantidade máxima é 100.</span>
+        </div>
+      </div>
+      
+      <button type="submit" class="btn-submit" [disabled]="armarioForm.invalid || isLoading">
+        {{ isLoading ? 'Adicionando...' : 'Adicionar Armários' }}
+      </button>
+    </form>
+  </div>
+</main>

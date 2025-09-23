@@ -1,0 +1,103 @@
+/* ==========================================================================
+   Estrutura e Estilos do Formulário
+   ========================================================================== */
+
+/* Container principal que centraliza o formulário na tela. */
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Alinha no topo para o back-link funcionar bem */
+  min-height: 90vh;
+  background-color: #f4f7f6;
+  padding: 2rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Card principal que contém todo o conteúdo do formulário. */
+.form-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+/* Link de "Voltar" posicionado acima do cabeçalho. */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+.back-link:hover { color: #007bff; }
+
+/* Cabeçalho com título e subtítulo. */
+.card-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.card-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+.card-header p {
+  color: #666;
+  font-size: 1rem;
+}
+
+/* Estilos para os grupos de formulário (label + input). */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+.form-control {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-control:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* Mensagem de erro para validação. */
+.error-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Botão de submissão principal. */
+.btn-submit {
+  width: 100%;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #28a745; /* Verde para ação positiva */
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.btn-submit:hover:not(:disabled) {
+  background-color: #218838;
+}
+.btn-submit:disabled {
+  background-color: #a3d9b1;
+  cursor: not-allowed;
+}
