@@ -50,6 +50,13 @@ export class Home implements OnInit {
       papeisPermitidos: [EPapel.VISITANTE]
     },
     {
+      titulo: 'Minhas Reservas',
+      descricao: 'Acompanhe o status das suas solicitações de reserva.',
+      icone: 'calendar-check', // Ícone novo
+      link: '/auditorio/minhas-reservas',
+      papeisPermitidos: [EPapel.VISITANTE]
+    },
+    {
       titulo: 'Sugerir Título para Filmoteca',
       descricao: 'Tem um filme ou documentário que gostaria de ver aqui?',
       icone: 'film',

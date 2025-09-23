@@ -2,9 +2,9 @@ import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild } from '@an
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
-// Declara as variáveis globais que serão criadas pelos scripts
+// Declarar as variáveis globais que serão criadas pelos scripts
 declare var Chart: any;
-declare var jsPDF: any;
+declare var jspdf: any; // ✅ CORREÇÃO: A biblioteca jspdf cria um objeto 'jspdf' no window.
 declare var html2canvas: any;
 
 import { VisitaService } from '../../../services/visita/visita';
@@ -28,28 +28,25 @@ export class Graficos implements OnInit {
   @ViewChild('dashboardContent') dashboardContent!: ElementRef;
 
   isLoading = true;
+  isGeneratingPdf = false; // ✅ NOVO: Estado para controlar o loading do PDF
 
-  // Dados para os cards
+  // ... (outras propriedades permanecem as mesmas)
   totalVisitas = 0;
   totalVisitantes = 0;
   reservasPendentes = 0;
   sugestoesFilmoteca = 0;
-
-  // Dados processados para os gráficos
   visitasPorMesData: any;
   visitasPorSetorData: any;
   visitantesPorNacionalidadeData: any;
   reservasPorStatusData: any;
-  visitasPorDiaSemanaData: any; // ✅ NOVO
-  horarioPicoData: any; // ✅ NOVO
-
-  // Instâncias dos gráficos
+  visitasPorDiaSemanaData: any;
+  horarioPicoData: any;
   private visitasChart: any;
   private nacionalidadeChart: any;
   private setorChart: any;
   private reservasChart: any;
-  private visitasPorDiaSemanaChart: any; // ✅ NOVO
-  private horarioPicoChart: any; // ✅ NOVO
+  private visitasPorDiaSemanaChart: any;
+  private horarioPicoChart: any;
 
   constructor(
     private visitaService: VisitaService,
@@ -64,6 +61,10 @@ export class Graficos implements OnInit {
   }
 
   private loadScript(url: string): Promise<void> {
+    // Verifica se o script já existe para não carregar de novo
+    if (document.querySelector(`script[src="${url}"]`)) {
+        return Promise.resolve();
+    }
     return new Promise((resolve, reject) => {
       const script = document.createElement('script');
       script.src = url;
@@ -86,25 +87,22 @@ export class Graficos implements OnInit {
       this.isLoading = false;
     }
   }
-  
+
   private carregarTodosOsDados(): Promise<void> {
+    // ... (este método permanece o mesmo)
     return new Promise((resolve) => {
         const paginacao = new RequisicaoPaginada();
         paginacao.size = 2000;
-
         this.usuarioService.get(undefined, paginacao).subscribe(usuariosRes => {
           const visitantes = usuariosRes.content.filter(u => u.papel === EPapel.VISITANTE);
           this.totalVisitantes = visitantes.length;
           this.processarDadosNacionalidade(visitantes);
-
           this.visitaService.get(paginacao).subscribe(visitasRes => {
             this.totalVisitas = visitasRes.content.length;
             this.processarDadosVisitas(visitasRes.content);
-
             this.reservaService.buscarReservas().subscribe(reservasRes => {
               this.reservasPendentes = reservasRes.content.filter(r => r.status === 'PENDENTE').length;
               this.processarDadosReservas(reservasRes.content);
-
               this.filmotecaService.get(paginacao).subscribe(filmotecaRes => {
                 this.sugestoesFilmoteca = filmotecaRes.totalElements;
                 this.isLoading = false;
@@ -118,63 +116,48 @@ export class Graficos implements OnInit {
     });
   }
 
+  // ... (todos os métodos de processamento de dados permanecem os mesmos)
   processarDadosVisitas(visitas: Visita[]): void {
     const visitasPorMes: { [key: string]: number } = {};
     const visitasPorSetor: { [key: string]: number } = {};
-    const visitasPorDiaSemana: number[] = new Array(7).fill(0); // 0: Domingo, 1: Segunda...
+    const visitasPorDiaSemana: number[] = new Array(7).fill(0);
     const visitasPorHora: { [key: string]: number } = {};
-
     visitas.forEach(visita => {
       const dataVisita = new Date(visita.dataHoraEntrada || visita.dataHoraAgendamento!);
-      
-      // Dados para visitas por mês
       const mesAno = `${dataVisita.getMonth() + 1}/${dataVisita.getFullYear()}`;
       visitasPorMes[mesAno] = (visitasPorMes[mesAno] || 0) + 1;
-      
-      // Dados para visitas por setor
       const nomeSetor = visita.local.nomeSetor;
       visitasPorSetor[nomeSetor] = (visitasPorSetor[nomeSetor] || 0) + 1;
-
-      // ✅ NOVO: Dados para visitas por dia da semana
       const dia = dataVisita.getDay();
       visitasPorDiaSemana[dia]++;
-
-      // ✅ NOVO: Dados para visitas por hora
       const hora = dataVisita.getHours();
       const horaLabel = `${hora.toString().padStart(2, '0')}:00`;
       visitasPorHora[horaLabel] = (visitasPorHora[horaLabel] || 0) + 1;
     });
-
     const mesesOrdenados = Object.keys(visitasPorMes).sort((a, b) => {
         const [mesA, anoA] = a.split('/').map(Number);
         const [mesB, anoB] = b.split('/').map(Number);
         return new Date(anoA, mesA - 1).getTime() - new Date(anoB, mesB - 1).getTime();
     });
-
     this.visitasPorMesData = {
       labels: mesesOrdenados,
       datasets: [{ label: 'Número de Visitas', data: mesesOrdenados.map(mes => visitasPorMes[mes]), borderColor: '#36A2EB', backgroundColor: 'rgba(54, 162, 235, 0.2)', fill: true, tension: 0.3 }]
     };
-
     this.visitasPorSetorData = {
         labels: Object.keys(visitasPorSetor),
         datasets: [{ label: 'Visitas por Setor', data: Object.values(visitasPorSetor), backgroundColor: '#FF6384' }]
     };
-
-    // ✅ NOVO: Processamento para os novos gráficos
     const diasDaSemana = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
     this.visitasPorDiaSemanaData = {
         labels: diasDaSemana,
         datasets: [{ label: 'Visitas por Dia da Semana', data: visitasPorDiaSemana, backgroundColor: '#FF9F40' }]
     };
-
     const horasOrdenadas = Object.keys(visitasPorHora).sort((a, b) => parseInt(a) - parseInt(b));
     this.horarioPicoData = {
         labels: horasOrdenadas,
         datasets: [{ label: 'Visitas por Hora do Dia', data: horasOrdenadas.map(hora => visitasPorHora[hora]), backgroundColor: '#4BC0C0' }]
     };
   }
-
   processarDadosNacionalidade(visitantes: Usuario[]): void {
     const contagem: { [key: string]: number } = {};
     visitantes.forEach(v => {
@@ -186,7 +169,6 @@ export class Graficos implements OnInit {
       datasets: [{ data: Object.values(contagem), backgroundColor: ['#4BC0C0', '#FFCD56', '#FF9F40'] }]
     };
   }
-
   processarDadosReservas(reservas: ReservaAuditorio[]): void {
     const contagem: { [key: string]: number } = {};
     reservas.forEach(r => {
@@ -198,13 +180,13 @@ export class Graficos implements OnInit {
         datasets: [{ data: Object.values(contagem), backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'] }]
     };
   }
-
+  
+  // ... (todos os métodos de renderização permanecem os mesmos)
   renderizarTodosOsGraficos(): void {
     this.renderVisitasPorMesChart(); this.renderNacionalidadeChart();
     this.renderSetorChart(); this.renderReservasChart();
-    this.renderVisitasPorDiaSemanaChart(); this.renderHorarioPicoChart(); // ✅ NOVO
+    this.renderVisitasPorDiaSemanaChart(); this.renderHorarioPicoChart();
   }
-
   renderVisitasPorMesChart(): void {
     const canvas = document.getElementById('visitasChart') as HTMLCanvasElement;
     if (canvas && this.visitasPorMesData) {
@@ -212,7 +194,6 @@ export class Graficos implements OnInit {
       this.visitasChart = new Chart(canvas, { type: 'line', data: this.visitasPorMesData, options: { responsive: true, maintainAspectRatio: false } });
     }
   }
-
   renderNacionalidadeChart(): void {
     const canvas = document.getElementById('nacionalidadeChart') as HTMLCanvasElement;
     if (canvas && this.visitantesPorNacionalidadeData) {
@@ -220,7 +201,6 @@ export class Graficos implements OnInit {
       this.nacionalidadeChart = new Chart(canvas, { type: 'doughnut', data: this.visitantesPorNacionalidadeData, options: { responsive: true, maintainAspectRatio: false } });
     }
   }
-
   renderSetorChart(): void {
       const canvas = document.getElementById('setorChart') as HTMLCanvasElement;
       if(canvas && this.visitasPorSetorData) {
@@ -228,7 +208,6 @@ export class Graficos implements OnInit {
           this.setorChart = new Chart(canvas, { type: 'bar', data: this.visitasPorSetorData, options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y' } });
       }
   }
-
   renderReservasChart(): void {
       const canvas = document.getElementById('reservasChart') as HTMLCanvasElement;
       if(canvas && this.reservasPorStatusData) {
@@ -236,41 +215,44 @@ export class Graficos implements OnInit {
           this.reservasChart = new Chart(canvas, { type: 'pie', data: this.reservasPorStatusData, options: { responsive: true, maintainAspectRatio: false } });
       }
   }
-
-  // ✅ NOVOS MÉTODOS DE RENDERIZAÇÃO
   renderVisitasPorDiaSemanaChart(): void {
     const canvas = document.getElementById('visitasPorDiaSemanaChart') as HTMLCanvasElement;
     if (canvas && this.visitasPorDiaSemanaData) {
       if (this.visitasPorDiaSemanaChart) this.visitasPorDiaSemanaChart.destroy();
-      this.visitasPorDiaSemanaChart = new Chart(canvas, {
-        type: 'bar',
-        data: this.visitasPorDiaSemanaData,
-        options: { responsive: true, maintainAspectRatio: false }
-      });
+      this.visitasPorDiaSemanaChart = new Chart(canvas, { type: 'bar', data: this.visitasPorDiaSemanaData, options: { responsive: true, maintainAspectRatio: false } });
     }
   }
-
   renderHorarioPicoChart(): void {
     const canvas = document.getElementById('horarioPicoChart') as HTMLCanvasElement;
     if (canvas && this.horarioPicoData) {
       if (this.horarioPicoChart) this.horarioPicoChart.destroy();
-      this.horarioPicoChart = new Chart(canvas, {
-        type: 'bar',
-        data: this.horarioPicoData,
-        options: { responsive: true, maintainAspectRatio: false }
-      });
+      this.horarioPicoChart = new Chart(canvas, { type: 'bar', data: this.horarioPicoData, options: { responsive: true, maintainAspectRatio: false } });
     }
   }
 
   gerarPDF(): void {
+    // ✅ CORREÇÃO 1: Adiciona estado de loading e verifica se as libs existem
+    if (this.isGeneratingPdf || typeof html2canvas === 'undefined' || typeof jspdf === 'undefined') {
+      return;
+    }
+    this.isGeneratingPdf = true;
+
     const content = this.dashboardContent.nativeElement;
+    
     html2canvas(content, { scale: 2, useCORS: true }).then((canvas: HTMLCanvasElement) => {
       const imgData = canvas.toDataURL('image/png');
+      
+      // ✅ CORREÇÃO 2: Instancia o jsPDF a partir do objeto global 'jspdf'
+      const { jsPDF } = jspdf;
       const pdf = new jsPDF('p', 'mm', 'a4');
+      
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      
       pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       pdf.save(`Relatorio_AcreVisita_${new Date().toLocaleDateString()}.pdf`);
+      
+      this.isGeneratingPdf = false; // Libera o botão
     });
   }
 }

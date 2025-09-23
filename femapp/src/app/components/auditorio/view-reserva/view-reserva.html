@@ -1,0 +1,47 @@
+<main class="minhas-reservas-container">
+  <a routerLink="/home" class="back-link">
+    <img src="assets/img/back.png" alt="Voltar">
+    <span>Voltar</span>
+  </a>
+
+  <header class="page-header">
+    <h1>Minhas Reservas de Auditório</h1>
+    <p>Acompanhe o status das suas solicitações de reserva.</p>
+  </header>
+
+  <div *ngIf="isLoading" class="loading">
+    <p>Carregando suas reservas...</p>
+  </div>
+
+  <div *ngIf="!isLoading && minhasReservas.length > 0" class="reservas-grid">
+    <div *ngFor="let reserva of minhasReservas" class="reserva-card">
+      <header class="card-header">
+        <h3 class="evento-nome">{{ reserva.nomeEvento }}</h3>
+        <span class="badge" [ngClass]="getStatusClass(reserva.status)">
+          {{ reserva.status }}
+        </span>
+      </header>
+      <section class="card-body">
+        <div class="info-item">
+          <span class="info-label">Auditório:</span>
+          <span class="info-value">{{ reserva.auditorio.nomeAuditorio }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Data:</span>
+          <span class="info-value">{{ reserva.data | date: 'dd/MM/yyyy' }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Horário:</span>
+          <span class="info-value">{{ reserva.horaInicio }} às {{ reserva.horaFim }}</span>
+        </div>
+      </section>
+      <footer class="card-footer" *ngIf="reserva.observacoes">
+        <p><strong>Observações:</strong> {{ reserva.observacoes }}</p>
+      </footer>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading && minhasReservas.length === 0" class="no-results">
+    <p>Você ainda não fez nenhuma reserva de auditório.</p>
+  </div>
+</main>

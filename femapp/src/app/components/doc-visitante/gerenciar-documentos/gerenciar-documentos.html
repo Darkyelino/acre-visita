@@ -24,25 +24,35 @@
       <thead>
         <tr>
           <th>Nome do Visitante</th>
-          <th>Email</th>
-          <th>Telefone</th>
+          <th>Tipo Documento</th>
+          <th>Número</th>
           <th class="col-acoes">Ações</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let visitante of visitantesExibidos">
           <td>{{ visitante.nome }}</td>
-          <td>{{ visitante.email }}</td>
-          <td>{{ visitante.telefone || 'N/A' }}</td>
+          <!-- ✅ NOVAS COLUNAS PARA DADOS DO DOCUMENTO -->
+          <td>
+            <span *ngIf="visitante.documento; else naoInformado">{{ visitante.documento.tipo }}</span>
+          </td>
+          <td>
+            <span *ngIf="visitante.documento; else naoInformado">{{ visitante.documento.numero }}</span>
+          </td>
           <td class="col-acoes">
-            <button class="btn-acao" (click)="abrirModal(visitante)">
-              Gerenciar Documento
+            <!-- ✅ BOTÃO ATUALIZADO -->
+            <button class="btn-acao" (click)="gerenciarDocumento(visitante)">
+              {{ visitante.documento ? 'Editar' : 'Adicionar' }} Documento
             </button>
           </td>
         </tr>
+        <!-- Template para quando não há documento -->
+        <ng-template #naoInformado>
+          <span class="nao-informado">Não informado</span>
+        </ng-template>
       </tbody>
     </table>
-    <div *ngIf="isLoading && !isModalVisible" class="loading">
+    <div *ngIf="isLoading" class="loading">
       Carregando visitantes...
     </div>
     <div *ngIf="!isLoading && visitantesExibidos.length === 0" class="no-results">
@@ -50,35 +60,3 @@
     </div>
   </div>
 </main>
-
-<div class="modal-overlay" *ngIf="isModalVisible">
-  <div class="modal-content">
-    <h3 *ngIf="!documentoAtual">Adicionar Documento para {{ visitanteSelecionado?.nome }}</h3>
-    <h3 *ngIf="documentoAtual">Editar Documento de {{ visitanteSelecionado?.nome }}</h3>
-    
-    <div *ngIf="isLoading" class="loading-modal">Carregando...</div>
-
-    <form *ngIf="!isLoading" [formGroup]="documentoForm" (ngSubmit)="salvarDocumento()">
-      <div class="form-group">
-        <label for="tipo">Tipo de Documento</label>
-        <select id="tipo" formControlName="tipo" class="form-control">
-          <option value="CPF">CPF</option>
-          <option value="Passaporte">Passaporte</option>
-          <option value="RG">RG</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="numero">Número do Documento</label>
-        <input type="text" id="numero" formControlName="numero" placeholder="Digite o número aqui..." class="form-control">
-      </div>
-      
-      <div class="modal-acoes">
-        <button *ngIf="documentoAtual" type="button" class="btn-excluir" (click)="excluirDocumento()">Excluir</button>
-        <div class="espacador"></div>
-        <button type="button" class="btn-cancelar" (click)="fecharModal()">Cancelar</button>
-        <button type="submit" class="btn-salvar" [disabled]="documentoForm.invalid">Salvar</button>
-      </div>
-    </form>
-  </div>
-</div>

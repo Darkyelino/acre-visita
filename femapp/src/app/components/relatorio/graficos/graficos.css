@@ -86,3 +86,23 @@
   position: relative;
   height: 350px;
 }
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+.back-link:hover {
+  color: #007bff;
+}
+
+.back-link img {
+  width: 48px;
+  height: 48px;
+}

@@ -1,1 +1,45 @@
-<p>form-documento works!</p>
+<main class="form-container">
+  <div class="form-card">
+    <a routerLink="/documentos/list" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      <span>Voltar para a Listagem</span>
+    </a>
+
+    <header class="card-header" *ngIf="!isLoading && visitante">
+      <h1 *ngIf="!isEditMode">Adicionar Documento</h1>
+      <h1 *ngIf="isEditMode">Editar Documento</h1>
+      <p>Visitante: <strong>{{ visitante.nome }}</strong></p>
+    </header>
+
+    <div *ngIf="isLoading" class="loading">Carregando...</div>
+
+    <form *ngIf="!isLoading" [formGroup]="documentoForm" (ngSubmit)="save()">
+      <div class="form-group">
+        <label for="tipo">Tipo de Documento</label>
+        <select id="tipo" formControlName="tipo" class="form-control">
+          <option value="CPF">CPF</option>
+          <option value="Passaporte">Passaporte</option>
+          <option value="RG">RG</option>
+        </select>
+        <!-- ✅ CORREÇÃO APLICADA AQUI -->
+        <div *ngIf="documentoForm.get('tipo')?.invalid && documentoForm.get('tipo')?.touched" class="error-message">
+          Selecione o tipo de documento.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="numero">Número do Documento</label>
+        <input type="text" id="numero" formControlName="numero" placeholder="Digite o número aqui..." class="form-control">
+        <!-- ✅ CORREÇÃO APLICADA AQUI -->
+        <div *ngIf="documentoForm.get('numero')?.invalid && documentoForm.get('numero')?.touched" class="error-message">
+          O número do documento é obrigatório.
+        </div>
+      </div>
+      
+      <button type="submit" class="btn-submit" [disabled]="documentoForm.invalid">
+        {{ isEditMode ? 'Atualizar Documento' : 'Salvar Documento' }}
+      </button>
+    </form>
+  </div>
+</main>
+

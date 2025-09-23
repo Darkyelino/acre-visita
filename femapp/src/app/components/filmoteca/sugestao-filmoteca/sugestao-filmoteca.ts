@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AlertaService } from '../../../services/alerta/alerta';
 import { AuthService } from '../../../services/auth/auth';
 import { SetorService } from '../../../services/setor/setor';
@@ -15,7 +15,7 @@ import { ETipoAlerta } from '../../../models/ETipoAlerta';
 @Component({
   selector: 'app-sugestao-filmoteca',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './sugestao-filmoteca.html',
   styleUrls: ['./sugestao-filmoteca.css']
 })

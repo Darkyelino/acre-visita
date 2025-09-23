@@ -29,9 +29,12 @@ import { ListVisitante } from './components/visitante/list-visitante/list-visita
 import { GerenciarDocumentos } from './components/doc-visitante/gerenciar-documentos/gerenciar-documentos';
 import { GerenciaFilmoteca } from './components/filmoteca/gerencia-filmoteca/gerencia-filmoteca';
 import { Graficos } from './components/relatorio/graficos/graficos';
+import { FormDocumento } from './components/doc-visitante/form-documento/form-documento';
+import { ViewReserva } from './components/auditorio/view-reserva/view-reserva';
 
 export const routes: Routes = [
     { path: '', children: [
+        { path: '', redirectTo: '/home', pathMatch: 'full' },
 
         // Adicione a rota para a home
         { path: 'home', component: Home, canActivate: [authGuard] },
@@ -43,6 +46,8 @@ export const routes: Routes = [
 
         // Documentos de Visitantes
         { path: 'documentos/list', component: GerenciarDocumentos, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
+        { path: 'documentos/form', component: FormDocumento, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
+        { path: 'documentos/editar/:id', component: FormDocumento, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
 
         // Gerenciamento de Visitantes (Admin, Coordenador, Atendente)
         { path: 'visitante/form', component: FormVisitante, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
@@ -83,6 +88,7 @@ export const routes: Routes = [
         { path: 'auditorio/editar/:id', component: CadastroAuditorio, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR]} },
         { path: 'auditorio/list', component: ListAuditorio, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR]} },
         { path: 'auditorio/reservar', component: ReservarAuditorio, canActivate: [roleGuard], data: { roles: [EPapel.VISITANTE]} },
+        { path: 'auditorio/minhas-reservas', component: ViewReserva, canActivate: [roleGuard], data: { roles: [EPapel.VISITANTE]} },
         { path: 'auditorio/gerenciar-reservas', component: GerenciarReservas, canActivate: [roleGuard], data: { roles: [EPapel.COORDENADOR, EPapel.ADMINISTRADOR]} },
 
         // Funcionários
