@@ -9,25 +9,28 @@ import { Usuario } from '../../../models/Usuario';
 import { NacionalidadeVisitante } from '../../../models/NacionalidadeVisitante';
 import { ETipoAlerta } from '../../../models/ETipoAlerta';
 import { EPapel } from '../../../models/EPapel';
-import { NgxMaskDirective } from 'ngx-mask'; // ✅ 1. Importe a diretiva da máscara
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-cadastro-visitante',
   standalone: true,
-  imports: [ CommonModule, RouterLink, ReactiveFormsModule, NgxMaskDirective ], // ✅ 2. Adicione a diretiva aqui
+  imports: [ CommonModule, RouterLink, ReactiveFormsModule, NgxMaskDirective ],
   templateUrl: './cadastro-visitante.html',
   styleUrls: ['./cadastro-visitante.css']
 })
 export class CadastroVisitante implements OnInit {
 
-  nacionalidades: NacionalidadeVisitante[] = []; 
+  nacionalidades: NacionalidadeVisitante[] = [];
   isEditMode: boolean = false;
   usuarioId: number | null = null;
 
   usuarioForm = new FormGroup({
-    nome: new FormControl<string>('', [Validators.required, Validators.minLength(3)]),
+    nome: new FormControl<string>('', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.pattern('^[a-zA-Z\\s]*$')
+    ]),
     email: new FormControl<string>('', [Validators.required, Validators.email]),
-    // O validador de tamanho/formato não é mais necessário, a máscara cuida disso
     telefone: new FormControl<string>('', Validators.required),
     senha: new FormControl<string>('', [Validators.required, Validators.minLength(6)]),
     nacionalidade: new FormControl<NacionalidadeVisitante | null>(null, Validators.required),
@@ -69,7 +72,7 @@ export class CadastroVisitante implements OnInit {
       this.usuarioForm.markAllAsTouched();
       return;
     }
-    
+
     const dadosFormulario = this.usuarioForm.getRawValue();
 
     const usuarioParaSalvar: Usuario = {
@@ -84,7 +87,7 @@ export class CadastroVisitante implements OnInit {
 
     this.usuarioService.save(usuarioParaSalvar).subscribe({
       next: () => {
-        this.router.navigate(['/login']); 
+        this.router.navigate(['/login']);
         this.servicoAlerta.enviarAlerta({
           tipo: ETipoAlerta.SUCESSO,
           mensagem: `Cadastro ${this.isEditMode ? 'atualizado' : 'realizado'} com sucesso!`

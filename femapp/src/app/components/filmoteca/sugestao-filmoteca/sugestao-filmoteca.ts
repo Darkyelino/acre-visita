@@ -35,7 +35,7 @@ export class SugestaoFilmoteca implements OnInit {
   ) {
     this.sugestaoForm = new FormGroup({
       setor: new FormControl<Setor | null>(null, Validators.required),
-      sugestao: new FormControl('', [Validators.required, Validators.minLength(10)])
+      sugestao: new FormControl('', [Validators.required, Validators.maxLength(100)])
     });
   }
 

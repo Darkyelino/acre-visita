@@ -28,7 +28,7 @@
         <textarea id="sugestao" formControlName="sugestao" class="form-control" rows="5" placeholder="Digite o nome do filme e, se quiser, por que você o recomenda."></textarea>
         <div *ngIf="sugestao?.invalid && sugestao?.touched" class="error-message">
           <span *ngIf="sugestao?.errors?.['required']">A sugestão é obrigatória.</span>
-          <span *ngIf="sugestao?.errors?.['minlength']">A sugestão deve ter no mínimo 10 caracteres.</span>
+          <span *ngIf="sugestao?.errors?.['maxlength']">A sugestão deve ter no máximo 100 caracteres.</span>
         </div>
       </div>
       

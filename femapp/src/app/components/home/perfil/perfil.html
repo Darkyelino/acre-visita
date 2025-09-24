@@ -68,7 +68,7 @@
         </a>
       </ng-container>
       
-      <a *ngIf="usuarioLogado.papel !== EPapel.VISITANTE" [routerLink]="['/admin/funcionarios/editar', usuarioLogado.id]" class="btn-editar">
+      <a *ngIf="usuarioLogado.papel !== EPapel.VISITANTE" [routerLink]="['/funcionario/editar', usuarioLogado.id]" class="btn-editar">
         Editar Perfil
       </a>
     </footer>
