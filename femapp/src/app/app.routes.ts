@@ -32,6 +32,7 @@ import { FormDocumento } from './components/doc-visitante/form-documento/form-do
 import { ViewReserva } from './components/auditorio/view-reserva/view-reserva';
 import { AddArmario } from './components/armario/add-armario/add-armario';
 import { FormArmario } from './components/armario/form-armario/form-armario';
+import { ListArmario } from './components/armario/list-armario/list-armario';
 
 export const routes: Routes = [
     { path: '', children: [
@@ -75,6 +76,7 @@ export const routes: Routes = [
         // Armários
         { path: 'armario/adicionar', component: AddArmario, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
         { path: 'armario/editar/:id', component: FormArmario, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
+        { path: 'armario/list', component: ListArmario, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
 
         // Filmoteca
         { path: 'filmoteca/sugestao', component: SugestaoFilmoteca, canActivate: [authGuard], data: { roles: [EPapel.VISITANTE]} },
