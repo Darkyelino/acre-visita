@@ -7,7 +7,6 @@
     </header>
 
     <section class="info-grid">
-      <!-- Seção de Dados Pessoais -->
       <div class="info-section">
         <h2>Dados Pessoais</h2>
         <div class="info-item">
@@ -28,7 +27,6 @@
         </div>
       </div>
 
-      <!-- Seção de Endereço -->
       <div class="info-section">
         <h2>Endereço</h2>
         <ng-container *ngIf="meuEndereco; else semEndereco">
@@ -56,13 +54,10 @@
     </section>
 
     <footer class="card-footer">
-      <!-- ✅ CORREÇÃO AQUI: Lógica de botões para endereço -->
       <ng-container *ngIf="usuarioLogado.papel === EPapel.VISITANTE">
-        <!-- Se já tem endereço, mostra o botão de editar -->
         <a *ngIf="meuEndereco" [routerLink]="['/endereco/editar', meuEndereco.idEnderecoVisitante]" class="btn-editar">
           Editar Endereço
         </a>
-        <!-- Se não tem endereço, mostra o botão de cadastrar -->
         <a *ngIf="!meuEndereco" routerLink="/endereco/form" class="btn-editar">
           Cadastrar Endereço
         </a>

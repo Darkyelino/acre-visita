@@ -46,10 +46,8 @@ export class ArmarioService {
 
   save(objeto: Armario): Observable<Armario> {
     if (objeto.idArmario) {
-      // Atualiza um armário existente
-      return this.http.put<Armario>(this.apiUrl, objeto);
+      return this.http.put<Armario>(`${this.apiUrl}${objeto.idArmario}`, objeto);
     } else {
-      // Cria um novo armário
       return this.http.post<Armario>(this.apiUrl, objeto);
     }
   }

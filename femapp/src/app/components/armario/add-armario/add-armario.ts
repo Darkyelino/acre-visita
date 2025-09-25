@@ -11,6 +11,7 @@ import { AlertaService } from '../../../services/alerta/alerta';
 import { Setor } from '../../../models/Setor';
 import { Armario } from '../../../models/Armario';
 import { ETipoAlerta } from '../../../models/ETipoAlerta';
+import { RequisicaoPaginada } from '../../../models/RequisicaoPaginada';
 
 @Component({
   selector: 'app-add-armario',
@@ -59,41 +60,60 @@ export class AddArmario implements OnInit {
     this.isLoading = true;
     const { setor, quantidade } = this.armarioForm.getRawValue();
 
-    // ✅ CORREÇÃO: The type now correctly omits only the optional idArmario.
-    const novosArmarios: Omit<Armario, 'idArmario'>[] = [];
-    for (let i = 0; i < quantidade!; i++) {
-      novosArmarios.push({
-        // ✅ CORREÇÃO: Added 'numeracao' with a placeholder value.
-        // The backend should handle assigning the correct, final number.
-        numeracao: 0, 
-        setor: setor!,
-        usuario: null
-      });
-    }
-    
-    // The save method now receives a valid Armario object (without the ID).
-    const requisicoes = novosArmarios.map(armario => this.armarioService.save(armario as Armario));
+    // Busca todos os armários existentes para determinar a próxima numeração
+    const paginacao = new RequisicaoPaginada();
+    paginacao.size = 2000; // Garante que estamos buscando todos ou um número bem grande
 
-    forkJoin(requisicoes).subscribe({
-      next: () => {
-        this.alertaService.enviarAlerta({
-          tipo: ETipoAlerta.SUCESSO,
-          mensagem: `${quantidade} armários foram adicionados com sucesso ao setor ${setor!.nomeSetor}!`
+    this.armarioService.get(undefined, paginacao).subscribe({
+      next: (resposta) => {
+        // Filtra os armários apenas para o setor selecionado
+        const armariosDoSetor = resposta.content.filter(a => a.setor.idSetor === setor!.idSetor);
+        
+        // Encontra a maior numeração existente nesse setor
+        const maiorNumeracao = armariosDoSetor.reduce((max, a) => a.numeracao > max ? a.numeracao : max, 0);
+
+        // Cria a lista de novos armários com a numeração correta
+        const novosArmarios: Omit<Armario, 'idArmario'>[] = [];
+        for (let i = 0; i < quantidade!; i++) {
+          novosArmarios.push({
+            numeracao: maiorNumeracao + 1 + i, // Inicia a partir do próximo número
+            setor: setor!,
+            usuario: null
+          });
+        }
+        
+        // Envia todas as requisições de uma vez
+        const requisicoes = novosArmarios.map(armario => this.armarioService.save(armario as Armario));
+
+        forkJoin(requisicoes).subscribe({
+          next: () => {
+            this.alertaService.enviarAlerta({
+              tipo: ETipoAlerta.SUCESSO,
+              mensagem: `${quantidade} armários foram adicionados com sucesso ao setor ${setor!.nomeSetor}!`
+            });
+            this.router.navigate(['/armario/list']);
+          },
+          error: (err) => {
+            this.isLoading = false;
+            this.alertaService.enviarAlerta({
+              tipo: ETipoAlerta.ERRO,
+              mensagem: "Ocorreu um erro ao adicionar os armários. Tente novamente."
+            });
+            console.error(err);
+          },
+          complete: () => {
+            this.isLoading = false;
+          }
         });
-        this.router.navigate(['/armario/list']);
       },
       error: (err) => {
         this.isLoading = false;
         this.alertaService.enviarAlerta({
           tipo: ETipoAlerta.ERRO,
-          mensagem: "Ocorreu um erro ao adicionar os armários. Tente novamente."
+          mensagem: "Não foi possível verificar os armários existentes. Tente novamente."
         });
         console.error(err);
-      },
-      complete: () => {
-        this.isLoading = false;
       }
     });
   }
 }
-

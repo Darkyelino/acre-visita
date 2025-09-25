@@ -1,7 +1,8 @@
 <main class="form-container">
   <div class="form-card">
     <a routerLink="/armario/list" class="back-link">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      <!-- ✅ CORREÇÃO: viewBox ajustado para "0 0 24 24" -->
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
       <span>Voltar para a Listagem</span>
     </a>
 
@@ -13,7 +14,7 @@
     <div *ngIf="isLoading" class="loading">Carregando dados do armário...</div>
 
     <form *ngIf="!isLoading" [formGroup]="armarioForm" (ngSubmit)="save()">
-      
+
       <div class="form-group">
         <label for="numeracao">Numeração do Armário</label>
         <input id="numeracao" type="number" formControlName="numeracao" class="form-control">
@@ -26,24 +27,21 @@
         <label for="setor">Setor (Não editável)</label>
         <input id="setor" type="text" formControlName="setor" class="form-control">
       </div>
-      
-      <!-- ✅ NOVO: Componente de Busca para Alocar Visitante -->
+
       <div class="form-group">
         <label for="usuario-search">Alocar para o Visitante</label>
         <div class="search-container">
-          <input 
-            id="usuario-search" 
-            type="text" 
+          <input
+            id="usuario-search"
+            type="text"
             class="form-control search-input"
             placeholder="Digite para buscar um visitante..."
             [formControl]="visitanteSearchCtrl"
-            (focus)="isDropdownOpen = true" 
+            (focus)="isDropdownOpen = true"
             (blur)="isDropdownOpen = false">
-          
-          <!-- Botão para limpar a seleção -->
+
           <button *ngIf="visitanteSearchCtrl.value" type="button" class="clear-btn" (click)="selecionarVisitante(null)" title="Limpar seleção">&times;</button>
-          
-          <!-- Dropdown de resultados -->
+
           <div class="results-dropdown" *ngIf="isDropdownOpen">
             <div class="result-item" (mousedown)="selecionarVisitante(null)">
               Livre / Desocupado
@@ -54,7 +52,7 @@
           </div>
         </div>
       </div>
-      
+
       <button type="submit" class="btn-submit" [disabled]="armarioForm.invalid">
         Salvar Alterações
       </button>

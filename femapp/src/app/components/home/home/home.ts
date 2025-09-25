@@ -156,6 +156,13 @@ export class Home implements OnInit, OnDestroy {
     
     // --- Apenas para ADM ---
     {
+      titulo: 'Listar Armários',
+      descricao: 'Adicione, edite e aloque armários aos visitantes.',
+      icone: 'archive',
+      link: '/armario/list',
+      papeisPermitidos: [EPapel.ADMINISTRADOR]
+    },
+    {
       titulo: 'Gerenciar Funcionários',
       descricao: 'Adicione, edite ou remova atendentes e coordenadores.',
       icone: 'users',
