@@ -23,6 +23,8 @@
 3.  [🛠️ Tecnologias Utilizadas](#️-tecnologias-utilizadas)
 4.  [⚙️ Como Executar o Projeto Localmente](#️-como-executar-o-projeto-localmente)
 5.  [📄 Documentação da API](#-documentação-da-api)
+6.  [🔗 Links de Planejamento](#-links-de-planejamento)
+7.  [📊 Diagrama de Classes](#-diagrama-de-classes)
 
 <br>
 
