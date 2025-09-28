@@ -1,1 +1,90 @@
-<p>gerenciar-armario works!</p>
+<main class="gerenciar-container">
+  <a routerLink="/home" class="back-link">
+    <img src="assets/img/back.png" alt="Voltar">
+    <span>Voltar</span>
+  </a>
+
+  <header class="page-header">
+    <h1>Gerenciamento de Armários</h1>
+    <p *ngIf="funcionarioLogado?.setor">
+      Armários do setor: <strong>{{ funcionarioLogado?.setor?.nomeSetor }}</strong>
+    </p>
+  </header>
+
+  <div class="filter-bar">
+    <input 
+      type="text" 
+      class="filter-input"
+      placeholder="Filtrar por número..."
+      [(ngModel)]="filtroNumero"
+      (input)="aplicarFiltroNumero()">
+  </div>
+
+  <div *ngIf="isLoading" class="loading-container">
+    <p>Carregando armários...</p>
+  </div>
+
+  <section *ngIf="!isLoading && armariosExibidos.length > 0" class="armarios-grid">
+    <div *ngFor="let armario of armariosExibidos" class="armario-card" [class.ocupado]="armario.usuario">
+      <div class="card-header">
+        <span class="armario-numero">Nº {{ armario.numeracao }}</span>
+        <span class="armario-status" [class.ocupado]="armario.usuario">
+          {{ armario.usuario ? 'Ocupado' : 'Livre' }}
+        </span>
+      </div>
+      <div class="card-body">
+        <div *ngIf="armario.usuario; else livreTemplate" class="info-ocupante">
+          <span class="label">Ocupado por:</span>
+          <span class="nome">{{ armario.usuario.nome }}</span>
+        </div>
+        <ng-template #livreTemplate>
+          <p class="info-livre">Este armário está disponível para uso.</p>
+        </ng-template>
+      </div>
+      <div class="card-footer">
+        <button *ngIf="!armario.usuario" class="btn btn-alocar" (click)="abrirModalAlocacao(armario)">
+          Alocar Visitante
+        </button>
+        <button *ngIf="armario.usuario" class="btn btn-liberar" (click)="liberar(armario)">
+          Liberar Armário
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <div *ngIf="!isLoading && armariosExibidos.length === 0" class="no-results">
+    <p>Nenhum armário encontrado para este setor.</p>
+  </div>
+</main>
+
+<!-- Modal para Alocação de Visitante -->
+<div class="modal-overlay" *ngIf="isModalOpen" (click)="fecharModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <header class="modal-header">
+      <h3>Alocar Armário Nº {{ armarioSelecionado?.numeracao }}</h3>
+      <button class="close-btn" (click)="fecharModal()">&times;</button>
+    </header>
+    <div class="modal-body">
+      <input 
+        type="text" 
+        class="filter-input"
+        placeholder="Pesquisar visitante por nome..."
+        [(ngModel)]="filtroNomeVisitante"
+        (input)="aplicarFiltroVisitantes()">
+      
+      <div class="visitantes-list">
+        <div *ngIf="visitantesFiltrados.length === 0" class="no-results-modal">
+          Nenhum visitante encontrado.
+        </div>
+        <button *ngFor="let visitante of visitantesFiltrados" class="visitante-item" (click)="alocar(visitante)">
+          {{ visitante.nome }}
+          <!-- ✅ CORREÇÃO APLICADA AQUI -->
+          <span *ngIf="isVisitantePresente(visitante)" class="badge-presente">
+            Presente no Local
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -33,6 +33,7 @@ import { ViewReserva } from './components/auditorio/view-reserva/view-reserva';
 import { AddArmario } from './components/armario/add-armario/add-armario';
 import { FormArmario } from './components/armario/form-armario/form-armario';
 import { ListArmario } from './components/armario/list-armario/list-armario';
+import { GerenciarArmario } from './components/armario/gerenciar-armario/gerenciar-armario';
 
 export const routes: Routes = [
     { path: '', children: [
@@ -44,64 +45,65 @@ export const routes: Routes = [
 
         // Visitantes
         { path: 'cadastro', component: CadastroVisitante },
-        { path: 'minhas-visitas', component: MinhasVisitas, canActivate: [authGuard], data: { roles: [EPapel.VISITANTE]} },
+        { path: 'minhas-visitas', component: MinhasVisitas, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.VISITANTE]} },
 
         // Documentos de Visitantes
-        { path: 'documentos/list', component: GerenciarDocumentos, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
-        { path: 'documentos/form', component: FormDocumento, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
-        { path: 'documentos/editar/:id', component: FormDocumento, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
+        { path: 'documentos/list', component: GerenciarDocumentos, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
+        { path: 'documentos/form', component: FormDocumento, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
+        { path: 'documentos/editar/:id', component: FormDocumento, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
 
         // Gerenciamento de Visitantes (Admin, Coordenador, Atendente)
-        { path: 'visitante/form', component: FormVisitante, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
-        { path: 'visitante/list', component: ListVisitante, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
-        { path: 'visitante/editar/:id', component: FormVisitante, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
+        { path: 'visitante/form', component: FormVisitante, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
+        { path: 'visitante/list', component: ListVisitante, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
+        { path: 'visitante/editar/:id', component: FormVisitante, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
 
         // Endereço Visitante
-        { path: 'endereco/form', component: FormEnderecoVisitante, canActivate: [authGuard], data: { roles: [EPapel.VISITANTE]} },
-        { path: 'endereco/editar/:id', component: FormEnderecoVisitante, canActivate: [authGuard], data: { roles: [EPapel.VISITANTE]} },
-        { path: 'endereco/list', component: ListEnderecoVisitante, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
+        { path: 'endereco/form', component: FormEnderecoVisitante, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.VISITANTE]} },
+        { path: 'endereco/editar/:id', component: FormEnderecoVisitante, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.VISITANTE]} },
+        { path: 'endereco/list', component: ListEnderecoVisitante, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
 
         // Feedbacks
-        { path: 'feedback/fazer', component: FazerFeedback, canActivate: [authGuard], data: { roles: [EPapel.VISITANTE]} },
-        { path: 'feedback/visualizar/:id', component: ViewFeedback, canActivate: [authGuard], data: { roles: [EPapel.VISITANTE]} },
-        { path: 'feedback/listar', component: ListFeedbacks, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
+        { path: 'feedback/fazer', component: FazerFeedback, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.VISITANTE]} },
+        { path: 'feedback/visualizar/:id', component: ViewFeedback, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.VISITANTE]} },
+        { path: 'feedback/listar', component: ListFeedbacks, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
 
         // Usuários
         { path: 'login', component: LoginVisitante },
 
         // Visitas
-        { path: 'visita/gerenciar', component: GerenciarVisita, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
-        { path: 'visita/fazer', component: FazerVisita, canActivate: [authGuard], data: { roles: [EPapel.VISITANTE]} },
+        { path: 'visita/gerenciar', component: GerenciarVisita, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
+        { path: 'visita/fazer', component: FazerVisita, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.VISITANTE]} },
 
         // Armários
-        { path: 'armario/adicionar', component: AddArmario, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
-        { path: 'armario/editar/:id', component: FormArmario, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
-        { path: 'armario/list', component: ListArmario, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
+        { path: 'armario/adicionar', component: AddArmario, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
+        { path: 'armario/editar/:id', component: FormArmario, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
+        { path: 'armario/list', component: ListArmario, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
+        { path: 'armario/gerenciar', component: GerenciarArmario, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ATENDENTE]} },
 
         // Filmoteca
-        { path: 'filmoteca/sugestao', component: SugestaoFilmoteca, canActivate: [authGuard], data: { roles: [EPapel.VISITANTE]} },
-        { path: 'filmoteca/gerenciar', component: GerenciaFilmoteca, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
+        { path: 'filmoteca/sugestao', component: SugestaoFilmoteca, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.VISITANTE]} },
+        { path: 'filmoteca/gerenciar', component: GerenciaFilmoteca, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
 
         // Setores
-        { path: 'setor/cadastro', component: CadastroSetor, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
-        { path: 'setor/editar/:id', component: CadastroSetor, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
-        { path: 'setor/list', component: ListSetor, canActivate: [authGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
+        { path: 'setor/cadastro', component: CadastroSetor, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
+        { path: 'setor/editar/:id', component: CadastroSetor, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
+        { path: 'setor/list', component: ListSetor, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
 
         // Auditórios
-        { path: 'auditorio/cadastro', component: CadastroAuditorio, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR]} },
-        { path: 'auditorio/editar/:id', component: CadastroAuditorio, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR]} },
-        { path: 'auditorio/list', component: ListAuditorio, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR]} },
-        { path: 'auditorio/reservar', component: ReservarAuditorio, canActivate: [roleGuard], data: { roles: [EPapel.VISITANTE]} },
-        { path: 'auditorio/minhas-reservas', component: ViewReserva, canActivate: [roleGuard], data: { roles: [EPapel.VISITANTE]} },
-        { path: 'auditorio/gerenciar-reservas', component: GerenciarReservas, canActivate: [roleGuard], data: { roles: [EPapel.COORDENADOR, EPapel.ADMINISTRADOR]} },
+        { path: 'auditorio/cadastro', component: CadastroAuditorio, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR]} },
+        { path: 'auditorio/editar/:id', component: CadastroAuditorio, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR]} },
+        { path: 'auditorio/list', component: ListAuditorio, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR]} },
+        { path: 'auditorio/reservar', component: ReservarAuditorio, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.VISITANTE]} },
+        { path: 'auditorio/minhas-reservas', component: ViewReserva, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.VISITANTE]} },
+        { path: 'auditorio/gerenciar-reservas', component: GerenciarReservas, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.COORDENADOR, EPapel.ADMINISTRADOR]} },
 
         // Funcionários
-        { path: 'funcionario/cadastro', component: CadastroFuncionario, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
-        { path: 'funcionario/editar/:id', component: CadastroFuncionario, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
-        { path: 'funcionario/list', component: ListFuncionario, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR] }},
+        { path: 'funcionario/cadastro', component: CadastroFuncionario, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
+        { path: 'funcionario/editar/:id', component: CadastroFuncionario, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR]} },
+        { path: 'funcionario/list', component: ListFuncionario, canActivate: [authGuard,roleGuard], data: { roles: [EPapel.ADMINISTRADOR] }},
 
         // Relatórios
-        { path: 'relatorio/graficos', component: Graficos, canActivate: [roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} }
+        { path: 'relatorio/graficos', component: Graficos, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} }
         
     ]},
 ];
