@@ -65,7 +65,7 @@ export const routes: Routes = [
         // Feedbacks
         { path: 'feedback/fazer', component: FazerFeedback, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.VISITANTE]} },
         { path: 'feedback/visualizar/:id', component: ViewFeedback, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.VISITANTE]} },
-        { path: 'feedback/listar', component: ListFeedbacks, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
+        { path: 'feedback/listar', component: ListFeedbacks, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR]} },
 
         // Usuários
         { path: 'login', component: LoginVisitante },
@@ -103,7 +103,7 @@ export const routes: Routes = [
         { path: 'funcionario/list', component: ListFuncionario, canActivate: [authGuard,roleGuard], data: { roles: [EPapel.ADMINISTRADOR] }},
 
         // Relatórios
-        { path: 'relatorio/graficos', component: Graficos, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} }
+        { path: 'relatorio/graficos', component: Graficos, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR]} }
         
     ]},
 ];

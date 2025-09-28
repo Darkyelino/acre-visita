@@ -94,6 +94,13 @@ export class Home implements OnInit, OnDestroy {
       papeisPermitidos: [EPapel.ATENDENTE, EPapel.COORDENADOR, EPapel.ADMINISTRADOR]
     },
     {
+      titulo: 'Gerenciar Armários',
+      descricao: 'Aloque e libere os armários do seu setor para os visitantes.',
+      icone: 'archive',
+      link: '/armario/gerenciar',
+      papeisPermitidos: [EPapel.ATENDENTE]
+    },
+    {
       titulo: 'Gerenciar Filmoteca',
       descricao: 'Visualize e filtre as sugestões de filmes enviadas.',
       icone: 'video',
@@ -126,16 +133,14 @@ export class Home implements OnInit, OnDestroy {
       descricao: 'Leia as avaliações e sugestões enviadas pelos visitantes.',
       icone: 'message-square',
       link: '/feedback/listar',
-      papeisPermitidos: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]
+      papeisPermitidos: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR]
     },
-    
-    // ✅ NOVO CARD ADICIONADO AQUI
     {
       titulo: 'Relatórios e Gráficos',
       descricao: 'Visualize dados e estatísticas do sistema.',
       icone: 'pie-chart',
       link: '/relatorio/graficos',
-      papeisPermitidos: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]
+      papeisPermitidos: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR]
     },
     
     // --- Para Coordenador e ADM ---
