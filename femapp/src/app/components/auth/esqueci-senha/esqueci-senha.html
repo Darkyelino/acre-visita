@@ -1,0 +1,41 @@
+<div class="esqueci-senha-container">
+  <div class="info-panel"></div>
+  <div class="form-panel">
+    <div class="form-content">
+      <header class="form-header">
+        <h2>Esqueceu sua senha?</h2>
+        <p class="form-description" *ngIf="!emailEnviado">
+          Sem problemas! Digite seu e-mail abaixo e enviaremos instruções para redefinir sua senha.
+        </p>
+      </header>
+      
+      <!-- Formulário -->
+      <form (ngSubmit)="onSubmit()" [formGroup]="esqueciSenhaForm" novalidate *ngIf="!emailEnviado">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <div class="input-wrapper">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <input type="email" id="email" formControlName="email" class="form-control" placeholder="seu@email.com" autocomplete="off">
+          </div>
+          <div *ngIf="form.email.invalid && (form.email.dirty || form.email.touched)" class="error-message">
+            <span *ngIf="form.email.errors?.['required']">O email é obrigatório.</span>
+            <span *ngIf="form.email.errors?.['email']">Por favor, insira um email válido.</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" [disabled]="esqueciSenhaForm.invalid || isLoading">
+          {{ isLoading ? 'Enviando...' : 'Enviar' }}
+        </button>
+      </form>
+
+      <!-- Mensagem de Sucesso -->
+      <div class="success-message" *ngIf="emailEnviado">
+        <svg class="success-icon" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        <h3>Verifique seu E-mail!</h3>
+        <p>Se uma conta com este e-mail existir, você receberá um link para redefinir sua senha em breve.</p>
+      </div>
+      
+      <p class="footer-text">Lembrou a senha? <a routerLink="/login"><b>Voltar para o Login</b></a></p>
+    </div>
+  </div>
+</div>

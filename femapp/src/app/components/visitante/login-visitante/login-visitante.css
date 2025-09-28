@@ -134,12 +134,23 @@
   transform: none;
 }
 
+.forgot-password-link {
+  color: var(--cor-primaria);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline;
+}
+
 .footer-text {
   margin-top: 2rem;
   text-align: center;
   color: var(--cor-texto-claro);
   font-size: 0.9rem;
 }
+
 .footer-text a {
   color: var(--cor-primaria);
   font-weight: 600;

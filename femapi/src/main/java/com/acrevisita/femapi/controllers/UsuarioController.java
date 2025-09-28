@@ -1,5 +1,6 @@
 package com.acrevisita.femapi.controllers;
 
+import com.acrevisita.femapi.controllers.dto.EsqueciSenhaRequestDTO;
 import com.acrevisita.femapi.controllers.dto.LoginRequestDTO;
 import com.acrevisita.femapi.controllers.dto.UsuarioRequestDTO;
 import com.acrevisita.femapi.controllers.dto.UsuarioResponseDTO;
@@ -46,6 +47,21 @@ public class UsuarioController {
             return ResponseEntity.ok(new UsuarioResponseDTO(usuario));
         } catch (LoginException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/esqueci-senha")
+    @Operation(summary = "Inicia o processo de redefinição de senha")
+    public ResponseEntity<?> esqueciSenha(@RequestBody @Valid EsqueciSenhaRequestDTO requestDTO) {
+        try {
+            usuarioService.solicitarResetSenha(requestDTO.getEmail());
+            // Retorna uma resposta genérica para não revelar se o e-mail existe ou não
+            return ResponseEntity.ok().body("Se o e-mail estiver cadastrado, um link de redefinição foi enviado.");
+        } catch (Exception e) {
+            // Mesmo em caso de erro (ex: usuário não encontrado), retornamos OK por segurança.
+            // O erro real pode ser logado no servidor.
+            System.err.println("Tentativa de reset de senha para e-mail não cadastrado: " + requestDTO.getEmail());
+            return ResponseEntity.ok().body("Se o e-mail estiver cadastrado, um link de redefinição foi enviado.");
         }
     }
 

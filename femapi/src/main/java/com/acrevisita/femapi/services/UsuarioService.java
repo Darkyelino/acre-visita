@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 import javax.security.auth.login.LoginException;
 
 @Service
@@ -81,6 +83,27 @@ public class UsuarioService implements IService<Usuario> { // ✅ Implementa a i
         } else {
             throw new LoginException("Credenciais inválidas.");
         }
+    }
+
+    @Transactional
+    public void solicitarResetSenha(String email) {
+        // A lógica de negócio real enviaria um e-mail com um token.
+        // Como não podemos fazer isso, vamos apenas simular a ação.
+        Optional<Usuario> usuarioOpt = usuarioRepo.findByEmail(email);
+
+        if (usuarioOpt.isPresent()) {
+            // Em um projeto real:
+            // 1. Gerar um token de reset (ex: UUID.randomUUID().toString())
+            // 2. Salvar o token e uma data de expiração no registro do usuário
+            // 3. Enviar um e-mail para o usuário com um link contendo o token
+            System.out.println("SIMULAÇÃO: E-mail de redefinição de senha enviado para: " + email);
+        } else {
+            // Por segurança, não informamos que o e-mail não foi encontrado.
+            // Apenas logamos a tentativa no servidor.
+            System.out.println("SIMULAÇÃO: Tentativa de redefinição de senha para um e-mail não cadastrado: " + email);
+        }
+        // O método não retorna nada e não lança exceção para o controller,
+        // garantindo que a resposta para o front-end seja sempre a mesma.
     }
 
     /**

@@ -1,0 +1,10 @@
+/* Estilos herdados de esqueci-senha.css para manter a consistência */
+@import url('../esqueci-senha/esqueci-senha.css');
+
+.reset-senha-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+}

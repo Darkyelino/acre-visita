@@ -34,6 +34,8 @@ import { AddArmario } from './components/armario/add-armario/add-armario';
 import { FormArmario } from './components/armario/form-armario/form-armario';
 import { ListArmario } from './components/armario/list-armario/list-armario';
 import { GerenciarArmario } from './components/armario/gerenciar-armario/gerenciar-armario';
+import { EsqueciSenha } from './components/auth/esqueci-senha/esqueci-senha';
+import { ResetSenha } from './components/auth/reset-senha/reset-senha';
 
 export const routes: Routes = [
     { path: '', children: [
@@ -42,6 +44,8 @@ export const routes: Routes = [
         // Adicione a rota para a home
         { path: 'home', component: Home, canActivate: [authGuard] },
         { path: 'perfil', component: Perfil, canActivate: [authGuard] },
+        { path: 'esqueci-senha', component: EsqueciSenha },
+        { path: 'reset-senha', component: ResetSenha },
 
         // Visitantes
         { path: 'cadastro', component: CadastroVisitante },

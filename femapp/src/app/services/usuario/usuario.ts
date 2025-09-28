@@ -60,6 +60,14 @@ export class UsuarioService {
     );
   }
 
+  solicitarResetSenha(email: string): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/esqueci-senha`, { email });
+  }
+
+  resetarSenha(token: string, novaSenha: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/reset-senha`, { token, novaSenha });
+  }
+
   get(termoBusca?: string, paginacao?: RequisicaoPaginada): Observable<RespostaPaginada<Usuario>> {
     let params = new HttpParams();
     if (termoBusca) {

@@ -1,5 +1,6 @@
 package com.acrevisita.femapi.models;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -41,6 +42,12 @@ public class Usuario {
     @Size(min = 6, message = "A senha deve ter pelo menos 6 caracteres")
     private String senha;
 
+    @Column(name = "reset_token")
+    private String resetToken;
+
+    @Column(name = "reset_token_expiry")
+    private LocalDateTime resetTokenExpiry;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EPapel papel;
@@ -55,7 +62,6 @@ public class Usuario {
     @JoinColumn(name = "id_nacionalidade")
     private NacionalidadeVisitante nacionalidade;
 
-    // ✅ CORREÇÃO: Adicionando cascade para limpar os dados do usuário ao deletar
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Visita> visitas;
 
@@ -71,7 +77,6 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EnderecoVisitante> enderecos;
 
-    // ✅ NOVO: Adicionando cascade para as sugestões da filmoteca
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Filmoteca> filmotecas;
 
@@ -122,6 +127,22 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
+    }
+
+    public LocalDateTime getResetTokenExpiry() {
+        return resetTokenExpiry;
+    }
+
+    public void setResetTokenExpiry(LocalDateTime resetTokenExpiry) {
+        this.resetTokenExpiry = resetTokenExpiry;
     }
 
     public EPapel getPapel() {
