@@ -1,6 +1,5 @@
 package com.acrevisita.femapi.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -8,35 +7,27 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailService {
 
-    @Autowired
-    private JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
 
-    /**
-     * Envia o e-mail de redefinição de senha.
-     * @param to O e-mail do destinatário.
-     * @param token O token de redefinição a ser incluído no link.
-     */
+    public EmailService(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
+    }
+
     public void sendPasswordResetEmail(String to, String token) {
-        try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom("nao-responda@acrevisita.com");
-            message.setTo(to);
-            message.setSubject("Redefinição de Senha - AcreVisita");
+        String subject = "Redefinição de Senha - AcreVisita";
+        // A URL aponta para a rota do seu front-end Angular
+        String resetUrl = "http://localhost:4200/reset-senha/" + token;
+        String message = "Você solicitou a redefinição de sua senha para o sistema AcreVisita.\n\n"
+                     + "Clique no link abaixo para criar uma nova senha:\n"
+                     + resetUrl + "\n\n"
+                     + "Este link é válido por 1 hora.\n"
+                     + "Se você não solicitou esta alteração, por favor, ignore este e-mail.";
 
-            // O link aponta para a nova rota do front-end que vamos criar
-            String resetUrl = "http://localhost:4200/reset-senha?token=" + token;
-
-            message.setText("Olá,\n\n"
-                + "Recebemos uma solicitação para redefinir a senha da sua conta no AcreVisita.\n\n"
-                + "Clique no link abaixo para criar uma nova senha:\n"
-                + resetUrl + "\n\n"
-                + "Se você não solicitou uma redefinição de senha, por favor, ignore este e-mail.\n\n"
-                + "Atenciosamente,\nEquipe AcreVisita");
-
-            mailSender.send(message);
-        } catch (Exception e) {
-            // Em um ambiente de produção, seria ideal logar este erro de forma mais robusta.
-            System.err.println("Falha ao enviar e-mail de redefinição: " + e.getMessage());
-        }
+        SimpleMailMessage email = new SimpleMailMessage();
+        email.setTo(to);
+        email.setSubject(subject);
+        email.setText(message);
+        mailSender.send(email);
     }
 }
+

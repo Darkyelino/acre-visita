@@ -30,7 +30,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
      * @return Uma página de usuários que correspondem ao critério.
      */
     Page<Usuario> findByNomeContainingIgnoreCase(String nome, Pageable pageable);
-
         
     Optional<Usuario> findByResetToken(String resetToken);
 

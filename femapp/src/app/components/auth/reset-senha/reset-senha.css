@@ -1,10 +1,27 @@
-/* Estilos herdados de esqueci-senha.css para manter a consistência */
-@import url('../esqueci-senha/esqueci-senha.css');
+/* Reutilizando os estilos do login para manter a consistência */
+@import url('../../visitante/login-visitante/login-visitante.css');
 
-.reset-senha-container {
-    display: flex;
-    height: 100vh;
-    width: 100%;
-    font-family: 'Poppins', sans-serif;
-    overflow: hidden;
+/* Renomeando a classe principal para evitar conflitos, mas mantendo a estrutura */
+.reset-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
 }
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  display: block; /* Garante que a mensagem de erro seja exibida */
+}
+
+/* Garante que o botão de solicitar novo link pareça com o botão de submit */
+.btn-submit {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    line-height: 1.5; /* Ajuste para alinhamento vertical do texto */
+}
+

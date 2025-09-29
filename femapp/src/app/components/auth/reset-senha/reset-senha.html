@@ -1,24 +1,24 @@
-<div class="reset-senha-container">
-  <div class="info-panel"></div>
+<div class="reset-container">
   <div class="form-panel">
     <div class="form-content">
       <header class="form-header">
-        <h2>Redefinir sua Senha</h2>
-        <p class="form-description">
-          Crie uma nova senha para sua conta.
+        <h2>Redefinir Senha</h2>
+        <p class="form-description" *ngIf="isTokenValid">Crie uma nova senha para sua conta.</p>
+        <p class="form-description error-message" *ngIf="!isTokenValid">
+          O link de redefinição é inválido ou expirou. Por favor, solicite um novo.
         </p>
       </header>
       
-      <form (ngSubmit)="onSubmit()" [formGroup]="resetSenhaForm" novalidate *ngIf="token">
+      <form *ngIf="isTokenValid" (ngSubmit)="onSubmit()" [formGroup]="resetForm" novalidate>
+        
         <div class="form-group">
           <label for="novaSenha">Nova Senha</label>
           <div class="input-wrapper">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
             <input type="password" id="novaSenha" formControlName="novaSenha" class="form-control" placeholder="Pelo menos 6 caracteres">
           </div>
-          <div *ngIf="form.novaSenha.invalid && (form.novaSenha.dirty || form.novaSenha.touched)" class="error-message">
-            <span *ngIf="form.novaSenha.errors?.['required']">A nova senha é obrigatória.</span>
-            <span *ngIf="form.novaSenha.errors?.['minlength']">A senha deve ter no mínimo 6 caracteres.</span>
+          <div *ngIf="form['novaSenha'].invalid && (form['novaSenha'].dirty || form['novaSenha'].touched)" class="error-message">
+            A senha deve ter no mínimo 6 caracteres.
           </div>
         </div>
 
@@ -28,20 +28,19 @@
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
             <input type="password" id="confirmarSenha" formControlName="confirmarSenha" class="form-control" placeholder="Repita a nova senha">
           </div>
-          <div *ngIf="form.confirmarSenha.invalid && (form.confirmarSenha.dirty || form.confirmarSenha.touched)" class="error-message">
-            <span *ngIf="form.confirmarSenha.errors?.['required']">A confirmação é obrigatória.</span>
-          </div>
-          <div *ngIf="resetSenhaForm.hasError('senhasNaoCoincidem') && form.confirmarSenha.touched" class="error-message">
+          <div *ngIf="resetForm.hasError('senhasNaoCoincidem') && form['confirmarSenha'].touched" class="error-message">
             As senhas não coincidem.
           </div>
         </div>
 
-        <button type="submit" class="btn-submit" [disabled]="resetSenhaForm.invalid || isLoading">
-          {{ isLoading ? 'Salvando...' : 'Redefinir Senha' }}
+        <button type="submit" class="btn-submit" [disabled]="resetForm.invalid || isLoading">
+          {{ isLoading ? 'Salvando...' : 'Salvar Nova Senha' }}
         </button>
       </form>
-      
-      <p class="footer-text"><a routerLink="/login"><b>Voltar para o Login</b></a></p>
+
+       <a *ngIf="!isTokenValid" routerLink="/esqueci-senha" class="btn-submit">Solicitar Novo Link</a>
     </div>
   </div>
+  <div class="info-panel"></div>
 </div>
+
