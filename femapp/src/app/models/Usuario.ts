@@ -11,6 +11,10 @@ export interface Usuario {
   senha?: string;
   papel: EPapel;
 
+  // --- Campos para Redefinição de Senha ---
+  resetToken?: string;
+  resetTokenExpiry?: string;
+
   // --- Campos Específicos (podem ser nulos) ---
 
   telefone?: string;
