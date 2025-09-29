@@ -62,8 +62,8 @@ export const routes: Routes = [
         { path: 'visitante/editar/:id', component: FormVisitante, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
 
         // Endereço Visitante
-        { path: 'endereco/form', component: FormEnderecoVisitante, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.VISITANTE]} },
-        { path: 'endereco/editar/:id', component: FormEnderecoVisitante, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.VISITANTE]} },
+        { path: 'endereco/form', component: FormEnderecoVisitante, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.VISITANTE, EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
+        { path: 'endereco/editar/:id', component: FormEnderecoVisitante, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.VISITANTE, EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
         { path: 'endereco/list', component: ListEnderecoVisitante, canActivate: [authGuard, roleGuard], data: { roles: [EPapel.ADMINISTRADOR, EPapel.COORDENADOR, EPapel.ATENDENTE]} },
 
         // Feedbacks
