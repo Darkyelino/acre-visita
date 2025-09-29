@@ -2,6 +2,7 @@ package com.acrevisita.femapi.controllers;
 
 import com.acrevisita.femapi.controllers.dto.EsqueciSenhaRequestDTO;
 import com.acrevisita.femapi.controllers.dto.LoginRequestDTO;
+import com.acrevisita.femapi.controllers.dto.ResetSenhaRequestDTO;
 import com.acrevisita.femapi.controllers.dto.UsuarioRequestDTO;
 import com.acrevisita.femapi.controllers.dto.UsuarioResponseDTO;
 import com.acrevisita.femapi.models.NacionalidadeVisitante;
@@ -21,7 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.Collections;
 import javax.security.auth.login.LoginException;
 
 @RestController
@@ -55,13 +56,24 @@ public class UsuarioController {
     public ResponseEntity<?> esqueciSenha(@RequestBody @Valid EsqueciSenhaRequestDTO requestDTO) {
         try {
             usuarioService.solicitarResetSenha(requestDTO.getEmail());
-            // Retorna uma resposta genérica para não revelar se o e-mail existe ou não
-            return ResponseEntity.ok().body("Se o e-mail estiver cadastrado, um link de redefinição foi enviado.");
+            // Retorna uma resposta JSON genérica para não revelar se o e-mail existe.
+            return ResponseEntity.ok(Collections.singletonMap("message", "Se o e-mail estiver cadastrado, um link de redefinição foi enviado."));
         } catch (Exception e) {
-            // Mesmo em caso de erro (ex: usuário não encontrado), retornamos OK por segurança.
-            // O erro real pode ser logado no servidor.
-            System.err.println("Tentativa de reset de senha para e-mail não cadastrado: " + requestDTO.getEmail());
-            return ResponseEntity.ok().body("Se o e-mail estiver cadastrado, um link de redefinição foi enviado.");
+            // Mesmo em caso de erro (ex: falha no envio do e-mail), retornamos a mesma mensagem por segurança.
+            // O erro real deve ser logado no servidor.
+            System.err.println("Erro ao processar a solicitação de redefinição de senha para: " + requestDTO.getEmail() + " - " + e.getMessage());
+            return ResponseEntity.ok(Collections.singletonMap("message", "Se o e-mail estiver cadastrado, um link de redefinição foi enviado."));
+        }
+    }
+    @PostMapping("/reset-senha")
+    @Operation(summary = "Finaliza o processo de redefinição de senha")
+    public ResponseEntity<?> resetSenha(@RequestBody @Valid ResetSenhaRequestDTO requestDTO) {
+        boolean sucesso = usuarioService.resetarSenha(requestDTO.getToken(), requestDTO.getNovaSenha());
+        
+        if (sucesso) {
+            return ResponseEntity.ok().body("Senha redefinida com sucesso.");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Token inválido ou expirado.");
         }
     }
 

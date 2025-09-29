@@ -10,26 +10,32 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.acrevisita.femapi.services.EmailService;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 import java.util.Optional;
 
 import javax.security.auth.login.LoginException;
 
 @Service
-public class UsuarioService implements IService<Usuario> { // ✅ Implementa a interface
+public class UsuarioService implements IService<Usuario> {
 
     private final UsuarioRepository usuarioRepo;
     private final DocVisitanteRepository docRepo;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     public UsuarioService(
         UsuarioRepository usuarioRepo, 
         DocVisitanteRepository docRepo, 
-        PasswordEncoder passwordEncoder
+        PasswordEncoder passwordEncoder,
+        EmailService emailService
     ) {
         this.usuarioRepo = usuarioRepo;
         this.docRepo = docRepo;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
 
     // --- MÉTODOS DA INTERFACE ISERVICE ---
@@ -87,23 +93,53 @@ public class UsuarioService implements IService<Usuario> { // ✅ Implementa a i
 
     @Transactional
     public void solicitarResetSenha(String email) {
-        // A lógica de negócio real enviaria um e-mail com um token.
-        // Como não podemos fazer isso, vamos apenas simular a ação.
+        // Busca o usuário pelo e-mail
         Optional<Usuario> usuarioOpt = usuarioRepo.findByEmail(email);
 
+        // SÓ executa a lógica se o usuário existir
         if (usuarioOpt.isPresent()) {
-            // Em um projeto real:
-            // 1. Gerar um token de reset (ex: UUID.randomUUID().toString())
-            // 2. Salvar o token e uma data de expiração no registro do usuário
-            // 3. Enviar um e-mail para o usuário com um link contendo o token
-            System.out.println("SIMULAÇÃO: E-mail de redefinição de senha enviado para: " + email);
+            Usuario usuario = usuarioOpt.get();
+            
+            // Gera um token único e seguro
+            String token = UUID.randomUUID().toString();
+            
+            // Define um tempo de expiração de 1 hora
+            usuario.setResetToken(token);
+            usuario.setResetTokenExpiry(LocalDateTime.now().plusHours(1));
+            
+            // Salva o usuário com o novo token
+            usuarioRepo.save(usuario);
+            
+            // Envia o e-mail
+            emailService.sendPasswordResetEmail(usuario.getEmail(), token);
         } else {
-            // Por segurança, não informamos que o e-mail não foi encontrado.
-            // Apenas logamos a tentativa no servidor.
-            System.out.println("SIMULAÇÃO: Tentativa de redefinição de senha para um e-mail não cadastrado: " + email);
+            // Se o e-mail não existe, apenas registramos no log do servidor por segurança.
+            // Não fazemos nada que o usuário possa perceber.
+            System.out.println("Tentativa de redefinição de senha para um e-mail não cadastrado: " + email);
         }
-        // O método não retorna nada e não lança exceção para o controller,
-        // garantindo que a resposta para o front-end seja sempre a mesma.
+    }
+
+    @Transactional
+    public boolean resetarSenha(String token, String novaSenha) {
+        // Busca o usuário pelo token
+        Optional<Usuario> usuarioOpt = usuarioRepo.findByResetToken(token);
+
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            
+            // Verifica se o token não expirou
+            if (usuario.getResetTokenExpiry().isAfter(LocalDateTime.now())) {
+                // Criptografa a nova senha
+                usuario.setSenha(passwordEncoder.encode(novaSenha));
+                // Limpa o token para que não possa ser reutilizado
+                usuario.setResetToken(null);
+                usuario.setResetTokenExpiry(null);
+                usuarioRepo.save(usuario);
+                return true; // Sucesso
+            }
+        }
+        
+        return false; // Falha (token inválido ou expirado)
     }
 
     /**
