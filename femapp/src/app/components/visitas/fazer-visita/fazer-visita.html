@@ -43,7 +43,7 @@
         <div class="form-row">
           <div class="form-group">
             <label for="dataAgendamento">Data</label>
-            <input type="date" id="dataAgendamento" formControlName="dataAgendamento" class="form-control">
+            <input type="date" id="dataAgendamento" formControlName="dataAgendamento" class="form-control" [min]="dataMinima">
             <div *ngIf="form.dataAgendamento.invalid && form.dataAgendamento.touched" class="error-message">
               Data obrigatória.
             </div>

@@ -58,7 +58,6 @@ export class FazerVisita implements OnInit {
   }
 
   /**
-   * ✅ MÉTODO CORRIGIDO
    * Registra uma entrada para o dia e hora ATUAIS com status PENDENTE.
    */
   registrarEntradaAgora(): void {
@@ -68,12 +67,16 @@ export class FazerVisita implements OnInit {
       return;
     }
 
+    // Helper function to format the date without timezone conversion
+    const getLocalISOString = (date: Date): string => {
+        const pad = (num: number) => num.toString().padStart(2, '0');
+        return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+    };
+
     const novaVisita: Visita = {
-      // CORREÇÃO 1: A data de entrada é nula, pois a visita ainda está pendente de aprovação.
       dataHoraEntrada: null,
-      // CORREÇÃO 2: A data de agendamento é a data/hora ATUAL, respeitando o fuso horário.
-      dataHoraAgendamento: new Date().toISOString(),
-      // CORREÇÃO 3: O status inicial é PENDENTE.
+      // CORREÇÃO: Usa a data/hora local formatada, sem conversão para UTC.
+      dataHoraAgendamento: getLocalISOString(new Date()),
       status: EStatus.PENDENTE,
       usuario: this.usuarioLogado!,
       local: this.form.setor.value!
@@ -94,8 +97,12 @@ export class FazerVisita implements OnInit {
 
     const data = this.form.dataAgendamento.value!;
     const hora = this.form.horaAgendamento.value!;
-    const dataHoraAgendamento = new Date(`${data}T${hora}`).toISOString();
+    
+    // CORREÇÃO: Combina a data e a hora diretamente, sem criar um objeto Date que seria convertido para UTC.
+    // Adiciona segundos para formar uma string ISO 8601 válida que o LocalDateTime do Java pode analisar.
+    const dataHoraAgendamento = `${data}T${hora}:00`;
 
+    // A validação de data passada continua funcionando corretamente.
     if (new Date(dataHoraAgendamento).getTime() < new Date().getTime()) {
       this.alertaService.enviarAlerta({ tipo: ETipoAlerta.ERRO, mensagem: 'Não é possível agendar uma visita para uma data ou hora no passado.'});
       return;
