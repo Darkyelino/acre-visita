@@ -2,55 +2,53 @@ services:
   # Serviço para a API Spring Boot (femapi)
   - type: web
     name: femapi
-    # Agora usa o Docker como ambiente de execução
     env: docker
-    region: oregon
+    region: oregon # Sinta-se à vontade para mudar a região
     plan: free
     
-    # Aponta para o Dockerfile que acabamos de criar
+    # Aponta para o Dockerfile da sua API
     dockerContext: ./femapi
     dockerfilePath: ./femapi/Dockerfile
 
-    # Configurações de Saúde da Aplicação
     healthCheckPath: /swagger-ui/index.html
-
-    # Variáveis de Ambiente para conectar ao banco de dados
+    
+    # As variáveis de ambiente agora se conectarão ao serviço de disco abaixo
     envVars:
       - key: SPRING_DATASOURCE_URL
-        fromDatabase:
-          name: femapi-mysql
-          property: connectionString
+        value: jdbc:mysql://femapi-db:3306/femapi
       - key: SPRING_DATASOURCE_USERNAME
-        fromDatabase:
-          name: femapi-mysql
-          property: user
+        fromService:
+          type: pserv
+          name: femapi-db
+          envVarKey: MYSQL_USER
       - key: SPRING_DATASOURCE_PASSWORD
-        fromDatabase:
-          name: femapi-mysql
-          property: password
+        fromService:
+          type: pserv
+          name: femapi-db
+          envVarKey: MYSQL_PASSWORD
 
-  # Serviço para o Banco de Dados MySQL
+  # Serviço para o Banco de Dados MySQL com Disco Persistente
   - type: pserv
-    name: femapi-mysql
-    # Aponta para uma imagem oficial do MySQL no Docker Hub
-    image:
-      url: mysql:8.0
+    name: femapi-db
     region: oregon
     plan: free
-
-    # Adiciona um disco persistente para não perder os dados
-    disks:
-      - name: mysql-data
-        mountPath: /var/lib/mysql
-        sizeGB: 1
-
-    # Variáveis de ambiente para configurar o banco de dados
+    
+    # Usando a imagem oficial do MySQL 8
+    dockerImage: mysql:8.0
+    
+    # Anexando o disco persistente
+    disk:
+      name: mysql-data
+      mountPath: /var/lib/mysql
+      sizeGB: 1
+      
+    # Variáveis de ambiente para configurar o container do MySQL
     envVars:
       - key: MYSQL_ROOT_PASSWORD
-        generateValue: true # Gera uma senha segura automaticamente
+        generateValue: true
       - key: MYSQL_DATABASE
-        value: femapi # Nome do seu banco de dados
+        value: femapi
       - key: MYSQL_USER
-        value: user # Nome de usuário que você pode escolher
+        value: render # Você pode usar o nome que preferir
       - key: MYSQL_PASSWORD
-        generateValue: true # Gera outra senha segura para o usuário
+        generateValue: true
