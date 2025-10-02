@@ -38,4 +38,4 @@ services:
     env: mysql
     region: oregon
     plan: free
-    version: "8" # Versão do MySQL
+    # A linha "version: '8'" foi removida daqui.
