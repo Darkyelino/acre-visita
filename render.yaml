@@ -12,10 +12,10 @@ services:
 
     healthCheckPath: /swagger-ui/index.html
     
-    # As variáveis de ambiente agora se conectarão ao serviço de disco abaixo
+    # As variáveis de ambiente agora se conectarão ao serviço de banco de dados
     envVars:
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:mysql://femapi-db:3306/femapi
+        value: jdbc:mysql://femapi-db:30306/femapi # Porta interna do Render para MySQL
       - key: SPRING_DATASOURCE_USERNAME
         fromService:
           type: pserv
@@ -33,8 +33,9 @@ services:
     region: oregon
     plan: free
     
-    # Usando a imagem oficial do MySQL 8
-    dockerImage: mysql:8.0
+    # CORREÇÃO: Usando a sintaxe correta para a imagem Docker
+    image:
+      url: mysql:8.0
     
     # Anexando o disco persistente
     disk:
