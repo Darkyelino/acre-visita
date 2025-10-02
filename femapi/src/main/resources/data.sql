@@ -194,12 +194,57 @@ INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status,
 INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (51, NULL, '2025-09-24 10:00:00', 'CANCELADA', 1, 3); -- Ana Clara cancelou visita à Administração
 INSERT INTO visita (id_visita, data_hora_entrada, data_hora_agendamento, status, usuario_id, local_id_setor) VALUES (52, NULL, '2025-09-26 12:00:00', 'CANCELADA', 2, 4); -- John Smith cancelou visita às Exposições
 
--- Inserindo Armários
-INSERT INTO armario (id_armario, numeracao, usuario_id) VALUES
-(1, 101, 1),      -- Armário 101 ocupado pela Ana
-(2, 102, null),   -- Armário 102 livre
-(3, 103, null),   -- Armário 103 livre
-(4, 104, null);   -- Armário 104 livre
+-- Inserindo 10 armários para o Setor 1: Recepção Principal
+INSERT INTO armario (numeracao, usuario_id, setor_id) VALUES
+(101, NULL, 1),
+(102, NULL, 1),
+(103, NULL, 1),
+(104, NULL, 1),
+(105, NULL, 1),
+(106, NULL, 1),
+(107, NULL, 1),
+(108, NULL, 1),
+(109, NULL, 1),
+(110, NULL, 1);
+
+-- Inserindo 10 armários para o Setor 2: Biblioteca Central
+INSERT INTO armario (numeracao, usuario_id, setor_id) VALUES
+(201, NULL, 2),
+(202, NULL, 2),
+(203, NULL, 2),
+(204, NULL, 2),
+(205, NULL, 2),
+(206, NULL, 2),
+(207, NULL, 2),
+(208, NULL, 2),
+(209, NULL, 2),
+(210, NULL, 2);
+
+-- Inserindo 10 armários para o Setor 3: Administração Geral
+INSERT INTO armario (numeracao, usuario_id, setor_id) VALUES
+(301, NULL, 3),
+(302, NULL, 3),
+(303, NULL, 3),
+(304, NULL, 3),
+(305, NULL, 3),
+(306, NULL, 3),
+(307, NULL, 3),
+(308, NULL, 3),
+(309, NULL, 3),
+(310, NULL, 3);
+
+-- Inserindo 10 armários para o Setor 4: Ala de Exposições Temporárias
+INSERT INTO armario (numeracao, usuario_id, setor_id) VALUES
+(401, NULL, 4),
+(402, NULL, 4),
+(403, NULL, 4),
+(404, NULL, 4),
+(405, NULL, 4),
+(406, NULL, 4),
+(407, NULL, 4),
+(408, NULL, 4),
+(409, NULL, 4),
+(410, NULL, 4);
 
 -- ===================================================================================
 -- 4. Inserindo Reservas no Auditório
