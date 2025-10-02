@@ -2,40 +2,55 @@ services:
   # Serviço para a API Spring Boot (femapi)
   - type: web
     name: femapi
-    env: java
-    region: oregon # Você pode escolher outra região se preferir
-    plan: free # Define o plano gratuito, ideal para começar
+    # Agora usa o Docker como ambiente de execução
+    env: docker
+    region: oregon
+    plan: free
     
-    # Configurações do Build
-    buildCommand: ./femapi/mvnw clean package -DskipTests
-    
-    # Comando para iniciar a aplicação após o build
-    startCommand: java -jar ./femapi/target/femapi-0.0.1-SNAPSHOT.jar
+    # Aponta para o Dockerfile que acabamos de criar
+    dockerContext: ./femapi
+    dockerfilePath: ./femapi/Dockerfile
 
     # Configurações de Saúde da Aplicação
     healthCheckPath: /swagger-ui/index.html
 
-    # Variáveis de Ambiente
+    # Variáveis de Ambiente para conectar ao banco de dados
     envVars:
-      - key: JAVA_VERSION
-        value: 17 # Baseado no seu pom.xml
       - key: SPRING_DATASOURCE_URL
         fromDatabase:
-          name: femapi-db # Nome que daremos ao banco de dados abaixo
+          name: femapi-mysql
           property: connectionString
       - key: SPRING_DATASOURCE_USERNAME
         fromDatabase:
-          name: femapi-db
+          name: femapi-mysql
           property: user
       - key: SPRING_DATASOURCE_PASSWORD
         fromDatabase:
-          name: femapi-db
+          name: femapi-mysql
           property: password
 
   # Serviço para o Banco de Dados MySQL
   - type: pserv
-    name: femapi-db
-    env: mysql
+    name: femapi-mysql
+    # Aponta para uma imagem oficial do MySQL no Docker Hub
+    image:
+      url: mysql:8.0
     region: oregon
     plan: free
-    # A linha "version: '8'" foi removida daqui.
+
+    # Adiciona um disco persistente para não perder os dados
+    disks:
+      - name: mysql-data
+        mountPath: /var/lib/mysql
+        sizeGB: 1
+
+    # Variáveis de ambiente para configurar o banco de dados
+    envVars:
+      - key: MYSQL_ROOT_PASSWORD
+        generateValue: true # Gera uma senha segura automaticamente
+      - key: MYSQL_DATABASE
+        value: femapi # Nome do seu banco de dados
+      - key: MYSQL_USER
+        value: user # Nome de usuário que você pode escolher
+      - key: MYSQL_PASSWORD
+        generateValue: true # Gera outra senha segura para o usuário
