@@ -12,4 +12,4 @@ COPY --from=build /app/target/femapi-0.0.1-SNAPSHOT.jar ./femapi.jar
 # Expõe a porta que a aplicação usa
 EXPOSE 8080
 # Comando para iniciar a aplicação
-CMD ["java", "-jar", "femapi.jar"]
+CMD export SPRING_DATASOURCE_URL="jdbc:${SPRING_DATASOURCE_URL}" && java -jar ./femapi.jar
