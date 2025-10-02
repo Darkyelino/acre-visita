@@ -1,0 +1,41 @@
+services:
+  # Serviço para a API Spring Boot (femapi)
+  - type: web
+    name: femapi
+    env: java
+    region: oregon # Você pode escolher outra região se preferir
+    plan: free # Define o plano gratuito, ideal para começar
+    
+    # Configurações do Build
+    buildCommand: ./femapi/mvnw clean package -DskipTests
+    
+    # Comando para iniciar a aplicação após o build
+    startCommand: java -jar ./femapi/target/femapi-0.0.1-SNAPSHOT.jar
+
+    # Configurações de Saúde da Aplicação
+    healthCheckPath: /swagger-ui/index.html
+
+    # Variáveis de Ambiente
+    envVars:
+      - key: JAVA_VERSION
+        value: 17 # Baseado no seu pom.xml
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase:
+          name: femapi-db # Nome que daremos ao banco de dados abaixo
+          property: connectionString
+      - key: SPRING_DATASOURCE_USERNAME
+        fromDatabase:
+          name: femapi-db
+          property: user
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromDatabase:
+          name: femapi-db
+          property: password
+
+  # Serviço para o Banco de Dados MySQL
+  - type: pserv
+    name: femapi-db
+    env: mysql
+    region: oregon
+    plan: free
+    version: "8" # Versão do MySQL
