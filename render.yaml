@@ -1,55 +1,36 @@
+# Define os serviços da sua aplicação
 services:
   # Serviço para a API Spring Boot (femapi)
   - type: web
     name: femapi
     env: docker
-    region: oregon # Sinta-se à vontade para mudar a região
+    region: oregon 
     plan: free
     
-    # Aponta para o Dockerfile da sua API
+    # Aponta para o Dockerfile que criamos
     dockerContext: ./femapi
     dockerfilePath: ./femapi/Dockerfile
 
     healthCheckPath: /swagger-ui/index.html
     
-    # As variáveis de ambiente agora se conectarão ao serviço de banco de dados
+    # Pega as credenciais do banco de dados criado abaixo
     envVars:
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:mysql://femapi-db:30306/femapi # Porta interna do Render para MySQL
+        fromDatabase:
+          name: femapi-db
+          property: connectionString
       - key: SPRING_DATASOURCE_USERNAME
-        fromService:
-          type: pserv
+        fromDatabase:
           name: femapi-db
-          envVarKey: MYSQL_USER
+          property: user
       - key: SPRING_DATASOURCE_PASSWORD
-        fromService:
-          type: pserv
+        fromDatabase:
           name: femapi-db
-          envVarKey: MYSQL_PASSWORD
+          property: password
 
-  # Serviço para o Banco de Dados MySQL com Disco Persistente
-  - type: pserv
-    name: femapi-db
-    region: oregon
-    plan: free
-    
-    # CORREÇÃO: Usando a sintaxe correta para a imagem Docker
-    image:
-      url: mysql:8.0
-    
-    # Anexando o disco persistente
-    disk:
-      name: mysql-data
-      mountPath: /var/lib/mysql
-      sizeGB: 1
-      
-    # Variáveis de ambiente para configurar o container do MySQL
-    envVars:
-      - key: MYSQL_ROOT_PASSWORD
-        generateValue: true
-      - key: MYSQL_DATABASE
-        value: femapi
-      - key: MYSQL_USER
-        value: render # Você pode usar o nome que preferir
-      - key: MYSQL_PASSWORD
-        generateValue: true
+# Define o banco de dados da sua aplicação
+databases:
+  - name: femapi-db
+    plan: free # Define o plano gratuito para o banco de dados
+    databaseName: femapi # O nome real do banco de dados
+    user: femapi_user # O nome do usuário
