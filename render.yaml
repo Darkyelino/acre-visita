@@ -1,24 +1,32 @@
-# Define os serviços da sua aplicação
 services:
-  # Serviço para a API Spring Boot (femapi)
   - type: web
     name: femapi
     env: docker
-    region: oregon 
+    region: oregon
     plan: free
-    
-    # Aponta para o Dockerfile que criamos
     dockerContext: ./femapi
     dockerfilePath: ./femapi/Dockerfile
-
     healthCheckPath: /swagger-ui/index.html
-    
-    # Pega as credenciais do banco de dados criado abaixo
     envVars:
+      # 1. Construímos a URL PERFEITA a partir das partes individuais
       - key: SPRING_DATASOURCE_URL
+        value: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      
+      # 2. Pedimos ao Render as partes individuais do banco de dados
+      - key: DB_HOST
         fromDatabase:
           name: femapi-db
-          property: connectionString
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: femapi-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: femapi-db
+          property: database
+      
+      # 3. As credenciais continuam as mesmas
       - key: SPRING_DATASOURCE_USERNAME
         fromDatabase:
           name: femapi-db
@@ -28,9 +36,8 @@ services:
           name: femapi-db
           property: password
 
-# Define o banco de dados da sua aplicação
 databases:
   - name: femapi-db
-    plan: free # Define o plano gratuito para o banco de dados
-    databaseName: femapi # O nome real do banco de dados
-    user: femapi_user # O nome do usuário
+    plan: free
+    databaseName: femapi
+    user: femapi_user
