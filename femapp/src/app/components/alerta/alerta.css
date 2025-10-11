@@ -1,0 +1,42 @@
+.alerta-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 25px;
+  border-radius: 8px;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 300px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.alerta-sucesso {
+  background-color: #28a745;
+}
+
+.alerta-erro {
+  background-color: #dc3545;
+}
+
+.alerta-info {
+  background-color: #17a2b8;
+}
+
+.alerta-mensagem {
+  margin-right: 20px;
+}
+
+.fechar-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}

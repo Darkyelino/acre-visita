@@ -55,6 +55,21 @@ export class ListVisitante implements OnInit {
     });
   }
 
+  alterarStatus(visitante: Usuario): void {
+    const novoStatus = !visitante.ativo;
+    const acao = novoStatus ? 'ativar' : 'desativar';
+    
+    if (confirm(`Tem certeza que deseja ${acao} o visitante "${visitante.nome}"?`)) {
+      this.usuarioService.alterarStatus(visitante.id!, novoStatus).subscribe({
+        next: () => {
+          this.alertaService.enviarAlerta({ tipo: ETipoAlerta.SUCESSO, mensagem: `Visitante ${acao === 'ativar' ? 'ativado' : 'desativado'} com sucesso!` });
+          this.carregarVisitantes(); // Recarrega a lista para refletir a mudança
+        },
+        error: () => this.alertaService.enviarAlerta({ tipo: ETipoAlerta.ERRO, mensagem: `Erro ao ${acao} visitante.` })
+      });
+    }
+  }
+
   // Filtra localmente os resultados que vieram da API
   aplicarFiltrosLocais(): void {
     let filtrados = [...this.todosVisitantes];

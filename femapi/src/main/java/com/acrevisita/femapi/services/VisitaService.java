@@ -12,7 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.acrevisita.femapi.models.EStatus;
+import com.acrevisita.femapi.models.Usuario;
 import com.acrevisita.femapi.models.Visita;
+import com.acrevisita.femapi.repository.UsuarioRepository;
 import com.acrevisita.femapi.repository.VisitaRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -21,9 +23,11 @@ import jakarta.persistence.EntityNotFoundException;
 public class VisitaService implements IService<Visita> {
 
     private final VisitaRepository repo;
+    private final UsuarioRepository usuarioRepo;
 
-    public VisitaService(VisitaRepository repo) {
+    public VisitaService(VisitaRepository repo, UsuarioRepository usuarioRepo) {
         this.repo = repo;
+        this.usuarioRepo = usuarioRepo;
     }
 
     public Page<Visita> findBySetorAndStatus(Long setorId, List<EStatus> statuses, Pageable pageable) {
@@ -70,6 +74,14 @@ public class VisitaService implements IService<Visita> {
         @CacheEvict(value = "visitas", allEntries = true)
     })
     public Visita save(Visita objeto) {
+        // Valida se o usuário está ativo antes de salvar
+        Usuario usuario = usuarioRepo.findById(objeto.getUsuario().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado."));
+
+        if (!usuario.isAtivo()) {
+            throw new IllegalStateException("Usuário inativo não pode realizar ou agendar visitas.");
+        }
+
         return repo.save(objeto);
     }
 

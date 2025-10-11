@@ -62,6 +62,9 @@ public class Usuario {
     @JoinColumn(name = "id_nacionalidade")
     private NacionalidadeVisitante nacionalidade;
 
+    @Column(nullable = false)
+    private boolean ativo = true;
+
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Visita> visitas;
 
@@ -176,4 +179,13 @@ public class Usuario {
     public void setNacionalidade(NacionalidadeVisitante nacionalidade) {
         this.nacionalidade = nacionalidade;
     }
+
+        public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+    
 }

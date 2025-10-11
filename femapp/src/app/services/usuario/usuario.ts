@@ -120,6 +120,13 @@ export class UsuarioService {
     );
   }
 
+  alterarStatus(id: number, ativo: boolean): Observable<Usuario> {
+    const params = new HttpParams().set('ativo', ativo.toString());
+    return this.http.patch<any>(`${this.apiUrl}/${id}/status`, {}, { params }).pipe(
+      map(response => this.rehydrateUsuario(response))
+    );
+  }
+
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }

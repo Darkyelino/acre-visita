@@ -21,9 +21,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
-import javax.security.auth.login.LoginException;
 
 @RestController
 @RequestMapping(value = "/usuario", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -41,13 +42,18 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    @Operation(summary = "Autentica um usuário e retorna seus dados")
-    public ResponseEntity<?> login(@RequestBody @Valid LoginRequestDTO loginRequest) {
+    @Operation(summary = "Realiza o login de um usuário")
+    public ResponseEntity<?> login(@RequestBody LoginRequestDTO loginRequest) {
         try {
             Usuario usuario = usuarioService.login(loginRequest.getEmail(), loginRequest.getSenha());
+            // Se o login for bem-sucedido, retorna os dados do usuário
             return ResponseEntity.ok(new UsuarioResponseDTO(usuario));
-        } catch (LoginException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        } catch (EntityNotFoundException | BadCredentialsException e) {
+            // Se as credenciais estiverem incorretas
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email ou senha inválidos.");
+        } catch (DisabledException e) {
+            // ✨ NOVO: Se o usuário estiver inativo
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuário desativado. Contate o suporte.");
         }
     }
 
@@ -131,6 +137,19 @@ public class UsuarioController {
             return ResponseEntity.noContent().build();
         } catch (EntityNotFoundException e) {
             // Se o delete falhar porque o usuário não existe, retorna 404.
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PatchMapping("/{id}/status")
+    @Operation(summary = "Ativa ou desativa um usuário")
+    public ResponseEntity<UsuarioResponseDTO> alterarStatus(
+            @PathVariable Long id,
+            @RequestParam boolean ativo) {
+        try {
+            Usuario usuarioAtualizado = usuarioService.alterarStatus(id, ativo);
+            return ResponseEntity.ok(new UsuarioResponseDTO(usuarioAtualizado));
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }

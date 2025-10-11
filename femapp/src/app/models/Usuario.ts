@@ -20,4 +20,5 @@ export interface Usuario {
   telefone?: string;
   nacionalidade?: NacionalidadeVisitante;
   setor?: Setor;
+  ativo?: boolean;
 }

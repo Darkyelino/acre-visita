@@ -148,3 +148,27 @@ tbody tr:last-child td {
   width: 48px;
   height: 48px;
 }
+
+/* ... (seu CSS existente) */
+
+/* Adicione estes estilos para os novos badges de status */
+.badge.badge-ativo {
+  background-color: #28a745;
+  color: white;
+}
+
+.badge.badge-inativo {
+  background-color: #6c757d;
+  color: white;
+}
+
+/* Estilo para o botão de confirmação (Ativar) */
+.btn-confirm {
+  color: #28a745;
+  border-color: #28a745;
+}
+
+.btn-confirm:hover {
+  background-color: #28a745;
+  color: white;
+}

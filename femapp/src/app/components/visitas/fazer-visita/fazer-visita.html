@@ -1,4 +1,13 @@
 <main class="visita-container">
+  <div class="visita-card">
+    <div *ngIf="!usuarioAtivo" class="aviso-inativo">
+      <p>Sua conta está desativada. Por favor, entre em contato com a administração para reativá-la.</p>
+    </div>
+
+    <form [formGroup]="visitaForm" class="visita-form" *ngIf="usuarioAtivo">
+      </form>
+    
+  </div>
 
   <div class="visita-card">
 

@@ -25,6 +25,7 @@ export class FazerVisita implements OnInit {
   setores: Setor[] = [];
   isLoading = false;
   dataMinima: string;
+  usuarioAtivo = true;
 
   visitaForm = new FormGroup({
     setor: new FormControl<Setor | null>(null, Validators.required),
@@ -44,6 +45,12 @@ export class FazerVisita implements OnInit {
 
   ngOnInit(): void {
     this.usuarioLogado = this.authService.loggedUser;
+    // Verifica se o usuário está ativo ao iniciar o componente
+    if (this.usuarioLogado && this.usuarioLogado.ativo === false) {
+      this.usuarioAtivo = false;
+      this.alertaService.enviarAlerta({ tipo: ETipoAlerta.ERRO, mensagem: 'Sua conta está desativada. Você не pode registrar ou agendar visitas.' });
+      this.visitaForm.disable(); // Desativa o formulário
+    }
     this.carregarSetores();
   }
 

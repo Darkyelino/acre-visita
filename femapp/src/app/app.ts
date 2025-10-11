@@ -5,11 +5,12 @@ import { AuthService } from './services/auth/auth';
 import { Usuario } from './models/Usuario';
 import { Observable } from 'rxjs';
 import { EPapel } from './models/EPapel';
+import { AlertaComponent } from './components/alerta/alerta';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, RouterLink],
+  imports: [RouterOutlet, CommonModule, RouterLink, AlertaComponent],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })

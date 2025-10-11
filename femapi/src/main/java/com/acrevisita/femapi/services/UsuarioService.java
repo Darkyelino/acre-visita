@@ -7,6 +7,9 @@ import com.acrevisita.femapi.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +17,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import java.util.Optional;
-
-import javax.security.auth.login.LoginException;
 
 @Service
 public class UsuarioService implements IService<Usuario> {
@@ -79,15 +80,21 @@ public class UsuarioService implements IService<Usuario> {
 
     // --- MÉTODOS ESPECÍFICOS DO USUARIOSERVICE ---
 
-    public Usuario login(String email, String senha) throws LoginException {
+    public Usuario login(String email, String senha) {
         Usuario usuario = usuarioRepo.findByEmail(email)
-            .orElseThrow(() -> new LoginException("Credenciais inválidas."));
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado."));
 
-        if (passwordEncoder.matches(senha, usuario.getSenha())) {
-            return usuario;
-        } else {
-            throw new LoginException("Credenciais inválidas.");
+        // Verifica se a senha está correta
+        if (!new BCryptPasswordEncoder().matches(senha, usuario.getSenha())) {
+            throw new BadCredentialsException("Senha incorreta.");
         }
+        
+        // ✨ NOVO: Verifica se o usuário está ativo
+        if (!usuario.isAtivo()) {
+            throw new DisabledException("Este usuário está desativado.");
+        }
+
+        return usuario;
     }
 
     @Transactional
@@ -139,6 +146,13 @@ public class UsuarioService implements IService<Usuario> {
         }
         
         return false; // Falha (token inválido ou expirado)
+    }
+
+    @Transactional
+    public Usuario alterarStatus(Long id, boolean ativo) {
+        Usuario usuario = findById(id);
+        usuario.setAtivo(ativo);
+        return usuarioRepo.save(usuario);
     }
 
     /**

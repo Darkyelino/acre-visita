@@ -43,7 +43,7 @@
           <th>Email</th>
           <th>Telefone</th>
           <th>Nacionalidade</th>
-          <th class="col-acoes">Ações</th>
+          <th>Status</th> <th class="col-acoes">Ações</th>
         </tr>
       </thead>
       <tbody>
@@ -52,7 +52,15 @@
           <td>{{ visitante.email }}</td>
           <td>{{ visitante.telefone || 'N/A' }}</td>
           <td>{{ visitante.nacionalidade?.nacionalidade || 'N/A' }}</td>
+          <td>
+            <span class="badge" [class.badge-ativo]="visitante.ativo" [class.badge-inativo]="!visitante.ativo">
+              {{ visitante.ativo ? 'Ativo' : 'Inativo' }}
+            </span>
+          </td>
           <td class="actions">
+            <button class="btn-icon" [class.btn-delete]="visitante.ativo" [class.btn-confirm]="!visitante.ativo" (click)="alterarStatus(visitante)">
+              {{ visitante.ativo ? 'Desativar' : 'Ativar' }}
+            </button>
             <button class="btn-icon btn-edit" (click)="editar(visitante.id)">Editar</button>
             <button class="btn-icon btn-delete" (click)="excluir(visitante.id, visitante.nome)">Excluir</button>
           </td>

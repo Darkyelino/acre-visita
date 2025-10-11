@@ -14,6 +14,7 @@ public class UsuarioResponseDTO {
     private String nacionalidadeNome;
     private Long setorId;
     private String setorNome;
+    private boolean ativo;
 
     // Construtor que converte a entidade Usuario para o DTO de resposta
     public UsuarioResponseDTO(Usuario usuario) {
@@ -22,6 +23,7 @@ public class UsuarioResponseDTO {
         this.email = usuario.getEmail();
         this.papel = usuario.getPapel();
         this.telefone = usuario.getTelefone();
+        this.ativo = usuario.isAtivo();
         if (usuario.getNacionalidade() != null) {
             this.nacionalidadeId = usuario.getNacionalidade().getIdNacionalidade();
             this.nacionalidadeNome = usuario.getNacionalidade().getNacionalidade();
@@ -42,4 +44,5 @@ public class UsuarioResponseDTO {
     public String getNacionalidadeNome() { return nacionalidadeNome; }
     public Long getSetorId() { return setorId; }
     public String getSetorNome() { return setorNome; }
+    public boolean isAtivo() { return ativo; }
 }
