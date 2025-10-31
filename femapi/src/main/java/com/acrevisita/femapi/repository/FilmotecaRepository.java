@@ -9,6 +9,6 @@ import com.acrevisita.femapi.models.Filmoteca;
 
 @Repository
 public interface FilmotecaRepository extends JpaRepository<Filmoteca, Long> {
-    @Query("SELECT fi FROM Filmoteca fi")
+    @Query("SELECT fi FROM Filmoteca fi WHERE fi.sugestao LIKE %?1%")
     Page<Filmoteca> busca(String termoBusca, Pageable pageable);
 }

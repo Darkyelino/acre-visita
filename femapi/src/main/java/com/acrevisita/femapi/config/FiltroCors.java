@@ -17,7 +17,8 @@ public class FiltroCors {
         config.setAllowCredentials(true);
         config.setAllowedOrigins(Arrays.asList(
             "http://localhost:4200", // Apenas o que você precisa para o Angular
-            "http://127.0.0.1:5500"  // Se estiver usando Live Server no VSCode
+            "http://127.0.0.1:5500",  // Se estiver usando Live Server no VSCode
+            "http://localhost" // para execução correta do container Docker
         ));
         // ✅ É uma boa prática ser explícito com os métodos
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));

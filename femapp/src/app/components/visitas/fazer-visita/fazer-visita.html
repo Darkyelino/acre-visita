@@ -1,78 +1,74 @@
 <main class="visita-container">
+  
   <div class="visita-card">
+
     <div *ngIf="!usuarioAtivo" class="aviso-inativo">
       <p>Sua conta está desativada. Por favor, entre em contato com a administração para reativá-la.</p>
     </div>
 
-    <form [formGroup]="visitaForm" class="visita-form" *ngIf="usuarioAtivo">
+    <ng-container *ngIf="usuarioAtivo">
+
+      <a routerLink="/home" class="back-link">
+        <img src="assets/img/back.png" alt="Voltar">
+        <span>Voltar</span>
+      </a>
+
+      <header class="card-header">
+        <h1 class="titulo">Olá, {{ usuarioLogado?.nome }}!</h1>
+        <p class="subtitulo">Onde você gostaria de ir hoje?</p>
+      </header>
+
+      <form [formGroup]="visitaForm" class="visita-form">
+        
+        <div class="form-group">
+          <label for="setor">Selecione o Setor</label>
+          <div class="input-wrapper">
+            <select id="setor" formControlName="setor" class="form-control">
+              <option [ngValue]="null" disabled>Escolha um local para visitar...</option>
+              <option *ngFor="let setor of setores" [ngValue]="setor">{{ setor.nomeSetor }}</option>
+            </select>
+          </div>
+          <div *ngIf="form.setor.invalid && form.setor.touched" class="error-message">
+            Por favor, selecione um setor.
+          </div>
+        </div>
+
+        <div class="acao-box">
+          <h3>Visitar Agora</h3>
+          <p>Clique aqui para registrar sua entrada imediatamente no setor selecionado.</p>
+          <button type="button" class="btn btn-principal" (click)="registrarEntradaAgora()" [disabled]="form.setor.invalid || isLoading">
+            Registrar Entrada
+          </button>
+        </div>
+
+        <div class="acao-box agendamento">
+          <h3>Agendar uma Visita</h3>
+          <p>Escolha uma data e hora futuras para sua visita.</p>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="dataAgendamento">Data</label>
+              <input type="date" id="dataAgendamento" formControlName="dataAgendamento" class="form-control" [min]="dataMinima">
+              <div *ngIf="form.dataAgendamento.invalid && form.dataAgendamento.touched" class="error-message">
+                Data obrigatória.
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="horaAgendamento">Hora</label>
+              <input type="time" id="horaAgendamento" formControlName="horaAgendamento" class="form-control">
+              <div *ngIf="form.horaAgendamento.invalid && form.horaAgendamento.touched" class="error-message">
+                Hora obrigatória.
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-secundario" (click)="agendarVisita()" [disabled]="isLoading">
+            Agendar Visita
+          </button>
+        </div>
+
       </form>
-    
-  </div>
-
-  <div class="visita-card">
-
-  <a routerLink="/home" class="back-link">
-    <img src="assets/img/back.png" alt="Voltar">
-    <span>Voltar</span>
-  </a>
-
-    <header class="card-header">
-      <h1 class="titulo">Olá, {{ usuarioLogado?.nome }}!</h1>
-      <p class="subtitulo">Onde você gostaria de ir hoje?</p>
-    </header>
-
-    <form [formGroup]="visitaForm" class="visita-form">
-      <!-- Seleção de Setor -->
-      <div class="form-group">
-        <label for="setor">Selecione o Setor</label>
-        <div class="input-wrapper">
-          <select id="setor" formControlName="setor" class="form-control">
-            <option [ngValue]="null" disabled>Escolha um local para visitar...</option>
-            <option *ngFor="let setor of setores" [ngValue]="setor">{{ setor.nomeSetor }}</option>
-          </select>
-        </div>
-        <div *ngIf="form.setor.invalid && form.setor.touched" class="error-message">
-          Por favor, selecione um setor.
-        </div>
+      
+      <div *ngIf="isLoading" class="loading-overlay">
+        <p>Processando...</p>
       </div>
 
-      <!-- Ação Imediata -->
-      <div class="acao-box">
-        <h3>Visitar Agora</h3>
-        <p>Clique aqui para registrar sua entrada imediatamente no setor selecionado.</p>
-        <button type="button" class="btn btn-principal" (click)="registrarEntradaAgora()" [disabled]="form.setor.invalid || isLoading">
-          Registrar Entrada
-        </button>
-      </div>
-
-      <!-- Ação de Agendamento -->
-      <div class="acao-box agendamento">
-        <h3>Agendar uma Visita</h3>
-        <p>Escolha uma data e hora futuras para sua visita.</p>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="dataAgendamento">Data</label>
-            <input type="date" id="dataAgendamento" formControlName="dataAgendamento" class="form-control" [min]="dataMinima">
-            <div *ngIf="form.dataAgendamento.invalid && form.dataAgendamento.touched" class="error-message">
-              Data obrigatória.
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="horaAgendamento">Hora</label>
-            <input type="time" id="horaAgendamento" formControlName="horaAgendamento" class="form-control">
-            <div *ngIf="form.horaAgendamento.invalid && form.horaAgendamento.touched" class="error-message">
-              Hora obrigatória.
-            </div>
-          </div>
-        </div>
-        <button type="button" class="btn btn-secundario" (click)="agendarVisita()" [disabled]="isLoading">
-          Agendar Visita
-        </button>
-      </div>
-    </form>
-    
-    <div *ngIf="isLoading" class="loading-overlay">
-      <p>Processando...</p>
-    </div>
-  </div>
-</main>
+    </ng-container> </div> </main>

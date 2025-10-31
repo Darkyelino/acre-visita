@@ -1,0 +1,72 @@
+services:
+  
+  mysql-db:
+    image: mysql:8.3.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: "Pa$23!"
+      MYSQL_DATABASE: "femapi"
+    volumes:
+      - ./femapi/src/main/resources/data.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+    networks:
+      - fem-network
+    healthcheck:
+      # Testa se o MySQL está pronto para aceitar conexões
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pPa$23!"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s # Dá 30s para o MySQL iniciar antes de começar a testar
+
+  redis-db:
+    image: redis:alpine
+    container_name: redis-db
+    ports:
+      - "6379:6379"
+    networks:
+      - fem-network
+    # --- BLOCO DE HEALTHCHECK ADICIONADO PARA O REDIS ---
+    healthcheck:
+      # Testa se o Redis está respondendo ao comando PING
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s # Redis é rápido, 5s é o suficiente
+
+  backend:
+    build:
+      context: ./femapi
+    container_name: backend-api
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/femapi?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: "Pa$23!"
+      SPRING_DATA_REDIS_HOST: redis-db
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update 
+    networks:
+      - fem-network
+    depends_on:
+      mysql-db:
+        condition: service_healthy # Espera o MySQL ficar saudável
+      redis-db:
+        condition: service_healthy # Espera o Redis ficar saudável
+
+  frontend:
+    build:
+      context: ./femapp
+    container_name: frontend-app
+    ports:
+      - "80:80"
+    networks:
+      - fem-network
+    depends_on:
+      - backend
+
+networks:
+  fem-network:
+    driver: bridge
