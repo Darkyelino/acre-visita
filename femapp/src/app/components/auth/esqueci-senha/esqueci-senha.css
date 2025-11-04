@@ -1,7 +1,7 @@
 /* Estilos importados e adaptados de login-visitante.css para consistência */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-:root {
+:host {
   --cor-primaria: #007bff;
   --cor-primaria-hover: #3395ff;
   --cor-fundo: #ffffff; 
@@ -72,7 +72,7 @@
 .btn-submit:disabled { background-color: #a0c7ff; cursor: not-allowed; transform: none; }
 
 .footer-text { margin-top: 2rem; text-align: center; color: var(--cor-texto-claro); font-size: 0.9rem; }
-.footer-text a { color: var(--cor-primaria); font-weight: 600; text-decoration: none; }
+.footer-text a { color: var(--cor-texto); font-weight: 600; text-decoration: none; }
 .footer-text a:hover { text-decoration: underline; }
 
 /* Estilos para a mensagem de sucesso */
